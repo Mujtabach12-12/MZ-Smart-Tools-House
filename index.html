@@ -29,7 +29,7 @@
 <link rel="apple-touch-icon" href="/icons/icon-192.png"/>
 <link rel="preload" as="image" href="/assets/mz-smart-office-hero.webp" type="image/webp" />
     <link rel="manifest" href="/manifest.webmanifest"/>
-<script>(function(){try{var s=localStorage.getItem("mz-theme"),d=window.matchMedia("(prefers-color-scheme: dark)").matches;if(s==="dark"||(s!=="light"&&d))document.documentElement.classList.add("dark")}catch(e){}})();</script>
+<script>(function(){try{var s=localStorage.getItem("mz-theme"),d=window.matchMedia("(prefers-color-scheme: dark)").matches;if(s==="dark"||(s!=="light"&&d))document.documentElement.classList.add("dark");var standalone=window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true;if(!standalone&&sessionStorage.getItem("mz-web-startup-seen")==="1")document.documentElement.classList.add("mz-web-startup-seen")}catch(e){}})();</script>
 </head>
 <body class="bg-white dark:bg-navy-950 text-navy-900 dark:text-navy-50">
 <!-- Native/Android-first startup overlay. It is intentionally in index.html so it appears before React finishes loading. -->
@@ -43,6 +43,7 @@
     <div class="mz-native-startup-kicker">WELCOME TO</div>
     <h1>MZ <span>Smart Tool House</span></h1>
     <p class="mz-native-startup-subtitle">307+ tools · one focused workspace</p>
+    <p class="mz-native-startup-developer">Developed by <strong>Muhammad Mujtaba</strong></p>
     <div class="mz-native-startup-video-wrap">
       <video src="/startup/mz-office-welcome.mp4" poster="/icons/icon-512.png" autoplay muted playsinline loop preload="auto" class="mz-native-startup-video" aria-hidden="true"></video>
     </div>

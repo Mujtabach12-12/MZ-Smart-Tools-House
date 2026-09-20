@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Mail, Phone } from "lucide-react";
 import Seo from "../components/layout/Seo";
 import { notify } from "../lib/toast";
 
@@ -65,6 +66,17 @@ export default function Contact() {
       <p className="mt-2 text-navy-500 dark:text-navy-400">
         Have a suggestion, found a bug, or want to request a tool? Send us a message.
       </p>
+
+      <div className="mt-5 grid gap-3 sm:grid-cols-2">
+        <a href="mailto:mujtaba31202@gmail.com" className="mz-card flex items-center gap-3 p-4 hover:border-brand-300">
+          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-600"><Mail className="h-5 w-5" /></span>
+          <span className="min-w-0"><small className="block text-xs font-bold uppercase tracking-wide text-navy-400">Email Muhammad Mujtaba</small><strong className="block break-all text-sm">mujtaba31202@gmail.com</strong></span>
+        </a>
+        <a href="tel:03704892504" className="mz-card flex items-center gap-3 p-4 hover:border-brand-300">
+          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600"><Phone className="h-5 w-5" /></span>
+          <span><small className="block text-xs font-bold uppercase tracking-wide text-navy-400">Contact</small><strong className="block text-sm">03704892504</strong></span>
+        </a>
+      </div>
 
       <form onSubmit={handleSubmit} className="mz-card mt-6 space-y-4 p-6">
         <div>

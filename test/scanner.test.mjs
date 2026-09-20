@@ -14,16 +14,18 @@ assert.equal(validateDocumentCorners([[10,10],[11,10],[11,11],[10,11]],200,200),
 assert.equal(validateDocumentCorners([[10,10],[10,10],[190,190],[10,190]],200,200),null,"duplicate/crossed manual handles should be rejected");
 
 const scannerSource=fs.readFileSync(new URL("../src/tools/scanner/SmartDocumentScanner.jsx",import.meta.url),"utf8");
-assert.ok(scannerSource.includes("const handle = e.currentTarget"),"crop drag must capture the handle before the async pointer-move callback");
-assert.ok(!scannerSource.includes("e.currentTarget.parentElement.parentElement"),"crop drag must not read a cleared React currentTarget");
-assert.ok(scannerSource.includes("willReadFrequently: true"),"scanner readback canvases should be optimized for repeated pixel access");
-assert.ok(scannerSource.includes("sourceData || pages[selected].data"),"manual crop preview must use the original source image coordinate space");
-assert.ok(scannerSource.includes("touch-none"),"manual crop handles should be touch-friendly");
-assert.ok(scannerSource.includes("cropZoom") && scannerSource.includes("Zoom in") && scannerSource.includes("Zoom out"),"manual crop should provide explicit zoom controls");
-
-assert.ok(scannerSource.includes('[mode, setMode] = useState("original")'),"scanner must preserve the original appearance by default");
-for (const preset of ['["auto", "Auto"]','["light", "Light"]','["sharpen", "Sharpen"]']) assert.ok(scannerSource.includes(preset),`scanner missing enhancement preset ${preset}`);
-assert.ok(scannerSource.includes("Before / After") && scannerSource.includes("original photo"),"scanner should offer a truthful before/after comparison");
-assert.ok(scannerSource.includes("withPageHistory") && scannerSource.includes("undoPage") && scannerSource.includes("redoPage"),"scanner edits should support page-level undo/redo");
+assert.ok(scannerSource.includes('useState("capture")'),"scanner should start on the capture step");
+for (const step of ["STEP 1 OF 4","STEP 2 OF 4","STEP 3 OF 4","STEP 4 OF 4"]) assert.ok(scannerSource.includes(step),`guided scanner missing ${step}`);
+assert.ok(scannerSource.includes("Auto crop is ready. Drag any corner directly"),"auto detection must lead directly into editable crop review");
+assert.ok(scannerSource.includes("mz-scanner-crop-handle"),"crop handles must be directly draggable without a manual-crop mode button");
+assert.ok(scannerSource.includes("Confirm Crop & Continue"),"crop step must explicitly continue to filtering");
+assert.ok(scannerSource.includes("Apply Filter & Continue"),"filter step must explicitly continue to export");
+assert.ok(scannerSource.includes("Export or add another image"),"export step must offer export or another page");
+assert.ok(scannerSource.includes("Add another image") && scannerSource.includes("Scan another page"),"multi-page flow must support another image or camera capture");
+assert.ok(scannerSource.includes("previewData"),"filter page must use a live preview");
+for (const preset of ['["auto", "Auto"]','["color", "Color Boost"]','["document", "Document"]','["bw", "B&W"]']) assert.ok(scannerSource.includes(preset),`scanner missing enhancement preset ${preset}`);
+assert.ok(scannerSource.includes('mode === "color"'),"scanner must implement an actual color-enhancement path");
 assert.ok(scannerSource.includes("PDF page size") && scannerSource.includes("US Letter") && scannerSource.includes("PDF margins"),"scanner PDF export should expose page size and margins");
-console.log("Scanner detection and crop-drag regression tests passed.");
+assert.ok(scannerSource.includes("Searchable PDF") && scannerSource.includes("OCR Page"),"scanner should retain OCR/searchable PDF export paths");
+assert.ok(scannerSource.includes("withPageHistory"),"scanner page changes should continue to preserve history snapshots");
+console.log("Scanner detection and guided Capture/Crop/Filter/Export regression tests passed.");

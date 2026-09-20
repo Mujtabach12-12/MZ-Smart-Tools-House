@@ -10,6 +10,12 @@ import {
   Trash2,
   Upload,
   Wand2,
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle2,
+  FileDown,
+  ScanLine,
+  SlidersHorizontal,
 } from "lucide-react";
 import { PDFDocument, rgb } from "pdf-lib";
 import { downloadBlob, downloadBytes } from "../../lib/download";
@@ -153,12 +159,26 @@ function warp(source, pts, mode, adjustments = {}) {
       const l = 0.299 * r + 0.587 * g + 0.114 * q;
       if (mode === "grayscale") r = g = q = l;
       else if (mode === "bw") r = g = q = l > 150 ? 255 : 0;
-      else if (mode === "contrast") {
+      else if (mode === "color") {
+        const sat = 1.34;
+        r = clamp((l + (r - l) * sat) / 255) * 255;
+        g = clamp((l + (g - l) * sat) / 255) * 255;
+        q = clamp((l + (q - l) * sat) / 255) * 255;
+      } else if (mode === "contrast") {
         r = clamp((r / 255 - 0.5) * 1.45 + 0.5) * 255;
         g = clamp((g / 255 - 0.5) * 1.45 + 0.5) * 255;
         q = clamp((q / 255 - 0.5) * 1.45 + 0.5) * 255;
-      } else if (mode === "document")
-        r = g = q = clamp((l / 255 - 0.5) * 1.25 + 0.5) * 255;
+      } else if (mode === "document") {
+        const paperLift = l > 150 ? 20 : 8;
+        const docContrast = 1.2;
+        r = clamp((((r - 128) * docContrast + 128 + paperLift) / 255)) * 255;
+        g = clamp((((g - 128) * docContrast + 128 + paperLift) / 255)) * 255;
+        q = clamp((((q - 128) * docContrast + 128 + paperLift) / 255)) * 255;
+        const cleanLum = 0.299 * r + 0.587 * g + 0.114 * q;
+        r = clamp((cleanLum + (r - cleanLum) * 0.72) / 255) * 255;
+        g = clamp((cleanLum + (g - cleanLum) * 0.72) / 255) * 255;
+        q = clamp((cleanLum + (q - cleanLum) * 0.72) / 255) * 255;
+      }
       d.data[di] = r;
       d.data[di + 1] = g;
       d.data[di + 2] = q;
@@ -187,46 +207,49 @@ function warp(source, pts, mode, adjustments = {}) {
 }
 
 export default function SmartDocumentScanner() {
-  const video = useRef(null),
-    stream = useRef(null),
-    input = useRef(null);
-  const [camera, setCamera] = useState(false),
-    [error, setError] = useState(""),
-    [pages, setPages] = useState([]),
-    [selected, setSelected] = useState(0),
-    [mode, setMode] = useState("original"),
-    [brightness, setBrightness] = useState(0),
-    [contrast, setContrast] = useState(0),
-    [sharpen, setSharpen] = useState(0),
-    [pdfSize, setPdfSize] = useState("a4"),
-    [pdfMargin, setPdfMargin] = useState("normal"),
-    [busy, setBusy] = useState(false),
-    [message, setMessage] = useState(""),
-    [ocrText, setOcrText] = useState(""),
-    [ocrBusy, setOcrBusy] = useState(false),
-    [cropOpen, setCropOpen] = useState(false),
-    [cropZoom, setCropZoom] = useState(1),
-    [compareOpen, setCompareOpen] = useState(false),
-    [previewData, setPreviewData] = useState(""),
-    [previewBusy, setPreviewBusy] = useState(false),
-    [crop, setCrop] = useState([
-      [0.03, 0.03],
-      [0.97, 0.03],
-      [0.97, 0.97],
-      [0.03, 0.97],
-    ]);
+  const video = useRef(null);
+  const stream = useRef(null);
+  const input = useRef(null);
+
+  const [camera, setCamera] = useState(false);
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const [pages, setPages] = useState([]);
+  const [selected, setSelected] = useState(0);
+  const [workflowStep, setWorkflowStep] = useState("capture");
+  const [mode, setMode] = useState("auto");
+  const [brightness, setBrightness] = useState(0);
+  const [contrast, setContrast] = useState(0);
+  const [sharpen, setSharpen] = useState(0);
+  const [pdfSize, setPdfSize] = useState("a4");
+  const [pdfMargin, setPdfMargin] = useState("normal");
+  const [busy, setBusy] = useState(false);
+  const [ocrText, setOcrText] = useState("");
+  const [ocrBusy, setOcrBusy] = useState(false);
+  const [previewData, setPreviewData] = useState("");
+  const [previewBusy, setPreviewBusy] = useState(false);
+  const [crop, setCrop] = useState([
+    [0.03, 0.03],
+    [0.97, 0.03],
+    [0.97, 0.97],
+    [0.03, 0.97],
+  ]);
+
+  const selectedPage = pages[selected] || null;
+  const cameraSupported =
+    typeof window !== "undefined" && !!navigator.mediaDevices?.getUserMedia;
+
   const stop = () => {
-    stream.current?.getTracks().forEach((t) => t.stop());
+    stream.current?.getTracks().forEach((track) => track.stop());
     stream.current = null;
     setCamera(false);
   };
 
-  // Generate a lightweight live preview whenever the user changes a filter or
-  // adjustment. Export still uses the full-resolution pipeline, so the preview
-  // is responsive on phones without reducing final output quality.
+  useEffect(() => () => stop(), []);
+
   useEffect(() => {
     const page = pages[selected];
-    if (!page) {
+    if (!page || workflowStep !== "filter") {
       setPreviewData("");
       setPreviewBusy(false);
       return undefined;
@@ -237,45 +260,72 @@ export default function SmartDocumentScanner() {
       try {
         const img = await loadImage(page.sourceData || page.data);
         const canvas = canvasFromImage(img, 900);
-        let points = [[0, 0], [canvas.width, 0], [canvas.width, canvas.height], [0, canvas.height]];
-        if (page.cropApplied && page.detectedCrop) {
-          const candidate = page.detectedCrop.map(([x, y]) => [x * canvas.width, y * canvas.height]);
-          points = validateDocumentCorners(candidate, canvas.width, canvas.height, 0.001) || points;
+        let points = [
+          [0, 0],
+          [canvas.width, 0],
+          [canvas.width, canvas.height],
+          [0, canvas.height],
+        ];
+        if (page.detectedCrop) {
+          const candidate = page.detectedCrop.map(([x, y]) => [
+            x * canvas.width,
+            y * canvas.height,
+          ]);
+          points =
+            validateDocumentCorners(candidate, canvas.width, canvas.height, 0.001) ||
+            points;
         }
-        const preview = warp(canvas, points, mode, { brightness, contrast, sharpen });
+        const preview = warp(canvas, points, mode, {
+          brightness,
+          contrast,
+          sharpen,
+        });
         if (!cancelled) setPreviewData(preview.toDataURL("image/jpeg", 0.86));
       } catch {
         if (!cancelled) setPreviewData(page.data || page.sourceData || "");
       } finally {
         if (!cancelled) setPreviewBusy(false);
       }
-    }, 90);
+    }, 80);
     return () => {
       cancelled = true;
       window.clearTimeout(timer);
     };
-  }, [selected, pages[selected]?.id, pages[selected]?.sourceData, pages[selected]?.cropApplied, pages[selected]?.detectedCrop, mode, brightness, contrast, sharpen]);
-  const cameraSupported =
-    typeof window !== "undefined" && !!navigator.mediaDevices?.getUserMedia;
+  }, [
+    workflowStep,
+    selected,
+    pages[selected]?.id,
+    pages[selected]?.sourceData,
+    pages[selected]?.detectedCrop,
+    mode,
+    brightness,
+    contrast,
+    sharpen,
+  ]);
+
   const start = async () => {
     setError("");
+    setMessage("");
+    setWorkflowStep("capture");
     try {
-      if (!window.isSecureContext)
+      if (!window.isSecureContext) {
         throw Error(
-          "Camera access requires HTTPS (a secure local development origin is also permitted by browsers). Use Upload / Use Photo instead on an insecure connection.",
+          "Camera access requires HTTPS. Use Upload / Use Photo if camera access is unavailable.",
         );
-      if (!cameraSupported)
+      }
+      if (!cameraSupported) {
         throw Error(
           "Camera access is not supported by this browser. Use Upload / Use Photo instead.",
         );
-      const s = await navigator.mediaDevices.getUserMedia({
+      }
+      const nextStream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: { ideal: "environment" }, width: { ideal: 1920 } },
         audio: false,
       });
-      stream.current = s;
+      stream.current = nextStream;
       setCamera(true);
       requestAnimationFrame(() => {
-        if (video.current) video.current.srcObject = s;
+        if (video.current) video.current.srcObject = nextStream;
       });
     } catch (e) {
       const msg =
@@ -285,53 +335,61 @@ export default function SmartDocumentScanner() {
             ? "No camera was found on this device. Use Upload / Use Photo instead."
             : e.name === "NotReadableError"
               ? "The camera is busy or unavailable. Close other camera apps and try again."
-              : e.name === "SecurityError"
-                ? "Camera access was blocked by the browser security policy. Use Upload / Use Photo instead."
-                : e.message || "Unable to access the camera.";
+              : e.message || "Unable to access the camera.";
       setError(msg);
     }
   };
-  useEffect(() => () => stop(), []);
+
   const process = async (src, name) => {
     setBusy(true);
     setError("");
+    setMessage("Detecting document edges…");
     try {
-      const img = await loadImage(src),
-        c = canvasFromImage(img);
-      setMessage("Detecting document edges…");
-      const detection = autoBounds(c);
+      const img = await loadImage(src);
+      const canvas = canvasFromImage(img);
+      const detection = autoBounds(canvas);
       const corners = detection?.corners || null;
       const full = [
         [0, 0],
-        [c.width, 0],
-        [c.width, c.height],
-        [0, c.height],
+        [canvas.width, 0],
+        [canvas.width, canvas.height],
+        [0, canvas.height],
       ];
-      const sourceData = c.toDataURL("image/jpeg", 0.94);
-      setPages((p) => [
-        ...p,
-        {
-          id: crypto.randomUUID(),
-          data: sourceData,
-          sourceData,
-          detectedCrop: normalizeCorners(corners || full, c.width, c.height),
-          detected: Boolean(corners),
-          detectionConfidence: detection?.confidence || 0,
-          cropApplied: false,
-          name,
-          width: c.width,
-          height: c.height,
-          history: [],
-          future: [],
-        },
-      ]);
-      setSelected(pages.length);
+      const normalized = normalizeCorners(corners || full, canvas.width, canvas.height);
+      const sourceData = canvas.toDataURL("image/jpeg", 0.94);
+      const nextIndex = pages.length;
+      const nextPage = {
+        id: crypto.randomUUID(),
+        data: sourceData,
+        sourceData,
+        detectedCrop: normalized,
+        detected: Boolean(corners),
+        detectionConfidence: detection?.confidence || 0,
+        cropApplied: false,
+        filterApplied: false,
+        filterMode: "auto",
+        brightness: 0,
+        contrast: 0,
+        sharpen: 0,
+        name,
+        width: canvas.width,
+        height: canvas.height,
+        history: [],
+        future: [],
+      };
+      setPages((current) => [...current, nextPage]);
+      setSelected(nextIndex);
+      setCrop(normalized);
+      setMode("auto");
+      setBrightness(0);
+      setContrast(0);
+      setSharpen(0);
+      setOcrText("");
+      setWorkflowStep("crop");
       setMessage(
         corners
-          ? detection.confidence >= 0.62
-            ? "Document boundary detected with a strong edge score. Review the four corners, then apply Auto Crop or adjust them manually."
-            : "A possible document boundary was detected with a moderate edge score. Review the four corners carefully before cropping."
-          : "Document boundary could not be detected confidently. Adjust the four corners manually before export.",
+          ? "Auto crop is ready. Drag any corner directly if it needs correction, then continue."
+          : "Document boundary could not be detected confidently. The four corners are already editable—place them around the document, then continue.",
       );
     } catch (e) {
       setError(e.message || "Unable to process this image.");
@@ -339,219 +397,248 @@ export default function SmartDocumentScanner() {
       setBusy(false);
     }
   };
+
   const capture = () => {
-    const v = video.current;
-    if (!v?.videoWidth) return;
-    const c = document.createElement("canvas");
-    c.width = v.videoWidth;
-    c.height = v.videoHeight;
-    c.getContext("2d").drawImage(v, 0, 0);
+    const currentVideo = video.current;
+    if (!currentVideo?.videoWidth) return;
+    const canvas = document.createElement("canvas");
+    canvas.width = currentVideo.videoWidth;
+    canvas.height = currentVideo.videoHeight;
+    canvas.getContext("2d").drawImage(currentVideo, 0, 0);
     stop();
-    process(c.toDataURL("image/jpeg", 0.94), `page-${pages.length + 1}`);
-  };
-  const choose = (e) => {
-    const f = e.target.files?.[0];
-    if (!f) return;
-    setError("");
-    if (!/^image\/(jpeg|png|webp)$/.test(f.type)) {
-      setError("Please choose a JPG, PNG or WebP image.");
-      return;
-    }
-    if (f.size > 40 * 1024 * 1024) {
-      setError("This image is larger than 40 MB. Use a smaller photo so your browser can process it reliably.");
-      return;
-    }
-    const u = URL.createObjectURL(f);
-    process(u, f.name).finally(() => URL.revokeObjectURL(u));
-    e.target.value = "";
-  };
-  const rotate = async () => {
-    const p = pages[selected];
-    if (!p || busy) return;
-    setBusy(true);
-    setError("");
-    try {
-      const img = await loadImage(p.sourceData || p.data);
-      const c = document.createElement("canvas");
-      c.width = img.height;
-      c.height = img.width;
-      const x = c.getContext("2d");
-      x.translate(c.width / 2, c.height / 2);
-      x.rotate(Math.PI / 2);
-      x.drawImage(img, -img.width / 2, -img.height / 2);
-      const sourceData = c.toDataURL("image/jpeg", 0.94);
-      const detection = autoBounds(c);
-      const corners = detection?.corners || null;
-      const full = [[0, 0], [c.width, 0], [c.width, c.height], [0, c.height]];
-      setPages((a) => a.map((v, i) => i === selected ? withPageHistory(v, {
-        ...v,
-        data: sourceData,
-        sourceData,
-        width: c.width,
-        height: c.height,
-        detectedCrop: normalizeCorners(corners || full, c.width, c.height),
-        detected: Boolean(corners),
-        detectionConfidence: detection?.confidence || 0,
-        cropApplied: false,
-      }) : v));
-      setCropOpen(false);
-      setMessage(corners
-        ? "Page rotated and document boundary detected again. Review the corners before applying the crop."
-        : "Page rotated. Document boundary could not be detected confidently; adjust the corners manually.");
-    } catch (e) {
-      setError(e.message || "Unable to rotate this page.");
-    } finally {
-      setBusy(false);
-    }
-  };
-  const undoPage = () => {
-    setPages((items) => items.map((item, index) => {
-      if (index !== selected || !item.history?.length) return item;
-      const previous = item.history[item.history.length - 1];
-      return { ...item, ...previous, history: item.history.slice(0, -1), future: [snapshotPage(item), ...(item.future || [])].slice(0, 16) };
-    }));
-    setMessage("Last page edit undone.");
-  };
-  const redoPage = () => {
-    setPages((items) => items.map((item, index) => {
-      if (index !== selected || !item.future?.length) return item;
-      const [next, ...rest] = item.future;
-      return { ...item, ...next, history: [...(item.history || []), snapshotPage(item)].slice(-16), future: rest };
-    }));
-    setMessage("Page edit restored.");
-  };
-  const remove = () => {
-    setPages((a) => a.filter((_, i) => i !== selected));
-    setSelected((s) => Math.max(0, Math.min(s, pages.length - 2)));
-  };
-  const move = (dir) => {
-    setPages((a) => {
-      const b = [...a],
-        to = selected + dir;
-      if (to < 0 || to >= b.length) return a;
-      [b[selected], b[to]] = [b[to], b[selected]];
-      return b;
-    });
-    setSelected((s) => s + dir);
-  };
-  const openCrop = () => {
-    const p = pages[selected];
-    if (!p) return;
-    setError("");
-    setCrop(
-      p.detectedCrop || [
-        [0.03, 0.03],
-        [0.97, 0.03],
-        [0.97, 0.97],
-        [0.03, 0.97],
-      ],
+    process(
+      canvas.toDataURL("image/jpeg", 0.94),
+      `page-${pages.length + 1}.jpg`,
     );
-    setCropZoom(1);
-    setCropOpen(true);
   };
-  const applyDetectedCrop = async () => {
-    const p = pages[selected];
-    if (!p?.detected || !p.detectedCrop) {
-      setError("Document boundary could not be detected confidently. Choose Adjust Manually and place the four corners around the page.");
-      openCrop();
+
+  const choose = (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setError("");
+    if (!/^image\/(jpeg|png|webp)$/.test(file.type)) {
+      setError("Please choose a JPG, PNG or WebP image.");
+      event.target.value = "";
       return;
     }
-    setBusy(true);
-    setError("");
-    try {
-      const img = await loadImage(p.sourceData || p.data);
-      const c = canvasFromImage(img);
-      const raw = p.detectedCrop.map(([x, y]) => [x * c.width, y * c.height]);
-      const pts = validateDocumentCorners(raw, c.width, c.height);
-      if (!pts) throw new Error("The detected page boundary is invalid. Adjust the corners manually.");
-      const out = warp(c, pts, mode, { brightness, contrast, sharpen });
-      setPages((items) => items.map((item, index) => index === selected ? withPageHistory(item, {
-        ...item,
-        data: out.toDataURL("image/jpeg", 0.92),
-        cropApplied: true,
-        width: out.width,
-        height: out.height,
-      }) : item));
-      setMessage("Auto crop and perspective correction applied. Review the result before export.");
-    } catch (e) {
-      setError(e.message || "Unable to apply the detected crop.");
-    } finally {
-      setBusy(false);
+    if (file.size > 40 * 1024 * 1024) {
+      setError(
+        "This image is larger than 40 MB. Use a smaller photo so your browser can process it reliably.",
+      );
+      event.target.value = "";
+      return;
     }
+    const url = URL.createObjectURL(file);
+    process(url, file.name).finally(() => URL.revokeObjectURL(url));
+    event.target.value = "";
   };
 
   const redetect = async () => {
-    const p = pages[selected];
-    if (!p) return;
+    const page = pages[selected];
+    if (!page) return;
     setBusy(true);
     setError("");
-    setMessage("Analyzing document boundary…");
+    setMessage("Detecting document edges again…");
     try {
-      const img = await loadImage(p.sourceData || p.data);
-      const c = canvasFromImage(img);
-      const detection = autoBounds(c);
-      const corners = detection?.corners || null;
-      const full = [[0,0],[c.width,0],[c.width,c.height],[0,c.height]];
-      setPages((items) => items.map((item, index) => index === selected ? withPageHistory(item, {
-        ...item,
-        data: item.sourceData || item.data,
-        detected: Boolean(corners),
-        detectionConfidence: detection?.confidence || 0,
-        detectedCrop: normalizeCorners(corners || full, c.width, c.height),
-        cropApplied: false,
-        width: c.width,
-        height: c.height,
-      }) : item));
-      setMessage(corners ? (detection.confidence >= 0.62 ? "Document boundary detected with a strong edge score. Review the corners before applying." : "Possible document boundary detected with a moderate edge score. Review carefully or adjust manually.") : "Document boundary could not be detected confidently. Use Adjust Manually.");
+      const img = await loadImage(page.sourceData || page.data);
+      const canvas = canvasFromImage(img);
+      const detection = autoBounds(canvas);
+      const full = [
+        [0, 0],
+        [canvas.width, 0],
+        [canvas.width, canvas.height],
+        [0, canvas.height],
+      ];
+      const normalized = normalizeCorners(
+        detection?.corners || full,
+        canvas.width,
+        canvas.height,
+      );
+      setPages((items) =>
+        items.map((item, index) =>
+          index === selected
+            ? withPageHistory(item, {
+                ...item,
+                data: item.sourceData || item.data,
+                detected: Boolean(detection?.corners),
+                detectionConfidence: detection?.confidence || 0,
+                detectedCrop: normalized,
+                cropApplied: false,
+                filterApplied: false,
+                width: canvas.width,
+                height: canvas.height,
+              })
+            : item,
+        ),
+      );
+      setCrop(normalized);
+      setMessage(
+        detection?.corners
+          ? "Boundary detected again. Drag a corner if needed, then confirm the crop."
+          : "No confident boundary was found. Adjust the four corners directly on the image.",
+      );
     } catch (e) {
       setError(e.message || "Unable to analyze this image.");
     } finally {
       setBusy(false);
     }
   };
-  const useFullPhoto = async () => {
-    const p = pages[selected];
-    if (!p) return;
+
+  const rotate = async () => {
+    const page = pages[selected];
+    if (!page || busy) return;
     setBusy(true);
     setError("");
     try {
-      const img = await loadImage(p.sourceData || p.data);
-      const c = canvasFromImage(img);
-      const full = [[0,0],[c.width,0],[c.width,c.height],[0,c.height]];
-      const out = warp(c, full, mode, { brightness, contrast, sharpen });
-      setPages((items) => items.map((item, index) => index === selected ? withPageHistory(item, {
-        ...item,
-        data: out.toDataURL("image/jpeg", 0.92),
-        detectedCrop: normalizeCorners(full, c.width, c.height),
-        cropApplied: true,
-        width: out.width,
-        height: out.height,
-      }) : item));
-      setMessage("Full photo accepted without automatic page cropping. Review it before export.");
+      const img = await loadImage(page.sourceData || page.data);
+      const canvas = document.createElement("canvas");
+      canvas.width = img.height;
+      canvas.height = img.width;
+      const ctx = canvas.getContext("2d");
+      ctx.translate(canvas.width / 2, canvas.height / 2);
+      ctx.rotate(Math.PI / 2);
+      ctx.drawImage(img, -img.width / 2, -img.height / 2);
+      const sourceData = canvas.toDataURL("image/jpeg", 0.94);
+      const detection = autoBounds(canvas);
+      const full = [
+        [0, 0],
+        [canvas.width, 0],
+        [canvas.width, canvas.height],
+        [0, canvas.height],
+      ];
+      const normalized = normalizeCorners(
+        detection?.corners || full,
+        canvas.width,
+        canvas.height,
+      );
+      setPages((items) =>
+        items.map((item, index) =>
+          index === selected
+            ? withPageHistory(item, {
+                ...item,
+                data: sourceData,
+                sourceData,
+                width: canvas.width,
+                height: canvas.height,
+                detectedCrop: normalized,
+                detected: Boolean(detection?.corners),
+                detectionConfidence: detection?.confidence || 0,
+                cropApplied: false,
+                filterApplied: false,
+              })
+            : item,
+        ),
+      );
+      setCrop(normalized);
+      setMessage("Page rotated. The crop boundary has been detected again.");
     } catch (e) {
-      setError(e.message || "Unable to use the full photo.");
+      setError(e.message || "Unable to rotate this page.");
     } finally {
       setBusy(false);
     }
   };
 
-  const applyEnhancement = async () => {
-    const p = pages[selected];
-    if (!p?.cropApplied || !p.detectedCrop) {
-      setError("Apply Auto Crop, Manual Crop, or Use Full Photo before applying enhancements.");
+  const confirmCrop = async () => {
+    const page = pages[selected];
+    if (!page) return;
+    setBusy(true);
+    setError("");
+    try {
+      const img = await loadImage(page.sourceData || page.data);
+      const canvas = canvasFromImage(img);
+      const rawPoints = crop.map(([x, y]) => [x * canvas.width, y * canvas.height]);
+      const points = validateDocumentCorners(rawPoints, canvas.width, canvas.height);
+      if (!points) {
+        throw new Error(
+          "The crop corners overlap or form an invalid page shape. Move the four handles apart and try again.",
+        );
+      }
+      const normalized = normalizeCorners(points, canvas.width, canvas.height);
+      const cropped = warp(canvas, points, "original", {
+        brightness: 0,
+        contrast: 0,
+        sharpen: 0,
+      });
+      setPages((items) =>
+        items.map((item, index) =>
+          index === selected
+            ? withPageHistory(item, {
+                ...item,
+                data: cropped.toDataURL("image/jpeg", 0.93),
+                detectedCrop: normalized,
+                cropApplied: true,
+                filterApplied: false,
+                width: cropped.width,
+                height: cropped.height,
+              })
+            : item,
+        ),
+      );
+      setCrop(normalized);
+      setMode(page.filterMode || "auto");
+      setBrightness(page.brightness || 0);
+      setContrast(page.contrast || 0);
+      setSharpen(page.sharpen || 0);
+      setWorkflowStep("filter");
+      setMessage("Crop confirmed. Now choose the look you want for this page.");
+    } catch (e) {
+      setError(e.message || "Unable to crop this page.");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const applyEnhancementAndContinue = async () => {
+    const page = pages[selected];
+    if (!page?.cropApplied || !page.detectedCrop) {
+      setError("Confirm the crop before applying a filter.");
+      setWorkflowStep("crop");
       return;
     }
     setBusy(true);
     setError("");
     try {
-      const img = await loadImage(p.sourceData || p.data);
-      const c = canvasFromImage(img);
-      const raw = p.detectedCrop.map(([x, y]) => [x * c.width, y * c.height]);
-      const pts = validateDocumentCorners(raw, c.width, c.height, 0.001);
-      if (!pts) throw new Error("The saved crop boundary is invalid. Adjust the corners again.");
-      const out = warp(c, pts, mode, { brightness, contrast, sharpen });
-      setPages((items) => items.map((item, index) => index === selected ? withPageHistory(item, { ...item, data: out.toDataURL("image/jpeg", 0.92), width: out.width, height: out.height }) : item));
-      setMessage("Enhancement preview updated.");
+      const img = await loadImage(page.sourceData || page.data);
+      const canvas = canvasFromImage(img);
+      const raw = page.detectedCrop.map(([x, y]) => [
+        x * canvas.width,
+        y * canvas.height,
+      ]);
+      const points = validateDocumentCorners(
+        raw,
+        canvas.width,
+        canvas.height,
+        0.001,
+      );
+      if (!points) {
+        throw new Error("The saved crop boundary is invalid. Review the crop again.");
+      }
+      const output = warp(canvas, points, mode, {
+        brightness,
+        contrast,
+        sharpen,
+      });
+      setPages((items) =>
+        items.map((item, index) =>
+          index === selected
+            ? withPageHistory(item, {
+                ...item,
+                data: output.toDataURL("image/jpeg", 0.93),
+                width: output.width,
+                height: output.height,
+                filterApplied: true,
+                filterMode: mode,
+                brightness,
+                contrast,
+                sharpen,
+              })
+            : item,
+        ),
+      );
+      setWorkflowStep("export");
+      setMessage(
+        `Page ${selected + 1} is ready. Export now or add another image.`,
+      );
     } catch (e) {
       setError(e.message || "Unable to apply enhancements.");
     } finally {
@@ -559,52 +646,69 @@ export default function SmartDocumentScanner() {
     }
   };
 
-  const applyCrop = async () => {
-    const p = pages[selected];
-    if (!p) return;
-    setBusy(true);
+  const editCrop = (index) => {
+    const page = pages[index];
+    if (!page) return;
+    setSelected(index);
+    setCrop(
+      page.detectedCrop || [
+        [0.03, 0.03],
+        [0.97, 0.03],
+        [0.97, 0.97],
+        [0.03, 0.97],
+      ],
+    );
     setError("");
-    try {
-      const img = await loadImage(p.sourceData || p.data),
-        c = canvasFromImage(img),
-        rawPoints = crop.map(([x, y]) => [x * c.width, y * c.height]),
-        pts = validateDocumentCorners(rawPoints, c.width, c.height);
-      if (!pts) throw new Error("The crop corners overlap or form an invalid page shape. Move the handles apart and try again.");
-      const normalizedCrop = normalizeCorners(pts, c.width, c.height),
-        out = warp(c, pts, mode, { brightness, contrast, sharpen });
-      setPages((a) =>
-        a.map((v, i) =>
-          i === selected
-            ? withPageHistory(v, {
-                ...v,
-                data: out.toDataURL("image/jpeg", 0.92),
-                detectedCrop: normalizedCrop,
-                detected: true,
-                detectionConfidence: null,
-                cropApplied: true,
-                width: out.width,
-                height: out.height,
-              })
-            : v,
-        ),
-      );
-      setCrop(normalizedCrop);
-      setCropOpen(false);
-      setMessage("Manual four-corner crop and perspective correction applied.");
-    } catch (e) {
-      setError(e.message || "Unable to crop this page.");
-    } finally {
-      setBusy(false);
+    setMessage("Adjust the four crop corners directly, then continue.");
+    setWorkflowStep("crop");
+  };
+
+  const editFilter = (index) => {
+    const page = pages[index];
+    if (!page) return;
+    setSelected(index);
+    setMode(page.filterMode || "auto");
+    setBrightness(page.brightness || 0);
+    setContrast(page.contrast || 0);
+    setSharpen(page.sharpen || 0);
+    setError("");
+    setMessage("Choose a filter or fine-tune the page, then continue.");
+    setWorkflowStep("filter");
+  };
+
+  const removePage = (index) => {
+    const remaining = pages.filter((_, pageIndex) => pageIndex !== index);
+    setPages(remaining);
+    setSelected(Math.max(0, Math.min(index, remaining.length - 1)));
+    setOcrText("");
+    if (remaining.length === 0) {
+      setWorkflowStep("capture");
+      setMessage("");
+    } else {
+      setWorkflowStep("export");
+      setMessage("Page removed.");
     }
   };
+
+  const movePage = (index, direction) => {
+    const destination = index + direction;
+    if (destination < 0 || destination >= pages.length) return;
+    setPages((items) => {
+      const copy = [...items];
+      [copy[index], copy[destination]] = [copy[destination], copy[index]];
+      return copy;
+    });
+    setSelected(destination);
+  };
+
   const runOcr = async () => {
-    const p = pages[selected];
-    if (!p) return;
+    const page = pages[selected];
+    if (!page) return;
     setOcrBusy(true);
     setError("");
     setMessage("Recognizing text locally…");
     try {
-      const text = await recognizeImage(p.data, "eng", () => {});
+      const text = await recognizeImage(page.data, "eng", () => {});
       setOcrText(text);
       setMessage(
         text.trim()
@@ -617,70 +721,138 @@ export default function SmartDocumentScanner() {
       setOcrBusy(false);
     }
   };
-  const hasUnreviewedPages = pages.some((p) => !p.cropApplied);
+
+  const hasUnreviewedPages = pages.some(
+    (page) => !page.cropApplied || !page.filterApplied,
+  );
+
   const pdfLayout = () => {
-    const [width, height] = pdfSize === "letter" ? [612, 792] : [595.28, 841.89];
+    const [width, height] =
+      pdfSize === "letter" ? [612, 792] : [595.28, 841.89];
     const margin = pdfMargin === "none" ? 0 : pdfMargin === "small" ? 18 : 36;
     return { width, height, margin };
   };
+
+  const pdf = async () => {
+    if (!pages.length || hasUnreviewedPages) {
+      setError("Finish crop and filter steps for every page before exporting.");
+      return;
+    }
+    setBusy(true);
+    setError("");
+    try {
+      const doc = await PDFDocument.create();
+      for (const pageData of pages) {
+        const bytes = await fetch(pageData.data).then((response) =>
+          response.arrayBuffer(),
+        );
+        const image = await doc.embedJpg(bytes);
+        const { width, height, margin } = pdfLayout();
+        const page = doc.addPage([width, height]);
+        const scale = Math.min(
+          (width - margin * 2) / image.width,
+          (height - margin * 2) / image.height,
+        );
+        const imageWidth = image.width * scale;
+        const imageHeight = image.height * scale;
+        page.drawImage(image, {
+          x: (width - imageWidth) / 2,
+          y: (height - imageHeight) / 2,
+          width: imageWidth,
+          height: imageHeight,
+        });
+      }
+      const pdfBytes = await doc.save();
+      const verified = await PDFDocument.load(pdfBytes);
+      if (verified.getPageCount() !== pages.length) {
+        throw new Error("PDF validation failed: page count changed during export.");
+      }
+      downloadBytes(pdfBytes, "mz-smart-scans.pdf", "application/pdf");
+      setMessage(
+        `Validated ${verified.getPageCount()}-page PDF exported successfully.`,
+      );
+    } catch (e) {
+      setError(e.message || "Unable to export PDF.");
+    } finally {
+      setBusy(false);
+    }
+  };
+
   const exportSearchablePdf = async () => {
-    if (hasUnreviewedPages) { setError("Review every page before export. Apply a crop or choose Use Full Photo for each unreviewed page."); return; }
+    if (!pages.length || hasUnreviewedPages) {
+      setError("Finish crop and filter steps for every page before exporting.");
+      return;
+    }
     setBusy(true);
     setError("");
     try {
       const doc = await PDFDocument.create();
       const font = await doc.embedFont("Helvetica");
-      for (const p of pages) {
-        const bytes = await fetch(p.data).then((r) => r.arrayBuffer()),
-          im = await doc.embedJpg(bytes),
-          { width: pageWidth, height: pageHeight, margin } = pdfLayout(),
-          page = doc.addPage([pageWidth, pageHeight]),
-          scale = Math.min((pageWidth - margin * 2) / im.width, (pageHeight - margin * 2) / im.height),
-          w = im.width * scale,
-          h = im.height * scale;
-        page.drawImage(im, {
-          x: (pageWidth - w) / 2,
-          y: (pageHeight - h) / 2,
-          width: w,
-          height: h,
+      for (const pageData of pages) {
+        const bytes = await fetch(pageData.data).then((response) =>
+          response.arrayBuffer(),
+        );
+        const image = await doc.embedJpg(bytes);
+        const { width, height, margin } = pdfLayout();
+        const page = doc.addPage([width, height]);
+        const scale = Math.min(
+          (width - margin * 2) / image.width,
+          (height - margin * 2) / image.height,
+        );
+        const imageWidth = image.width * scale;
+        const imageHeight = image.height * scale;
+        page.drawImage(image, {
+          x: (width - imageWidth) / 2,
+          y: (height - imageHeight) / 2,
+          width: imageWidth,
+          height: imageHeight,
         });
         const text =
-          p.id === pages[selected]?.id && ocrText
+          pageData.id === pages[selected]?.id && ocrText
             ? ocrText
-            : await recognizeImage(p.data, "eng");
+            : await recognizeImage(pageData.data, "eng");
         if (text.trim()) {
-          const lines = text.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
-          const fontSize = 5;
+          const lines = text
+            .split(/\r?\n/)
+            .map((line) => line.trim())
+            .filter(Boolean);
           let y = 26;
           for (const line of lines.slice(0, 220)) {
-            if (y > pdfLayout().height - 22) break;
+            if (y > height - 22) break;
             page.drawText(line.slice(0, 180), {
               x: 24,
               y,
-              size: fontSize,
+              size: 5,
               font,
               color: rgb(1, 1, 1),
               opacity: 0.01,
-              maxWidth: pdfLayout().width - 48,
+              maxWidth: width - 48,
             });
-            y += fontSize + 1.5;
+            y += 6.5;
           }
         }
       }
-      const searchableBytes = await doc.save();
-      const verified = await PDFDocument.load(searchableBytes);
-      if (verified.getPageCount() !== pages.length) throw new Error("Searchable PDF validation failed: page count changed during export.");
-      downloadBytes(searchableBytes, "mz-searchable-scan.pdf", "application/pdf");
-      setMessage(`Validated searchable PDF exported with ${verified.getPageCount()} page${verified.getPageCount()===1?"":"s"}.`);
+      const bytes = await doc.save();
+      const verified = await PDFDocument.load(bytes);
+      if (verified.getPageCount() !== pages.length) {
+        throw new Error("Searchable PDF validation failed.");
+      }
+      downloadBytes(bytes, "mz-searchable-scan.pdf", "application/pdf");
+      setMessage("Searchable PDF exported successfully.");
     } catch (e) {
       setError(e.message || "Unable to create searchable PDF.");
     } finally {
       setBusy(false);
     }
   };
+
   const downloadPageImages = async (format) => {
-    if (hasUnreviewedPages) { setError("Review every page before exporting images."); return; }
-    setBusy(true); setError("");
+    if (!pages.length || hasUnreviewedPages) {
+      setError("Finish crop and filter steps for every page before exporting.");
+      return;
+    }
+    setBusy(true);
+    setError("");
     try {
       const files = [];
       for (const [index, page] of pages.entries()) {
@@ -690,14 +862,24 @@ export default function SmartDocumentScanner() {
         if (format === "png") {
           const img = await loadImage(page.data);
           const canvas = canvasFromImage(img);
-          const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
+          const blob = await new Promise((resolve) =>
+            canvas.toBlob(resolve, "image/png"),
+          );
           if (!blob) throw new Error(`PNG conversion failed for page ${index + 1}.`);
-          bytes = new Uint8Array(await blob.arrayBuffer()); extension = "png"; mime = "image/png";
+          bytes = new Uint8Array(await blob.arrayBuffer());
+          extension = "png";
+          mime = "image/png";
         } else {
-          bytes = new Uint8Array(await fetch(page.data).then((response) => response.arrayBuffer())); extension = "jpg"; mime = "image/jpeg";
+          bytes = new Uint8Array(
+            await fetch(page.data).then((response) => response.arrayBuffer()),
+          );
+          extension = "jpg";
+          mime = "image/jpeg";
         }
-        if (bytes.length < 32) throw new Error(`Image validation failed for page ${index + 1}.`);
-        files.push({ bytes, name:`scan-${index + 1}.${extension}`, mime });
+        if (bytes.length < 32) {
+          throw new Error(`Image validation failed for page ${index + 1}.`);
+        }
+        files.push({ bytes, name: `scan-${index + 1}.${extension}`, mime });
       }
       if (files.length === 1) {
         await downloadBytes(files[0].bytes, files[0].name, files[0].mime);
@@ -705,468 +887,310 @@ export default function SmartDocumentScanner() {
         const { default: JSZip } = await import("jszip");
         const zip = new JSZip();
         files.forEach((file) => zip.file(file.name, file.bytes));
-        const bytes = await zip.generateAsync({ type:"uint8array", compression:"DEFLATE" });
-        const verified = await JSZip.loadAsync(bytes);
-        if (Object.keys(verified.files).filter((name) => !verified.files[name].dir).length !== files.length) throw new Error("Image ZIP validation failed before download.");
-        await downloadBytes(bytes, `mz-scans-${format}.zip`, "application/zip");
+        const zipBytes = await zip.generateAsync({
+          type: "uint8array",
+          compression: "DEFLATE",
+        });
+        const verified = await JSZip.loadAsync(zipBytes);
+        if (
+          Object.keys(verified.files).filter((name) => !verified.files[name].dir)
+            .length !== files.length
+        ) {
+          throw new Error("Image ZIP validation failed before download.");
+        }
+        await downloadBytes(
+          zipBytes,
+          `mz-scans-${format}.zip`,
+          "application/zip",
+        );
       }
-      setMessage(files.length === 1 ? `${format.toUpperCase()} image prepared.` : `${files.length} ${format.toUpperCase()} pages prepared in a validated ZIP.`);
+      setMessage(
+        files.length === 1
+          ? `${format.toUpperCase()} image downloaded.`
+          : `${files.length} ${format.toUpperCase()} pages prepared in a ZIP.`,
+      );
     } catch (e) {
       setError(e.message || "Unable to export scanned images.");
-    } finally { setBusy(false); }
-  };
-  const pdf = async () => {
-    if (hasUnreviewedPages) { setError("Review every page before export. Apply a crop or choose Use Full Photo for each unreviewed page."); return; }
-    setBusy(true);
-    setError("");
-    try {
-      const doc = await PDFDocument.create();
-      for (const p of pages) {
-        const bytes = await fetch(p.data).then((r) => r.arrayBuffer()),
-          im = await doc.embedJpg(bytes),
-          { width: pageWidth, height: pageHeight, margin } = pdfLayout(),
-          page = doc.addPage([pageWidth, pageHeight]),
-          scale = Math.min((pageWidth - margin * 2) / im.width, (pageHeight - margin * 2) / im.height),
-          w = im.width * scale,
-          h = im.height * scale;
-        page.drawImage(im, {
-          x: (pageWidth - w) / 2,
-          y: (pageHeight - h) / 2,
-          width: w,
-          height: h,
-        });
-      }
-      const pdfBytes = await doc.save();
-      const verified = await PDFDocument.load(pdfBytes);
-      if (verified.getPageCount() !== pages.length) throw new Error("PDF validation failed: page count changed during export.");
-      downloadBytes(pdfBytes, "mz-smart-scans.pdf", "application/pdf");
-      setMessage(`Validated ${verified.getPageCount()}-page PDF exported successfully.`);
-    } catch (e) {
-      setError(e.message || "Unable to export PDF.");
     } finally {
       setBusy(false);
     }
   };
+
+  const stepNumber =
+    workflowStep === "capture" ? 1 : workflowStep === "crop" ? 2 : workflowStep === "filter" ? 3 : 4;
+
+  const stepLabels = ["Capture", "Crop", "Filter", "Export"];
+
   return (
-    <div className="mz-scanner-app space-y-5">
-      <div className="mz-scanner-panel mz-scanner-capture-panel">
-        <div className="mz-scanner-panel-heading">
-          <div><span className="mz-scanner-step">STEP 1</span><h2>Capture your document</h2><p>Use the camera or choose a photo. Everything is processed locally in your browser.</p></div>
-          <span className="mz-scanner-local-badge">Private · on device</span>
+    <div className="mz-scanner-app">
+      <input
+        ref={input}
+        hidden
+        type="file"
+        accept="image/jpeg,image/png,image/webp"
+        capture="environment"
+        onChange={choose}
+      />
+
+      <div className="mz-scanner-flow-head">
+        <div>
+          <span className="mz-scanner-step">SMART DOCUMENT SCANNER</span>
+          <h2>Scan one clear step at a time</h2>
+          <p>Capture → correct the automatic crop → choose a filter → export or add another page.</p>
         </div>
-        {!camera ? (
-          <div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <button
-                className="mz-btn-primary mz-liquid-btn min-h-28"
-                onClick={start}
-                disabled={busy}
-              >
-                <Camera className="h-7 w-7" />
-                <span>Open Camera</span>
-              </button>
-              <button
-                className="mz-btn-secondary min-h-28"
-                onClick={() => input.current?.click()}
-                disabled={busy}
-              >
-                <Upload className="h-7 w-7" />
-                <span>Upload / Use Photo</span>
-              </button>
-              <input
-                ref={input}
-                hidden
-                type="file"
-                accept="image/jpeg,image/png,image/webp"
-                capture="environment"
-                onChange={choose}
-              />
-            </div>
-            <p className="mt-4 text-xs leading-5 text-navy-400">
-              Camera capture needs a secure HTTPS page and browser permission.
-              If camera access is unavailable, Upload / Use Photo remains
-              available.
-            </p>
-          </div>
-        ) : (
-          <div className="relative overflow-hidden rounded-3xl bg-black">
-            <video
-              ref={video}
-              autoPlay
-              playsInline
-              muted
-              className="aspect-[3/4] w-full object-cover sm:aspect-video"
-            />
-            <div className="pointer-events-none absolute inset-6 rounded-2xl border-2 border-white/70" />
-            <div className="absolute inset-x-0 bottom-5 flex justify-center">
-              <button
-                onClick={capture}
-                aria-label="Capture document"
-                className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-white bg-brand-600 text-white shadow-2xl"
-              >
-                <Camera className="h-7 w-7" />
-              </button>
-            </div>
-            <button
-              onClick={stop}
-              className="absolute right-4 top-4 mz-btn-secondary"
-            >
-              <CameraOff className="h-4 w-4" />
-              Close
-            </button>
-          </div>
-        )}
-        {error && (
-          <div
-            role="alert"
-            className="mt-4 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900/60 dark:bg-red-950/30 dark:text-red-300"
-          >
-            {error}
-          </div>
-        )}
-        {pages[selected] ? (
-          <div className="mz-scanner-enhance-card">
-            <div className="mz-scanner-enhance-head">
-              <div><span className="mz-scanner-step">LIVE FILTERS</span><h3>Enhance the scan</h3><p>Tap a look or fine-tune it. The preview updates immediately.</p></div>
-              {previewBusy ? <span className="mz-scanner-preview-status">Updating…</span> : <span className="mz-scanner-preview-status is-ready">Live preview</span>}
-            </div>
-            <div className="mz-scanner-filter-preview">
-              <img src={previewData || pages[selected].data || pages[selected].sourceData} alt={`Live enhancement preview for page ${selected + 1}`} />
-              <span>{previewBusy ? "Updating…" : "Preview"}</span>
-            </div>
-            <div className="mz-scanner-filter-strip" role="group" aria-label="Document filters">
-              {[
-                ["original", "Original"],
-                ["auto", "Auto"],
-                ["document", "Document"],
-                ["light", "Light"],
-                ["grayscale", "Grayscale"],
-                ["bw", "B&W"],
-                ["contrast", "Contrast"],
-                ["sharpen", "Sharpen"],
-              ].map(([v, l]) => (
-                <button key={v} type="button" className={`mz-scanner-filter ${mode === v ? "is-active" : ""}`} onClick={() => setMode(v)}>{l}</button>
-              ))}
-            </div>
-            <div className="mz-scanner-adjust-grid">
-              <label>Brightness <span>{brightness}</span><input type="range" min="-60" max="60" value={brightness} onChange={(e) => setBrightness(Number(e.target.value))} /></label>
-              <label>Contrast <span>{contrast}</span><input type="range" min="-60" max="80" value={contrast} onChange={(e) => setContrast(Number(e.target.value))} /></label>
-              <label>Sharpen <span>{sharpen}</span><input type="range" min="0" max="100" value={sharpen} onChange={(e) => setSharpen(Number(e.target.value))} /></label>
-            </div>
-            <div className="mz-scanner-enhance-actions">
-              <button type="button" className="mz-btn-primary" onClick={applyEnhancement} disabled={busy || !pages[selected]?.cropApplied}><Wand2 className="h-4 w-4" /> Apply to page</button>
-              <button type="button" className="mz-btn-ghost" onClick={() => { setBrightness(0); setContrast(0); setSharpen(0); setMode("original"); }}>Reset</button>
-              {!pages[selected]?.cropApplied ? <small>Review/crop the page first, then apply the enhancement to the export.</small> : null}
-            </div>
-          </div>
-        ) : null}
+        <span className="mz-scanner-local-badge">Private · on device</span>
       </div>
-      {message && (
-        <div
-          className="rounded-2xl border border-brand-100 bg-brand-50 p-3 text-sm text-brand-800 dark:border-brand-900/50 dark:bg-brand-950/30 dark:text-brand-200"
-          role="status"
-        >
-          {message}
-        </div>
-      )}
-      {pages[selected] && !cropOpen && (
-        <section className="mz-scanner-pages" aria-labelledby="scanner-review-title">
-          <div className="flex flex-wrap items-start justify-between gap-3">
-            <div>
-              <p className="mz-scanner-step">STEP 2 · REVIEW</p>
-              <h2 id="scanner-review-title" className="mt-1 text-lg font-extrabold text-navy-900 dark:text-white">Review page {selected + 1}</h2>
-              <p className="mt-1 text-sm text-navy-500 dark:text-navy-400">
-                {pages[selected].detected
-                  ? pages[selected].cropApplied
-                    ? "Perspective correction is applied. You can re-detect or adjust the original corners."
-                    : "Green lines show the detected physical page. Confirm them before cropping."
-                  : "No confident boundary was found. Place the four corners manually around the page."}
-              </p>
-            </div>
-            <span className={`rounded-full px-3 py-1 text-xs font-bold ${pages[selected].detected ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-200" : "bg-amber-100 text-amber-800 dark:bg-amber-950/40 dark:text-amber-200"}`}>
-              {pages[selected].detected ? "Boundary detected" : "Manual review needed"}
-            </span>
-            {pages[selected].detected && Number.isFinite(pages[selected].detectionConfidence) ? <span className="rounded-full bg-navy-100 px-3 py-1 text-xs font-semibold text-navy-600 dark:bg-navy-800 dark:text-navy-300" title="Algorithmic boundary score, not a probability">Edge score {pages[selected].detectionConfidence.toFixed(2)}</span> : null}
-          </div>
-          <div className="mz-scanner-preview-stage mx-auto mt-5 flex max-w-3xl justify-center overflow-hidden rounded-3xl bg-slate-950 p-2">
-            <div className="relative inline-block max-w-full">
-              <img src={previewData || (pages[selected].cropApplied ? pages[selected].data : (pages[selected].sourceData || pages[selected].data))} alt={`Document analysis for page ${selected + 1}`} className="block max-h-[65vh] max-w-full select-none rounded-2xl" draggable="false" />
-              <span className="mz-scanner-live-chip">{previewBusy ? "Updating preview…" : mode === "original" && brightness === 0 && contrast === 0 && sharpen === 0 ? "Original" : "Live enhanced preview"}</span>
-              {!pages[selected].cropApplied && pages[selected].detectedCrop ? (
-                <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-                  <polygon points={pages[selected].detectedCrop.map(([x,y]) => `${x*100},${y*100}`).join(" ")} fill="rgba(34,197,94,.10)" stroke="rgb(34 197 94)" strokeWidth="0.8" vectorEffect="non-scaling-stroke" />
-                  {pages[selected].detectedCrop.map(([x,y],index) => <circle key={index} cx={x*100} cy={y*100} r="1.8" fill="rgb(22 163 74)" stroke="white" strokeWidth="0.6" vectorEffect="non-scaling-stroke" />)}
-                </svg>
-              ) : null}
-            </div>
-          </div>
-          <div className="mz-scanner-review-actions mt-5">
-            {pages[selected].detected && !pages[selected].cropApplied ? <button type="button" className="mz-btn-primary" onClick={applyDetectedCrop} disabled={busy}>Apply Auto Crop</button> : null}
-            <button type="button" className="mz-btn-secondary" onClick={openCrop}>Adjust Manually</button>
-            <button type="button" className="mz-btn-secondary" onClick={redetect} disabled={busy}>Auto Detect</button>
-            {!pages[selected].cropApplied ? <button type="button" className="mz-btn-ghost" onClick={useFullPhoto} disabled={busy}>Use Full Photo</button> : null}
-            <button type="button" className="mz-btn-secondary" onClick={rotate} disabled={busy}><RotateCw className="h-4 w-4" /> Rotate</button>
-            {pages[selected].cropApplied ? <button type="button" className="mz-btn-secondary" onClick={()=>setCompareOpen((value)=>!value)}>{compareOpen ? "Hide comparison" : "Before / After"}</button> : null}
-            <button type="button" className="mz-btn-secondary" onClick={undoPage} disabled={!pages[selected].history?.length}>Undo</button>
-            <button type="button" className="mz-btn-secondary" onClick={redoPage} disabled={!pages[selected].future?.length}>Redo</button>
-            <button type="button" className="mz-btn-ghost" onClick={remove}>Retake / Remove</button>
-          </div>
-          {compareOpen && pages[selected].cropApplied ? <div className="mt-5 grid gap-3 sm:grid-cols-2" aria-label="Before and after comparison"><figure className="overflow-hidden rounded-2xl border border-navy-100 bg-white p-2 dark:border-navy-800 dark:bg-navy-900"><img src={pages[selected].sourceData || pages[selected].data} alt="Original uploaded document photo" className="max-h-[42vh] w-full object-contain"/><figcaption className="px-2 pb-1 pt-2 text-xs font-semibold text-navy-500">Before · original photo</figcaption></figure><figure className="overflow-hidden rounded-2xl border border-brand-200 bg-white p-2 dark:border-brand-900 dark:bg-navy-900"><img src={pages[selected].data} alt="Current cropped and enhanced document result" className="max-h-[42vh] w-full object-contain"/><figcaption className="px-2 pb-1 pt-2 text-xs font-semibold text-brand-700 dark:text-brand-300">After · current result</figcaption></figure></div> : null}
-        </section>
-      )}
-      {cropOpen && pages[selected] && (
-        <div className="mz-scanner-pages">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-lg font-extrabold text-navy-900 dark:text-white">
-                Manual crop
-              </h2>
-              <p className="text-sm text-navy-500">
-                Drag the four corners, then apply the crop.
-              </p>
-            </div>
-            <button
-              className="mz-btn-secondary"
-              onClick={() => setCropOpen(false)}
+
+      <div className="mz-scanner-stepper" aria-label={`Scanner step ${stepNumber} of 4`}>
+        {stepLabels.map((label, index) => {
+          const number = index + 1;
+          const active = number === stepNumber;
+          const complete = number < stepNumber;
+          return (
+            <div
+              key={label}
+              className={`mz-scanner-stepper-item ${active ? "is-active" : ""} ${complete ? "is-complete" : ""}`}
             >
-              Cancel
+              <span>{complete ? <CheckCircle2 aria-hidden="true" /> : number}</span>
+              <small>{label}</small>
+            </div>
+          );
+        })}
+      </div>
+
+      {error ? (
+        <div role="alert" className="mz-scanner-alert is-error">{error}</div>
+      ) : null}
+      {message ? (
+        <div role="status" className="mz-scanner-alert is-info">{message}</div>
+      ) : null}
+
+      {workflowStep === "capture" ? (
+        <section className="mz-scanner-flow-card" aria-labelledby="scanner-capture-title">
+          <div className="mz-scanner-flow-title">
+            <span>STEP 1 OF 4</span>
+            <h3 id="scanner-capture-title">{pages.length ? "Add another document page" : "Capture your document"}</h3>
+            <p>Take one photo or choose one image. We will detect its page edges automatically.</p>
+          </div>
+
+          {!camera ? (
+            <div className="mz-scanner-capture-actions">
+              <button className="mz-scanner-big-action is-primary" onClick={start} disabled={busy}>
+                <Camera />
+                <strong>Open Camera</strong>
+                <small>Use the rear camera</small>
+              </button>
+              <button className="mz-scanner-big-action" onClick={() => input.current?.click()} disabled={busy}>
+                <Upload />
+                <strong>Choose Photo</strong>
+                <small>JPG, PNG or WebP</small>
+              </button>
+            </div>
+          ) : (
+            <div className="mz-scanner-camera-stage">
+              <video ref={video} autoPlay playsInline muted />
+              <div className="mz-scanner-camera-guide" aria-hidden="true" />
+              <button onClick={capture} aria-label="Capture document" className="mz-scanner-shutter"><Camera /></button>
+              <button onClick={stop} className="mz-scanner-camera-close"><CameraOff /> Close</button>
+            </div>
+          )}
+
+          {pages.length ? (
+            <button className="mz-btn-ghost mz-scanner-back-export" onClick={() => { stop(); setWorkflowStep("export"); setError(""); }}>
+              <ArrowLeft className="h-4 w-4" /> Back to ready pages
             </button>
+          ) : null}
+        </section>
+      ) : null}
+
+      {workflowStep === "crop" && selectedPage ? (
+        <section className="mz-scanner-flow-card" aria-labelledby="scanner-crop-title">
+          <div className="mz-scanner-flow-title">
+            <span>STEP 2 OF 4</span>
+            <h3 id="scanner-crop-title">Check the automatic crop</h3>
+            <p>The four handles are already active. Drag any corner directly—no “manual crop” button is required.</p>
           </div>
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-2" aria-label="Manual crop zoom controls">
-            <button type="button" className="mz-btn-secondary" onClick={() => setCropZoom((value) => Math.max(1, Number((value - 0.25).toFixed(2))))} disabled={cropZoom <= 1}>Zoom out</button>
-            <span className="min-w-16 text-center text-sm font-bold text-navy-600 dark:text-navy-300">{Math.round(cropZoom * 100)}%</span>
-            <button type="button" className="mz-btn-secondary" onClick={() => setCropZoom((value) => Math.min(2.5, Number((value + 0.25).toFixed(2))))} disabled={cropZoom >= 2.5}>Zoom in</button>
+
+          <div className="mz-scanner-crop-toolbar">
+            <span className={selectedPage.detected ? "is-detected" : "is-review"}>
+              <ScanLine /> {selectedPage.detected ? "Auto boundary found" : "Adjust boundary"}
+            </span>
+            <button className="mz-btn-secondary" onClick={redetect} disabled={busy}><RefreshCcw className="h-4 w-4" /> Detect again</button>
+            <button className="mz-btn-secondary" onClick={rotate} disabled={busy}><RotateCw className="h-4 w-4" /> Rotate</button>
           </div>
-          <div className="mx-auto mt-3 max-h-[72vh] max-w-4xl overflow-auto rounded-2xl bg-black p-2">
-            <div className="relative mx-auto" style={{ width: `${cropZoom * 100}%` }}>
-            <img
-              src={pages[selected].sourceData || pages[selected].data}
-              alt="Manual crop preview from the original photo"
-              className="block h-auto w-full select-none"
-              draggable="false"
-            />
-            <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-              <polygon points={crop.map(([x,y]) => `${x*100},${y*100}`).join(" ")} fill="rgba(34,197,94,.10)" stroke="rgb(34 197 94)" strokeWidth="0.8" vectorEffect="non-scaling-stroke" />
-            </svg>
-            <div className="pointer-events-none absolute inset-0">
-              {crop.map(([x, y], i) => (
+
+          <div className="mz-scanner-crop-stage">
+            <div className="mz-scanner-crop-image-wrap">
+              <img src={selectedPage.sourceData || pages[selected].data} alt={`Crop page ${selected + 1}`} draggable="false" />
+              <svg className="mz-scanner-crop-polygon" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                <polygon
+                  points={crop.map(([x, y]) => `${x * 100},${y * 100}`).join(" ")}
+                  fill="rgba(37,99,235,.10)"
+                  stroke="rgb(59 130 246)"
+                  strokeWidth="0.9"
+                  vectorEffect="non-scaling-stroke"
+                />
+              </svg>
+              {crop.map(([x, y], index) => (
                 <button
-                  key={i}
-                  aria-label={`Move crop corner ${i + 1}`}
-                  onPointerDown={(e) => {
-                    const handle = e.currentTarget;
-                    const cropOverlay = handle.parentElement;
-                    if (!cropOverlay) return;
-                    const r = cropOverlay.getBoundingClientRect();
-                    handle.setPointerCapture?.(e.pointerId);
-                    const moveEv = (ev) => {
-                      const nx = clamp(
-                          (ev.clientX - r.left) / r.width,
-                          0.01,
-                          0.99,
-                        ),
-                        ny = clamp((ev.clientY - r.top) / r.height, 0.01, 0.99);
-                      setCrop((a) =>
-                        a.map((pt, j) => (j === i ? [nx, ny] : pt)),
-                      );
+                  key={index}
+                  type="button"
+                  aria-label={`Move crop corner ${index + 1}`}
+                  className="mz-scanner-crop-handle touch-none"
+                  style={{ left: `${x * 100}%`, top: `${y * 100}%` }}
+                  onPointerDown={(event) => {
+                    event.preventDefault();
+                    const handle = event.currentTarget;
+                    const overlay = handle.parentElement;
+                    if (!overlay) return;
+                    const rect = overlay.getBoundingClientRect();
+                    handle.setPointerCapture?.(event.pointerId);
+                    const move = (moveEvent) => {
+                      const nextX = clamp((moveEvent.clientX - rect.left) / rect.width, 0.01, 0.99);
+                      const nextY = clamp((moveEvent.clientY - rect.top) / rect.height, 0.01, 0.99);
+                      setCrop((current) => current.map((point, pointIndex) => pointIndex === index ? [nextX, nextY] : point));
                     };
                     const up = () => {
-                      window.removeEventListener("pointermove", moveEv);
+                      window.removeEventListener("pointermove", move);
                       window.removeEventListener("pointerup", up);
                     };
-                    window.addEventListener("pointermove", moveEv);
+                    window.addEventListener("pointermove", move);
                     window.addEventListener("pointerup", up);
                   }}
-                  style={{ left: `${x * 100}%`, top: `${y * 100}%` }}
-                  className="pointer-events-auto absolute -ml-5 -mt-5 h-10 w-10 touch-none rounded-full border-2 border-white bg-brand-600 shadow-lg sm:-ml-4 sm:-mt-4 sm:h-8 sm:w-8"
                 />
               ))}
             </div>
-            </div>
           </div>
-          <div className="mt-5 flex justify-end gap-2">
-            <button
-              className="mz-btn-secondary"
-              onClick={() =>
-                setCrop([
-                  [0.03, 0.03],
-                  [0.97, 0.03],
-                  [0.97, 0.97],
-                  [0.03, 0.97],
-                ])
-              }
-            >
-              Reset Crop
-            </button>
-            <button
-              className="mz-btn-primary"
-              onClick={applyCrop}
-              disabled={busy}
-            >
-              Apply Manual Crop
+
+          <div className="mz-scanner-flow-actions">
+            <button className="mz-btn-secondary" onClick={() => {
+              const p = pages[selected];
+              if (p) setCrop(p.detectedCrop || [[0.03,0.03],[0.97,0.03],[0.97,0.97],[0.03,0.97]]);
+            }}>Reset corners</button>
+            <button className="mz-btn-primary" onClick={confirmCrop} disabled={busy}>
+              {busy ? "Cropping…" : "Confirm Crop & Continue"} <ArrowRight className="h-4 w-4" />
             </button>
           </div>
-        </div>
-      )}{" "}
-      {pages.length > 0 && (
-        <div className="mz-scanner-pages">
-          <div className="flex items-center justify-between gap-3">
-            <div>
-              <h2 className="text-lg font-extrabold text-navy-900 dark:text-white">
-                Scanned pages
-              </h2>
-              <p className="text-sm text-navy-500">
-                {pages.length} page{pages.length > 1 ? "s" : ""} · processed
-                locally
-              </p>
-            </div>
-            <button
-              className="mz-btn-secondary"
-              onClick={() => {
-                setPages([]);
-                setSelected(0);
-                setOcrText("");
-                setMessage("");
-                setError("");
-              }}
-            >
-              <RefreshCcw className="h-4 w-4" />
-              Clear all
-            </button>
+        </section>
+      ) : null}
+
+      {workflowStep === "filter" && selectedPage ? (
+        <section className="mz-scanner-flow-card" aria-labelledby="scanner-filter-title">
+          <div className="mz-scanner-flow-title">
+            <span>STEP 3 OF 4</span>
+            <h3 id="scanner-filter-title">Choose a document filter</h3>
+            <p>Every option updates the preview live. Auto keeps colour, while Document and B&amp;W are stronger paper-cleanup looks.</p>
           </div>
-          <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {pages.map((p, i) => (
+
+          <div className="mz-scanner-filter-preview is-large">
+            <img src={previewData || selectedPage.data} alt={`Filter preview page ${selected + 1}`} />
+            <span>{previewBusy ? "Updating…" : "Live preview"}</span>
+          </div>
+
+          <div className="mz-scanner-filter-strip" role="group" aria-label="Document filters">
+            {[
+              ["original", "Original"],
+              ["auto", "Auto"],
+              ["color", "Color Boost"],
+              ["document", "Document"],
+              ["light", "Light"],
+              ["grayscale", "Grayscale"],
+              ["bw", "B&W"],
+              ["contrast", "Contrast"],
+              ["sharpen", "Sharpen"],
+            ].map(([value, label]) => (
               <button
-                key={p.id}
-                onClick={() => setSelected(i)}
-                className={`overflow-hidden rounded-2xl border text-left ${selected === i ? "border-brand-500 ring-2 ring-brand-200" : "border-navy-100 dark:border-navy-800"}`}
+                key={value}
+                type="button"
+                className={`mz-scanner-filter ${mode === value ? "is-active" : ""}`}
+                onClick={() => setMode(value)}
               >
-                <img
-                  src={p.data}
-                  alt={`Scanned page ${i + 1}`}
-                  className="aspect-[3/4] w-full object-contain bg-slate-100 dark:bg-navy-950"
-                />
-                <div className="flex items-center justify-between p-3">
-                  <span className="text-sm font-semibold">Page {i + 1}</span>
-                  <span className={`text-xs font-semibold ${p.cropApplied ? "text-emerald-600" : "text-amber-600"}`}>
-                    {p.cropApplied ? "Ready" : "Review"} · {p.width}×{p.height}
-                  </span>
-                </div>
+                {label}
               </button>
             ))}
           </div>
-          {hasUnreviewedPages ? <p className="mt-4 rounded-xl bg-amber-50 p-3 text-sm text-amber-800 dark:bg-amber-950/30 dark:text-amber-200">Review each page before creating PDF/JPG output. Select a page and apply Auto Crop, Manual Crop, or Use Full Photo.</p> : null}
-          <div className="mt-4 grid gap-3 rounded-2xl border border-navy-100 bg-white/70 p-3 sm:grid-cols-2 dark:border-navy-800 dark:bg-navy-900/50"><label className="text-xs font-bold uppercase tracking-wide text-navy-500">PDF page size<select className="mz-input mt-2" value={pdfSize} onChange={(e)=>setPdfSize(e.target.value)}><option value="a4">A4</option><option value="letter">US Letter</option></select></label><label className="text-xs font-bold uppercase tracking-wide text-navy-500">PDF margins<select className="mz-input mt-2" value={pdfMargin} onChange={(e)=>setPdfMargin(e.target.value)}><option value="none">None</option><option value="small">Small</option><option value="normal">Normal</option></select></label></div>
-          <div className="mz-scanner-export-actions mt-5">
-            <button className="mz-btn-secondary" onClick={openCrop}>
-              Crop
-            </button>
-            <button
-              className="mz-btn-secondary"
-              onClick={() => move(-1)}
-              disabled={selected === 0}
-            >
-              Move Left
-            </button>
-            <button
-              className="mz-btn-secondary"
-              onClick={() => move(1)}
-              disabled={selected === pages.length - 1}
-            >
-              Move Right
-            </button>
-            <button className="mz-btn-secondary" onClick={rotate}>
-              <RotateCw className="h-4 w-4" />
-              Rotate
-            </button>
-            <button className="mz-btn-secondary" onClick={remove}>
-              <Trash2 className="h-4 w-4" />
-              Delete Page
-            </button>
-            <button className="mz-btn-primary" onClick={pdf} disabled={busy || hasUnreviewedPages}>
-              <Download className="h-4 w-4" />
-              Download PDF
-            </button>
-            <button
-              className="mz-btn-secondary"
-              onClick={runOcr}
-              disabled={ocrBusy}
-            >
-              {ocrBusy ? "OCR…" : "OCR Page"}
-            </button>
-            <button
-              className="mz-btn-secondary"
-              onClick={exportSearchablePdf}
-              disabled={busy || hasUnreviewedPages}
-            >
-              Searchable PDF
-            </button>
-            <button className="mz-btn-secondary" onClick={() => downloadPageImages("jpg")} disabled={busy || hasUnreviewedPages}>
-              <ImageIcon className="h-4 w-4" />
-              Download JPG
-            </button>
-            <button className="mz-btn-secondary" onClick={() => downloadPageImages("png")} disabled={busy || hasUnreviewedPages}>
-              <ImageIcon className="h-4 w-4" />
-              Download PNG
-            </button>
-            <button
-              className="mz-btn-secondary"
-              onClick={start}
-              disabled={!cameraSupported}
-            >
-              <Plus className="h-4 w-4" />
-              Add Page
+
+          <div className="mz-scanner-adjust-grid">
+            <label>Brightness <span>{brightness}</span><input type="range" min="-60" max="60" value={brightness} onChange={(e) => setBrightness(Number(e.target.value))} /></label>
+            <label>Contrast <span>{contrast}</span><input type="range" min="-60" max="80" value={contrast} onChange={(e) => setContrast(Number(e.target.value))} /></label>
+            <label>Sharpen <span>{sharpen}</span><input type="range" min="0" max="100" value={sharpen} onChange={(e) => setSharpen(Number(e.target.value))} /></label>
+          </div>
+
+          <div className="mz-scanner-flow-actions">
+            <button className="mz-btn-secondary" onClick={() => editCrop(selected)}><ArrowLeft className="h-4 w-4" /> Back to Crop</button>
+            <button className="mz-btn-ghost" onClick={() => { setMode("original"); setBrightness(0); setContrast(0); setSharpen(0); }}>Reset filter</button>
+            <button className="mz-btn-primary" onClick={applyEnhancementAndContinue} disabled={busy}>
+              {busy ? "Applying…" : "Apply Filter & Continue"} <ArrowRight className="h-4 w-4" />
             </button>
           </div>
-        </div>
-      )}
-      {ocrText && (
-        <div className="rounded-2xl border border-navy-100 bg-white p-4 dark:border-navy-800 dark:bg-navy-900">
-          <div className="mb-2 flex items-center justify-between">
-            <h3 className="font-bold text-navy-900 dark:text-white">
-              Extracted text
-            </h3>
-            <button
-              className="mz-btn-ghost"
-              onClick={() => navigator.clipboard?.writeText(ocrText)}
-            >
-              Copy
+        </section>
+      ) : null}
+
+      {workflowStep === "export" && pages.length ? (
+        <section className="mz-scanner-flow-card" aria-labelledby="scanner-export-title">
+          <div className="mz-scanner-flow-title">
+            <span>STEP 4 OF 4</span>
+            <h3 id="scanner-export-title">Export or add another image</h3>
+            <p>{pages.length} ready page{pages.length === 1 ? "" : "s"}. Add another page and it will go through Crop → Filter before returning here.</p>
+          </div>
+
+          <div className="mz-scanner-ready-grid">
+            {pages.map((page, index) => (
+              <article key={page.id} className={`mz-scanner-ready-page ${selected === index ? "is-selected" : ""}`}>
+                <button className="mz-scanner-ready-preview" onClick={() => setSelected(index)}>
+                  <img src={page.data} alt={`Ready scan page ${index + 1}`} />
+                  <span>Page {index + 1}</span>
+                </button>
+                <div className="mz-scanner-ready-actions">
+                  <button onClick={() => editCrop(index)}>Crop</button>
+                  <button onClick={() => editFilter(index)}>Filter</button>
+                  <button onClick={() => movePage(index, -1)} disabled={index === 0} aria-label={`Move page ${index + 1} left`}><ArrowLeft /></button>
+                  <button onClick={() => movePage(index, 1)} disabled={index === pages.length - 1} aria-label={`Move page ${index + 1} right`}><ArrowRight /></button>
+                  <button className="is-danger" onClick={() => removePage(index)} aria-label={`Delete page ${index + 1}`}><Trash2 /></button>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div className="mz-scanner-add-more">
+            <button className="mz-scanner-add-card" onClick={() => input.current?.click()} disabled={busy}>
+              <Plus />
+              <strong>Add another image</strong>
+              <small>Choose a photo and crop it next</small>
+            </button>
+            <button className="mz-scanner-add-card" onClick={start} disabled={busy || !cameraSupported}>
+              <Camera />
+              <strong>Scan another page</strong>
+              <small>Open the camera</small>
             </button>
           </div>
-          <textarea
-            className="mz-input min-h-40"
-            value={ocrText}
-            onChange={(e) => setOcrText(e.target.value)}
-          />
-          <button
-            className="mz-btn-secondary mt-3"
-            onClick={() => downloadBlob(new Blob([ocrText], { type: "text/plain" }), "ocr-text.txt")}
-          >
-            Download TXT
+
+          <div className="mz-scanner-export-settings">
+            <label>PDF page size<select className="mz-input" value={pdfSize} onChange={(e) => setPdfSize(e.target.value)}><option value="a4">A4</option><option value="letter">US Letter</option></select></label>
+            <label>PDF margins<select className="mz-input" value={pdfMargin} onChange={(e) => setPdfMargin(e.target.value)}><option value="none">None</option><option value="small">Small</option><option value="normal">Normal</option></select></label>
+          </div>
+
+          <div className="mz-scanner-export-grid">
+            <button className="mz-scanner-export-primary" onClick={pdf} disabled={busy || hasUnreviewedPages}><FileDown /> <span><strong>Download PDF</strong><small>Best for documents</small></span></button>
+            <button className="mz-scanner-export-option" onClick={() => downloadPageImages("jpg")} disabled={busy || hasUnreviewedPages}><ImageIcon /> JPG</button>
+            <button className="mz-scanner-export-option" onClick={() => downloadPageImages("png")} disabled={busy || hasUnreviewedPages}><ImageIcon /> PNG</button>
+            <button className="mz-scanner-export-option" onClick={runOcr} disabled={ocrBusy || !selectedPage}><SlidersHorizontal /> {ocrBusy ? "OCR…" : "OCR Page"}</button>
+            <button className="mz-scanner-export-option" onClick={exportSearchablePdf} disabled={busy || hasUnreviewedPages}><Download /> Searchable PDF</button>
+          </div>
+
+          {ocrText ? (
+            <div className="mz-scanner-ocr-box">
+              <div><strong>Extracted text</strong><button onClick={() => navigator.clipboard?.writeText(ocrText)}>Copy</button></div>
+              <textarea className="mz-input" value={ocrText} onChange={(e) => setOcrText(e.target.value)} />
+              <button className="mz-btn-secondary" onClick={() => downloadBlob(new Blob([ocrText], { type: "text/plain" }), "ocr-text.txt")}>Download TXT</button>
+            </div>
+          ) : null}
+
+          <button className="mz-btn-ghost mz-scanner-start-over" onClick={() => { stop(); setPages([]); setSelected(0); setOcrText(""); setError(""); setMessage(""); setWorkflowStep("capture"); }}>
+            <RefreshCcw className="h-4 w-4" /> Start a new scan
           </button>
-        </div>
-      )}
-      <div className="grid gap-4 md:grid-cols-3">
-        <div className="mz-mini-feature">
-          <Wand2 />
-          <b>Edge detection</b>
-          <span>
-            Contrast-based boundary detection with a full-image fallback.
-          </span>
-        </div>
-        <div className="mz-mini-feature">
-          <RotateCw />
-          <b>Perspective correction</b>
-          <span>
-            Detected corners are mapped to a straight page before export.
-          </span>
-        </div>
-        <div className="mz-mini-feature">
-          <Upload />
-          <b>Browser-first</b>
-          <span>Camera/photo processing happens locally in this scanner.</span>
-        </div>
-      </div>
+        </section>
+      ) : null}
     </div>
   );
 }

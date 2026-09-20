@@ -30,7 +30,7 @@ assert.ok(errorBoundary.includes("mz-feedback-open") && errorBoundary.includes("
 
 const scanner = read("src/tools/scanner/SmartDocumentScanner.jsx");
 for (const token of [
-  'useState("original")', "Before / After", "undoPage", "redoPage", "US Letter", "PDF margins", "JSZip", "Auto", "Grayscale", "B&W", "cropZoom", "Zoom out", "Zoom in"
+  'useState("capture")', "Confirm Crop & Continue", "Apply Filter & Continue", "Export or add another image", "US Letter", "PDF margins", "JSZip", "Auto", "Color Boost", "Grayscale", "B&W", "Searchable PDF", "OCR Page"
 ]) assert.ok(scanner.includes(token), `scanner production workflow missing ${token}`);
 
 const recent = read("src/components/home/RecentFiles.jsx");

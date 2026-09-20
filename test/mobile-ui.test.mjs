@@ -17,9 +17,16 @@ assert.match(header, /BrandMark/, 'Header must use the redesigned MZ brand mark'
 assert.match(header, /mz-pwa-install-request/, 'Header must expose the install action');
 assert.match(nav, /smart-document-scanner/, 'Bottom navigation must promote scanner as a primary app action');
 assert.match(scanner, /previewData/, 'Scanner must generate a live enhancement preview');
-assert.match(scanner, /The preview updates immediately/, 'Scanner UI must explain live preview behavior');
+assert.match(scanner, /Capture → correct the automatic crop → choose a filter → export or add another page/, 'Scanner must present the guided mobile workflow');
 assert.match(css, /\.mz-app-shell\s*>\s*main\s*\{[^}]*width:\s*100%/s, 'App main content must explicitly fill mobile viewport');
 assert.match(css, /\.mz-mobile-home/, 'Mobile-first homepage styles missing');
 assert.match(logo, /central MZ identity/, 'New logo must keep MZ as the central identity');
 assert.match(logo, /tool orbit/, 'New logo must include tool symbols around MZ');
 console.log('Mobile app layout, brand and scanner live-preview audit passed.');
+
+const about = fs.readFileSync('src/pages/About.jsx', 'utf8');
+const startup = fs.readFileSync('index.html', 'utf8');
+assert.match(about, /Muhammad Mujtaba/, 'About page must identify the developer');
+assert.match(about, /mujtaba31202@gmail\.com/, 'About page must expose the developer email');
+assert.match(about, /03704892504/, 'About page must expose the developer contact number');
+assert.match(startup, /Developed by <strong>Muhammad Mujtaba<\/strong>/, 'Startup screen must credit the developer');
