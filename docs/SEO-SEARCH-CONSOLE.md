@@ -1,6 +1,6 @@
 # SEO & Google Search Console deployment checklist
 
-MZ Smart Tool House is configured around the canonical production origin currently used in source: `https://www.mzsolutions.app`.
+MZ Smart Tool House is configured around the canonical production origin currently used in source: `https://mztoolshouse.com`.
 
 If the production domain changes, update it consistently in:
 
@@ -30,7 +30,7 @@ npm run generate:sitemap
 
 Production sitemap:
 
-`https://www.mzsolutions.app/sitemap.xml`
+`https://mztoolshouse.com/sitemap.xml`
 
 The generator de-duplicates canonical routes and includes important static hubs, categories and active tool pages.
 
@@ -38,7 +38,7 @@ The generator de-duplicates canonical routes and includes important static hubs,
 
 Production robots file:
 
-`https://www.mzsolutions.app/robots.txt`
+`https://mztoolshouse.com/robots.txt`
 
 Confirm it:
 
@@ -52,7 +52,7 @@ Confirm it:
 1. Deploy the final production domain over HTTPS.
 2. Add a **Domain property** in Google Search Console where DNS access is available (or URL-prefix property if necessary).
 3. Complete ownership verification using the method Google provides.
-4. Submit `https://www.mzsolutions.app/sitemap.xml` under **Sitemaps**.
+4. Submit `https://mztoolshouse.com/sitemap.xml` under **Sitemaps**.
 5. Use **URL Inspection** on the home page, MZ Office, Student Hub and several important tool pages after deployment.
 6. Monitor **Page indexing**, **Core Web Vitals**, **HTTPS**, **Mobile usability** (where available) and search performance.
 7. Fix real crawl/index problems before requesting repeated recrawls.

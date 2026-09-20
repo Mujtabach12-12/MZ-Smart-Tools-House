@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 const SITE_NAME = "MZ Smart Tool House";
-const BASE_URL = String(import.meta.env.VITE_SITE_URL || "https://www.mzsolutions.app").replace(/\/+$/, "");
+const BASE_URL = String(import.meta.env.VITE_SITE_URL || "https://mztoolshouse.com").replace(/\/+$/, "");
 const DEFAULT_DESCRIPTION =
   "Free online tools for work, study and everyday productivity, including calculators, PDF tools, image tools and developer utilities.";
 const DEFAULT_IMAGE = `${BASE_URL}/assets/mz-smart-office-hero.webp`;

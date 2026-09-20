@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import { Outlet } from "react-router-dom";
+import { useLocation, Outlet } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
+import MobileBottomNav from "./MobileBottomNav";
 import CommandPalette from "../ui/CommandPalette";
 import ErrorBoundary from "./ErrorBoundary";
 
@@ -14,12 +14,13 @@ export default function Layout() {
   }, [pathname]);
 
   return (
-    <div className="flex min-h-screen flex-col bg-white text-navy-900 dark:bg-navy-950 dark:text-navy-50">
+    <div className="mz-app-shell flex min-h-screen flex-col bg-white text-navy-900 dark:bg-navy-950 dark:text-navy-50">
       <Header />
       <main className="flex-1">
         <ErrorBoundary><Outlet /></ErrorBoundary>
       </main>
       <Footer />
+      <MobileBottomNav />
       <CommandPalette />
     </div>
   );

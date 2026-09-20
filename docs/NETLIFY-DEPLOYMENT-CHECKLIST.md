@@ -16,7 +16,7 @@ Do not deploy if either the test suite or Vite build fails. The expected publish
 
 Set only the variables you actually use:
 
-- `VITE_SITE_URL` — final public origin, for example `https://www.mzsolutions.app` (no trailing slash).
+- `VITE_SITE_URL` — final public origin, for example `https://mztoolshouse.com` (no trailing slash).
 - `VITE_API_BASE_URL=/api`
 - `VITE_COMPILER_API_URL` — optional separate sandbox compiler gateway. Leave blank until the isolated service is deployed and tested.
 - `VITE_DICTIONARY_API_URL` — optional provider override. Leave blank to use `/api/dictionary` in production.

@@ -230,15 +230,9 @@ A release should be called production-verified only after the complete dependenc
 
 V12 adds a centralized, tested formula platform covering Physics, Chemistry, Biology, Mathematics, Engineering and Robotics. The platform now exposes 307 active registry tools across 27 categories; counts shown in the UI are derived from the registry rather than hard-coded marketing numbers.
 
-### PWA install mode
+### PWA install experience
 
-The default PWA mode is native-first and does not defer `beforeinstallprompt`, avoiding Chromium's deferred-prompt diagnostic. If a deployment explicitly prefers a custom one-click deferred Chromium prompt, set:
-
-```env
-VITE_PWA_DEFER_INSTALL=true
-```
-
-That opt-in uses the standard saved-event + `prompt()` flow. Chromium may log its own deferred-prompt diagnostic between event deferral and the user's install click; this is browser behavior, not a suppressed application error.
+The live mobile experience includes a first-session install sheet, a permanent mobile header install action, and a five-item app-style bottom navigation bar with Install access. The browser `beforeinstallprompt` event is retained when available and invoked only from a user action; browsers that do not expose one-tap install receive accurate “Install app / Add to Home Screen” instructions instead. No environment variable is required for the install UI. Installed/standalone mode is detected so install promotion is hidden after installation.
 
 ### V12 verification
 

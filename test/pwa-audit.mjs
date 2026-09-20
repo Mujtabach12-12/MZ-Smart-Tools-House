@@ -10,6 +10,7 @@ const required = [
   ['public/icons/icon-512.png', '512 icon'],
   ['public/icons/icon-maskable.png', 'maskable icon'],
   ['src/components/pwa/PwaManager.jsx', 'PWA manager'],
+  ['src/components/layout/MobileBottomNav.jsx', 'mobile app navigation'],
   ['scripts/generate-pwa.js', 'PWA build generator'],
   ['public/startup/mz-office-welcome.mp4', 'office startup animation'],
   ['src/components/pwa/StartupWelcome.jsx', 'startup welcome screen'],
@@ -29,6 +30,10 @@ if (!index.includes('/startup/mz-office-welcome.mp4')) throw new Error('Startup 
 const main = fs.readFileSync(path.join(root, 'src/main.jsx'), 'utf8');
 if (!main.includes('PwaManager')) throw new Error('PWA manager not mounted');
 if (!main.includes('StartupWelcome')) throw new Error('Startup welcome not mounted');
+const mobileNav = fs.readFileSync(path.join(root, 'src/components/layout/MobileBottomNav.jsx'), 'utf8');
+if (!mobileNav.includes('mz-pwa-install-request')) throw new Error('Mobile navigation is missing the Install App action');
+const pwaManager = fs.readFileSync(path.join(root, 'src/components/pwa/PwaManager.jsx'), 'utf8');
+if (!pwaManager.includes('beforeinstallprompt') || !pwaManager.includes('deferred.prompt()')) throw new Error('One-tap PWA install flow is not wired');
 const sw = fs.readFileSync(path.join(root, 'public/sw.js'), 'utf8');
 if (!sw.includes('/startup/mz-office-welcome.mp4')) throw new Error('Startup animation is not in the offline shell');
 for (const token of ['install', 'activate', 'fetch', 'CACHE_VERSION']) if (!sw.includes(token)) throw new Error(`Service worker missing ${token} handling`);

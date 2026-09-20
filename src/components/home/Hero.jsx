@@ -43,10 +43,10 @@ export default function Hero() {
             <p className="mt-5 max-w-xl text-base leading-7 text-navy-600 sm:text-lg dark:text-navy-300">
               Calculate, create, convert, study, code and get everyday work done across office, science, engineering, developer and productivity tools.
             </p>
-            <div className="mt-7 max-w-2xl"><SearchBar placeholder="What do you want to do?" /></div>
-            <div className="mt-3 flex flex-wrap gap-2 text-xs text-navy-500 dark:text-navy-400" aria-label="Popular shortcuts">
-              <span className="py-1.5 font-semibold">Quick:</span>
-              {quickActions.map(([label,id,suffix=""]) => { const tool=getToolById(id); return tool ? <Link key={`${label}-${id}`} to={`${tool.route}${suffix}`} className="mz-example-pill">{label}</Link> : null; })}
+            <div className="mt-7 hidden max-w-2xl sm:block"><SearchBar placeholder="What do you want to do?" /></div>
+            <div className="mz-quick-actions mt-4 flex gap-2 overflow-x-auto pb-1 text-xs text-navy-500 sm:mt-3 sm:flex-wrap sm:overflow-visible sm:pb-0 dark:text-navy-400" aria-label="Popular shortcuts">
+              <span className="shrink-0 py-1.5 font-semibold">Quick:</span>
+              {quickActions.map(([label,id,suffix=""]) => { const tool=getToolById(id); return tool ? <Link key={`${label}-${id}`} to={`${tool.route}${suffix}`} className="mz-example-pill shrink-0">{label}</Link> : null; })}
             </div>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link to="/tools" className="mz-btn-primary mz-liquid-btn">Explore Tools <ArrowRight className="h-4 w-4" /></Link>

@@ -7,7 +7,7 @@ import { categories } from "../src/data/categories.js";
 import { universityPolicies } from "../src/data/universities/policies.js";
 
 const __dirname=dirname(fileURLToPath(import.meta.url));
-const BASE_URL=String(process.env.SITE_URL||process.env.VITE_SITE_URL||"https://www.mzsolutions.app").replace(/\/+$/,"");
+const BASE_URL=String(process.env.SITE_URL||process.env.VITE_SITE_URL||"https://mztoolshouse.com").replace(/\/+$/,"");
 const staticRoutes=["/","/tools","/categories","/office","/student-hub","/blog","/about","/contact","/privacy-policy","/terms","/disclaimer"];
 const categoryRoutes=categories.map((c)=>c.route||`/categories/${c.slug}`);
 const toolRoutes=tools.filter((t)=>t.status==="active").map((t)=>t.route||`/tools/${t.id}`);

@@ -1,19 +1,26 @@
 import { useEffect } from 'react';
+import { Capacitor } from '@capacitor/core';
 
-// The first-paint startup screen lives in index.html so Android users see it
-// immediately, even while React/Vite chunks are still loading. This component
-// only controls its exit; it does not duplicate the overlay.
-const STARTUP_MS = 4200;
+// The branded startup screen is for the installed PWA/native app only. Normal
+// website visitors should reach the page immediately instead of waiting through
+// a splash animation on every browser visit.
+const STARTUP_MS = 1800;
 
 export default function StartupWelcome() {
   useEffect(() => {
     const startup = document.getElementById('mz-native-startup');
     if (!startup) return undefined;
 
-    const leaveTimer = window.setTimeout(() => startup.classList.add('is-leaving'), STARTUP_MS - 500);
+    const installedWebApp = window.matchMedia?.('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    if (!Capacitor.isNativePlatform() && !installedWebApp) {
+      startup.remove();
+      return undefined;
+    }
+
+    const leaveTimer = window.setTimeout(() => startup.classList.add('is-leaving'), STARTUP_MS - 350);
     const hideTimer = window.setTimeout(() => {
       startup.classList.add('is-hidden');
-      window.setTimeout(() => startup.remove(), 180);
+      window.setTimeout(() => startup.remove(), 160);
     }, STARTUP_MS);
 
     return () => {
