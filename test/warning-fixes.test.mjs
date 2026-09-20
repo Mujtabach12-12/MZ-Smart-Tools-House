@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+const hero=fs.readFileSync('src/components/home/Hero.jsx','utf8');
+const html=fs.readFileSync('index.html','utf8');
+const pwa=fs.readFileSync('src/components/pwa/PwaManager.jsx','utf8');
+const dash=fs.readFileSync('src/components/home/DashboardQuickStart.jsx','utf8');
+assert.doesNotMatch(hero,/fetchPriority|fetchpriority/,'Hero must not pass unsupported fetchPriority DOM props under React 18');
+assert.match(html,/rel="preload" as="image" href="\/assets\/mz-smart-office-hero\.webp"/,'Hero image should retain early preload without a React DOM prop');
+assert.match(pwa,/VITE_PWA_DEFER_INSTALL === 'true'/,'Deferred install mode must be explicit/opt-in');
+assert.match(pwa,/if \(SHOULD_DEFER_INSTALL\) \{\s*event\.preventDefault\(\)/,'beforeinstallprompt should only be prevented in opt-in deferred mode');
+assert.doesNotMatch(dash,/👋/,'Dashboard welcome must not use the waving-hand emoji');
+console.log('React/PWA warning regression checks passed.');

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0B3CC1"/>
+      <stop offset="0.52" stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#6D28D9"/>
+    </linearGradient>
+    <linearGradient id="bolt" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#67E8F9"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="22" stdDeviation="24" flood-color="#020617" flood-opacity=".34"/>
+    </filter>
+  </defs>
+  <rect x="48" y="48" width="928" height="928" rx="218" fill="url(#bg)" filter="url(#shadow)"/>
+  <rect x="72" y="72" width="880" height="880" rx="194" fill="none" stroke="#93C5FD" stroke-opacity=".28" stroke-width="8"/>
+  <circle cx="790" cy="220" r="110" fill="#38BDF8" fill-opacity=".10"/>
+  <path d="M170 720c150-84 291-84 440-4 112 60 187 57 247 26" fill="none" stroke="#60A5FA" stroke-opacity=".24" stroke-width="28" stroke-linecap="round"/>
+  <g fill="#fff">
+    <path d="M142 286h98l70 168 72-168h98v430h-83V414l-63 154h-51l-62-154v302h-79z"/>
+    <path d="M522 286h287v72L623 634h193v82H515v-72l186-276H522z"/>
+  </g>
+  <path d="M560 120l-84 184h72l-48 160 168-222h-78l62-122z" fill="url(#bolt)" stroke="#CFFAFE" stroke-width="8" stroke-linejoin="round"/>
+  <g transform="translate(724 680) rotate(-18)">
+    <path d="M8 24a78 78 0 0 1 111 111l-35-35a29 29 0 1 0-41-41z" fill="#fff"/>
+    <path d="M74 105l96 96" stroke="#fff" stroke-width="42" stroke-linecap="round"/>
+    <circle cx="174" cy="205" r="31" fill="none" stroke="#fff" stroke-width="18"/>
+  </g>
+  <text x="512" y="838" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-size="78" font-weight="800" letter-spacing="14">TOOLS</text>
+</svg>

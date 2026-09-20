@@ -1,0 +1,147 @@
+const featured = {
+  "bmi-calculator": {
+    title: "BMI Calculator – Free Online BMI Calculator",
+    description: "Calculate adult BMI from height and weight with a free, fast BMI calculator for mobile and desktop.",
+    intro: "Use height and weight to estimate adult body mass index (BMI) and view the standard BMI category.",
+    formula: "BMI = weight in kilograms ÷ height in metres².",
+    example: "For 70 kg and 1.75 m, BMI is about 22.9.",
+    faq: [
+      ["What is BMI?", "BMI is a screening measure calculated from weight and height. It is not a diagnosis of health or body composition."],
+      ["What is the BMI formula?", "BMI is weight in kilograms divided by height in metres squared."],
+    ],
+    related: ["bmr-calculator", "tdee-calculator", "ideal-weight-calculator", "healthy-weight-range-calculator"],
+  },
+  "bmr-calculator": {
+    title: "BMR Calculator – Mifflin-St Jeor BMR Calculator",
+    description: "Calculate estimated basal metabolic rate using the Mifflin-St Jeor equation, age, sex, height and weight.",
+    intro: "Estimate the calories your body uses at rest with the Mifflin-St Jeor BMR equation.",
+    formula: "Men: 10W + 6.25H − 5A + 5. Women: 10W + 6.25H − 5A − 161. W is kg, H is cm and A is age.",
+    example: "A 22-year-old man at 70 kg and 175 cm has an estimated BMR of about 1,680 kcal/day.",
+    faq: [
+      ["What is BMR?", "BMR is an estimate of energy expenditure at rest under standardized conditions."],
+      ["How is BMR calculated?", "This calculator uses the Mifflin-St Jeor equation with weight, height, age and sex inputs."],
+      ["Is BMR the same as TDEE?", "No. TDEE estimates total daily energy expenditure after accounting for activity; BMR is the resting estimate."],
+    ],
+    related: ["tdee-calculator", "bmi-calculator", "calorie-calculator", "ideal-weight-calculator"],
+  },
+  "tdee-calculator": {
+    title: "TDEE Calculator – Total Daily Energy Expenditure",
+    description: "Estimate total daily energy expenditure from BMR and an activity multiplier with this free TDEE calculator.",
+    intro: "Estimate daily energy needs by combining BMR with a selected activity multiplier.",
+    formula: "TDEE = BMR × activity multiplier.",
+    example: "If BMR is 1,680 kcal/day and the activity multiplier is 1.375, TDEE is about 2,310 kcal/day.",
+    faq: [
+      ["What is TDEE?", "TDEE is an estimate of total calories burned in a typical day, including activity."],
+      ["Which activity multiplier should I use?", "Choose the level that most closely reflects your usual activity; the result remains an estimate."],
+      ["Is TDEE more than BMR?", "Usually yes because TDEE includes activity and normal daily movement."],
+    ],
+    related: ["bmr-calculator", "calorie-calculator", "calorie-deficit-calculator", "calorie-surplus-calculator"],
+  },
+  "gpa-calculator": {
+    title: "GPA Calculator – Free Grade Point Average Calculator",
+    description: "Calculate semester GPA from course grades and credit hours with a fast online GPA calculator.",
+    intro: "Enter your course grades and credit hours to calculate a weighted semester GPA.",
+    formula: "GPA = total grade points earned ÷ total credit hours counted in GPA.",
+    example: "A 3-credit course at 4.0 contributes 12 quality points to the GPA total.",
+    faq: [["How is GPA calculated?", "Each course grade point is multiplied by its credit hours, then the total quality points are divided by counted credit hours."]],
+    related: ["cgpa-calculator", "grade-calculator", "percentage-calculator", "attendance-calculator"],
+  },
+  "cgpa-calculator": {
+    title: "CGPA Calculator – Cumulative GPA Calculator",
+    description: "Calculate cumulative GPA across semesters using semester GPAs and credit hours.",
+    intro: "Combine semester GPA results using the credit-weighted method to estimate cumulative GPA.",
+    formula: "CGPA = total quality points across counted semesters ÷ total counted credit hours.",
+    example: "Two semesters with different credit loads should be weighted by their respective credit hours.",
+    faq: [["What is the difference between GPA and CGPA?", "GPA usually describes a single term or semester, while CGPA combines multiple terms using the institution's rules."]],
+    related: ["gpa-calculator", "grade-calculator", "percentage-calculator", "marks-calculator"],
+  },
+  "percentage-calculator": {
+    title: "Percentage Calculator – Percent, Increase & Decrease",
+    description: "Calculate percentages, percentage change and common percentage values quickly online.",
+    intro: "Use the calculator for common percentage calculations without manual arithmetic.",
+    formula: "Percentage = part ÷ whole × 100.",
+    example: "25 out of 200 is 12.5%.",
+    faq: [["How do I calculate a percentage?", "Divide the part by the whole and multiply by 100."]],
+    related: ["percentage-change-calculator", "marks-required-calculator", "discount-calculator", "grade-calculator"],
+  },
+  "emi-calculator": {
+    title: "EMI Calculator – Monthly Loan Payment Calculator",
+    description: "Estimate monthly loan EMI from principal, interest rate and loan tenure with a free online calculator.",
+    intro: "Estimate a fixed monthly loan payment from the amount borrowed, annual interest rate and tenure.",
+    formula: "For a standard amortizing loan, EMI uses the principal, periodic interest rate and number of payments.",
+    example: "Changing the interest rate or tenure changes the estimated monthly payment and total interest.",
+    faq: [["What is EMI?", "EMI means equated monthly installment, the scheduled monthly payment on an amortizing loan."]],
+    related: ["loan-payment-calculator", "loan-affordability-calculator", "simple-interest-calculator", "compound-interest-calculator"],
+  },
+  "pdf-compressor": {
+    title: "PDF Compressor – Reduce PDF File Size Online",
+    description: "Reduce PDF file size in your browser with a lightweight PDF compression tool.",
+    intro: "Select a PDF and reduce its file size using browser-based processing where supported.",
+    formula: "Compression results depend on the PDF's existing structure, images and embedded content.",
+    example: "Image-heavy PDFs generally have more opportunity for size reduction than text-only PDFs.",
+    faq: [["Are my PDF files uploaded?", "The project's PDF processing tools are designed for browser-based processing; check the tool notice for the exact operation."]],
+    related: ["pdf-merge", "pdf-split", "pdf-to-jpg", "pdf-to-text"],
+  },
+  "image-compressor": {
+    title: "Image Compressor – Compress JPG, PNG & Web Images",
+    description: "Compress supported images in your browser and reduce file size without sending the original to a server.",
+    intro: "Choose an image, adjust compression settings where available, and download the processed result.",
+    formula: "Output size depends on source dimensions, image format and compression quality.",
+    example: "Lower JPEG quality usually produces a smaller file, with more visible compression at very low settings.",
+    faq: [["Can I compress an image on mobile?", "Yes. The interface is designed for touch devices and uses the browser's file picker."]],
+    related: ["image-resizer", "image-converter", "image-cropper", "image-to-pdf"],
+  },
+
+  "mz-online-word": {
+    title: "Online Word Editor – Write Assignments & Export DOCX/PDF",
+    description: "Write and format assignments in a large A4 online document editor with local autosave and real DOCX, PDF, TXT and HTML export.",
+    intro: "MZ Online Word is a browser document workspace for assignments, reports, notes and letters. Drafts are kept locally in the browser unless you download or deliberately move them elsewhere.",
+    formula: "Use the A4 canvas, formatting toolbar, templates and local autosave; export only after reviewing the generated document.",
+    example: "Create an assignment cover page, write the body, add a table or image, then export DOCX or PDF.",
+    faq: [["Does MZ Online Word save my draft?", "The editor autosaves the current draft in this browser's local storage. Download important documents as a separate backup."],["Is DOCX export real?", "Yes. The editor creates an actual DOCX package; complex browser-only layout may not reproduce identically in every word processor."]],
+    related: ["mz-pdf-editor", "mz-online-excel", "mz-online-powerpoint", "smart-document-scanner"],
+  },
+  "mz-pdf-editor": {
+    title: "PDF Editor – Edit, Reorder, Annotate & Download PDF Online",
+    description: "Edit PDF pages in your browser: rotate, reorder, delete, duplicate, append PDFs, crop pages, add text, watermarks and page numbers.",
+    intro: "MZ PDF Editor focuses on reliable page-level editing and new annotations. It does not claim to rewrite arbitrary existing PDF paragraphs like a desktop publishing application.",
+    formula: "The editor loads the PDF locally, applies page/document operations with PDF libraries, revalidates page count and exports a new PDF.",
+    example: "Open a 10-page PDF, rotate page 2, delete page 5, add page numbers and download the revised PDF.",
+    faq: [["Are PDFs uploaded to a server?", "Core PDF Editor operations are designed to run in the browser."],["Can it edit existing paragraph text?", "Not currently. It can add new text annotations and manage pages without pretending existing text is freely editable."]],
+    related: ["pdf-compressor", "pdf-merger", "pdf-splitter", "smart-document-scanner"],
+  },
+  "mz-online-excel": {
+    title: "Online Excel – Spreadsheet Editor with XLSX & CSV Export",
+    description: "Create multi-sheet spreadsheets online with formulas, formatting, charts, local autosave and real XLSX/CSV import and export.",
+    intro: "MZ Online Excel provides a browser spreadsheet workspace with common formulas and genuine file import/export paths.",
+    formula: "Supported formulas include SUM, AVERAGE, MIN, MAX, COUNT, COUNTA, IF, AND, OR, ROUND and simple cell arithmetic.",
+    example: "Enter labels in column A, scores in column B, use =AVERAGE(B1:B5), preview a chart and export XLSX.",
+    faq: [["Can I import XLSX files?", "Yes, supported workbook data can be imported in the browser. Advanced Excel features may not all map into the web editor."],["Are formulas preserved?", "Supported formula strings are written back into XLSX cells where possible; always review exported workbooks when using advanced formulas."]],
+    related: ["mz-online-word", "mz-online-powerpoint", "mz-pdf-editor"],
+  },
+  "mz-online-powerpoint": {
+    title: "Online PowerPoint – Create Presentations & Export PPTX",
+    description: "Create student and business presentations online with slide layouts, images, notes, templates and genuine PPTX export.",
+    intro: "MZ Online PowerPoint is a browser presentation editor focused on common student and project slide workflows.",
+    formula: "Slides are stored locally while editing and converted into an actual PPTX package on export.",
+    example: "Start with the Research Presentation template, edit the slides, add an image and export a PPTX file.",
+    faq: [["Is the PPTX file real?", "Yes. The tool uses a presentation-generation library to create a genuine PPTX file rather than renaming another format."],["Does it support every PowerPoint feature?", "No. It focuses on common slide layouts, text, images, backgrounds and notes; advanced desktop PowerPoint features remain outside the browser editor's scope."]],
+    related: ["mz-online-word", "mz-online-excel", "mz-pdf-editor"],
+  },
+  "mz-dictionary": {
+    title: "English Dictionary – Meaning, Pronunciation, Synonyms & Antonyms",
+    description: "Look up English word meanings, definitions, pronunciation, examples, synonyms and antonyms using a real dictionary data source.",
+    intro: "MZ Dictionary fetches dictionary entries from the configured external dictionary provider and does not invent a definition when the provider has no result.",
+    formula: "Search a word, review its parts of speech and definitions, play pronunciation audio when provided and save useful words locally.",
+    example: "Search 'resilient' to review definitions, phonetics, examples and related words returned by the data provider.",
+    faq: [["Where do definitions come from?", "The default integration uses Free Dictionary API unless a different dictionary endpoint is configured."],["Does the dictionary work offline?", "No. Fresh dictionary lookups require internet access, while recent and favorite word names are stored locally."]],
+    related: ["word-counter", "study-notes-generator", "flashcard-generator", "mz-online-word"],
+  }
+};
+
+function fallbackTitle(tool) { return `${tool.name} – Free Online Tool`; }
+function fallbackDescription(tool) { return `${tool.description} Use this free online tool from MZ Smart Tool House on mobile or desktop.`; }
+export function getToolSeo(tool) {
+  const item = featured[tool.id] || {};
+  return { title: item.title || fallbackTitle(tool), description: item.description || fallbackDescription(tool), ...item };
+}

@@ -1,0 +1,48 @@
+import assert from "node:assert/strict";
+import { converterRegistry } from "../src/tools/converters/conversionRegistry.js";
+import { calculateBmi, calculateDownloadTime, cmToHeight, convertBase, convertConcentration, convertFuelEconomy, convertHealth, convertLandArea, convertLinear, convertRadiation, convertTemperature, convertTypography, dateDifferenceDays, addCalendarUnits, workingDaysBetween, formatInTimeZone, zonedWallTimeToUtc, decimalToFraction, heightToCm, numberToRoman, parseFraction, romanToNumber } from "../src/tools/converters/conversionEngine.js";
+import { tools, searchTools } from "../src/data/tools.js";
+const approx=(a,b,t=1e-9)=>assert.ok(Math.abs(a-b)<=t*Math.max(1,Math.abs(a),Math.abs(b)),`${a} ≉ ${b}`);
+let cases=0;
+function test(name,fn){fn();cases++;console.log(`✓ ${name}`)}
+const get=(id)=>converterRegistry.find(c=>c.id===id);
+test("1 km ≈ 0.621371 miles",()=>approx(convertLinear(get("length"),1,"km","mi"),0.621371192237334,1e-12));
+test("1 inch = 2.54 cm",()=>approx(convertLinear(get("length"),1,"in","cm"),2.54));
+test("1 foot = 30.48 cm",()=>approx(convertLinear(get("length"),1,"ft","cm"),30.48));
+test("1 kg ≈ 2.20462 lb",()=>approx(convertLinear(get("mass"),1,"kg","lb"),2.2046226218487757,1e-12));
+test("0C = 32F",()=>approx(convertTemperature(0,"c","f"),32));
+test("100C = 212F",()=>approx(convertTemperature(100,"c","f"),212));
+test("100C = 373.15K",()=>approx(convertTemperature(100,"c","k"),373.15));
+test("below absolute zero rejected",()=>assert.throws(()=>convertTemperature(-274,"c","k"),/absolute zero/));
+test("1 US gallon = 3.785411784 L",()=>approx(convertLinear(get("volume"),1,"usgal","l"),3.785411784));
+test("1 hour = 3600 seconds",()=>approx(convertLinear(get("time"),1,"h","s"),3600));
+test("1 byte = 8 bits",()=>approx(convertLinear(get("data-storage"),1,"byte","bit"),8));
+test("1 KiB = 1024 bytes",()=>approx(convertLinear(get("data-storage"),1,"kib","byte"),1024));
+test("1 kWh = 3.6 MJ",()=>approx(convertLinear(get("energy"),1,"kwh","mj"),3.6));
+test("fuel reciprocal km/L ↔ L/100km",()=>approx(convertFuelEconomy(20,"km-l","l-100km"),5));
+test("US MPG reciprocal",()=>approx(convertFuelEconomy(23.5214583,"mpg-us","l-100km"),10,1e-7));
+test("170 cm height converts and round-trips",()=>{const h=cmToHeight(170,"ft-in");approx(heightToCm({unit:"ft-in",feet:h.feet,inches:h.inches}),170,1e-12)});
+test("number systems",()=>{assert.equal(convertBase("255","dec","hex"),"FF");assert.equal(convertBase("11111111","bin","dec"),"255")});
+test("Roman numeral canonical conversion",()=>{assert.equal(numberToRoman(2026),"MMXXVI");assert.equal(romanToNumber("MMXXVI"),2026);assert.throws(()=>romanToNumber("IIII"),/canonical/)});
+test("fraction conversion",()=>{const f=decimalToFraction(0.625);assert.deepEqual(f,{numerator:5,denominator:8});approx(parseFraction("1 1/2"),1.5)});
+test("health glucose factor",()=>approx(convertHealth(90,"glucose","mgdl","mmoll"),90/18.0182));
+test("health cholesterol factor",()=>approx(convertHealth(200,"cholesterol","mgdl","mmoll"),200/38.67));
+test("concentration molar units",()=>approx(convertConcentration(1,"mol-l","mmol-l",180),1000));
+test("concentration mass↔molar uses molar mass",()=>approx(convertConcentration(180.156,"mg-l","mmol-l",180.156),1));
+test("Pakistan land standards are explicit",()=>{approx(convertLandArea(1,"marla","ft2",272.25),272.25);approx(convertLandArea(1,"kanal","marla",225),20)});
+test("typography uses explicit DPI/root context",()=>{approx(convertTypography(16,"px","rem",{rootPx:16,emPx:16,dpi:96}),1);approx(convertTypography(72,"pt","px",{rootPx:16,emPx:16,dpi:96}),96)});
+test("radiation dimensions convert only within group",()=>{approx(convertRadiation(1,"dose","gy","mgy"),1000);assert.throws(()=>convertRadiation(1,"dose","gy","sv"),/same selected dimension/)});
+test("calendar arithmetic handles month ends",()=>{assert.equal(addCalendarUnits("2024-01-31",1,"months"),"2024-02-29");assert.equal(addCalendarUnits("2024-02-29",1,"years"),"2025-02-28");assert.throws(()=>addCalendarUnits("2026-02-30",1,"days"),/valid calendar date/)});
+test("date difference and working days are calendar-aware",()=>{assert.equal(dateDifferenceDays("2026-09-18","2026-09-21"),3);assert.equal(workingDaysBetween("2026-09-18","2026-09-21"),1)});
+test("IANA timezone conversion uses browser timezone database",()=>{const d=zonedWallTimeToUtc("2026-01-15T12:00","Asia/Karachi");assert.equal(d.toISOString(),"2026-01-15T07:00:00.000Z");assert.match(formatInTimeZone(d,"Europe/London"),/07:00/)});
+test("empty and non-finite input are rejected",()=>{assert.throws(()=>convertLinear(get("length"),"","m","km"),/enter a number/);assert.throws(()=>convertLinear(get("length"),Infinity,"m","km"),/finite number/)});
+test("BMI kg/cm and lb/ft-in agree",()=>{const a=calculateBmi({weight:70,weightUnit:"kg",heightUnit:"cm",height:175});const b=calculateBmi({weight:154.3235835,weightUnit:"lb",heightUnit:"ft-in",feet:5,inches:8.897637795});approx(a.bmi,b.bmi,1e-8);approx(a.bmi,22.8571428571,1e-10)});
+test("BMI rejects non-positive measurements",()=>{assert.throws(()=>calculateBmi({weight:0,weightUnit:"kg",heightUnit:"cm",height:175}),/greater than zero/);assert.throws(()=>calculateBmi({weight:70,weightUnit:"kg",heightUnit:"cm",height:0}),/greater than zero/)});
+test("download time 1GB at 100Mbps = 80s",()=>approx(calculateDownloadTime(1,"GB",100,"Mbps"),80));
+for(const spec of converterRegistry.filter(c=>c.kind==="linear")){
+  test(`round-trip ${spec.id}`,()=>{const a=spec.units[0].id,b=spec.units[Math.min(1,spec.units.length-1)].id;const x=123.456;const y=convertLinear(spec,x,a,b);const z=convertLinear(spec,y,b,a);approx(z,x,1e-10)});
+}
+test("converter registry has production metadata",()=>{for(const c of converterRegistry){assert.ok(c.formula,`${c.id} formula metadata`);assert.ok(c.seoTitle&&c.seoDescription,`${c.id} SEO metadata`);assert.ok(["browser","api"].includes(c.processingType),`${c.id} processing type`)}});
+test("registry exposes universal hub and SEO routes",()=>{assert.ok(tools.some(t=>t.id==="universal-conversion-hub"&&t.route==="/convert"));for(const c of converterRegistry){const tool=tools.find(t=>t.id===c.toolId);assert.ok(tool,`missing tool ${c.toolId}`);assert.equal(tool.route,`/convert/${c.id}`)}});
+test("global search finds natural converter intent",()=>{assert.equal(searchTools("kg to lb")[0]?.id,"weight-converter");assert.ok(searchTools("cm to feet").some(t=>t.id==="height-converter"));assert.ok(searchTools("Mbps to MB/s").some(t=>t.id==="data-transfer-speed-converter"));});
+console.log(`\nUniversal converter tests passed: ${cases} cases; ${converterRegistry.length} converter definitions covered.`);

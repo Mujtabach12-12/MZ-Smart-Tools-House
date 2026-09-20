@@ -1,0 +1,2 @@
+MZ Smart Tool House regression fixture.
+Second line with punctuation, numbers 12345, and symbols !@#.

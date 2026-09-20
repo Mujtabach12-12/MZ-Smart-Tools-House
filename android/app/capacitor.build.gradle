@@ -1,0 +1,7 @@
+// Capacitor plugin wiring. `npx cap sync android` regenerates this file.
+android {
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
+    }
+}

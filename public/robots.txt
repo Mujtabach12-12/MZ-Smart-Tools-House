@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /settings
+Disallow: /.netlify/
+
+Sitemap: https://www.mzsolutions.app/sitemap.xml

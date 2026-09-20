@@ -1,0 +1,12 @@
+MZ Smart Tool House ERROR FREE V3
+
+This package intentionally uses the minimal Vite 8 configuration.
+There is no manualChunks setting and no custom output chunk configuration.
+
+Verified commands:
+  npm ci
+  npm run test:all
+  npm run build
+
+Expected clean install dependency message: approximately 261 packages.
+If your terminal reports only 109 packages, you are running an older folder.

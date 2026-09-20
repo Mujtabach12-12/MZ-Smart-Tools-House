@@ -1,0 +1,17 @@
+MZ SMART TOOL HOUSE V10 - FIRST RUN (WINDOWS)
+
+IMPORTANT: Extract this ZIP into a NEW EMPTY folder. Do not extract it over V7/V8/V9.
+
+Recommended:
+1. Double-click: repair-and-run.cmd
+
+Or CMD:
+  npm ci
+  npm run verify:deps
+  npm run test:all
+  npm run build
+  npm run dev
+
+Do NOT run `npm audit fix --force`. It can downgrade/replace core packages and reintroduce an obsolete PptxGenJS dependency chain.
+
+This release's lockfile pins PptxGenJS 4.0.1 and contains no jquery-node, request, jsdom, form-data, qs, or tough-cookie packages from the obsolete PptxGenJS chain.
