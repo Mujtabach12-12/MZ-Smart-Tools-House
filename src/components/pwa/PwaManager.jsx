@@ -51,9 +51,9 @@ export default function PwaManager() {
     };
 
     const onBeforeInstall = (event) => {
-      // Keep the browser's native install path available while retaining the event
-      // for our explicit Install buttons. Avoiding preventDefault also avoids the
-      // Chromium deferred-prompt console diagnostic seen in the previous build.
+      // Chromium requires preventDefault() when we want to defer the native prompt
+      // and open it from our own user-initiated Install buttons / bottom sheet.
+      event.preventDefault();
       installEventRef.current = event;
       setInstallReady(true);
       emitState({ available: true, installed: false });

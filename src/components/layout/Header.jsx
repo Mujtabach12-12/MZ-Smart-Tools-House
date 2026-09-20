@@ -6,6 +6,7 @@ import SearchBar from "../ui/SearchBar";
 import ThemeToggle from "../ui/ThemeToggle";
 import ToolIcon from "../ui/ToolIcon";
 import FeedbackDialog from "../ui/FeedbackDialog";
+import BrandMark from "../brand/BrandMark";
 
 const PRIMARY = [
   { to: "/", label: "Home", icon: Home },
@@ -42,19 +43,18 @@ export default function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-white/60 bg-white/90 backdrop-blur-2xl dark:border-navy-800/70 dark:bg-navy-950/90">
-        <div className="mz-section flex min-h-[4rem] items-center gap-2 py-2 sm:min-h-[4.5rem]">
+      <header className="mz-app-header sticky top-0 z-50 border-b border-white/70 bg-white/94 backdrop-blur-2xl dark:border-navy-800/70 dark:bg-navy-950/94">
+        <div className="mz-section flex min-h-[4rem] w-full items-center gap-2 py-2 sm:min-h-[4.5rem]">
           <Link
             to="/"
-            className="group flex min-w-0 max-w-[58vw] items-center gap-2.5 sm:max-w-none"
+            className="group flex min-w-0 items-center gap-2.5"
             onClick={() => setMobileOpen(false)}
             aria-label="MZ Smart Tool House home"
           >
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white shadow-lg shadow-brand-500/20 transition group-hover:-translate-y-0.5">
-              <img src="/icons/icon-192.png" width="40" height="40" alt="" className="h-full w-full object-cover" />
-            </span>
-            <span className="min-w-0 truncate text-sm font-extrabold tracking-tight text-navy-950 sm:text-base dark:text-white">
-              MZ <span className="text-brand-600 dark:text-brand-400">Smart Tool House</span>
+            <BrandMark compact className="shrink-0" />
+            <span className="mz-brand-wordmark min-w-0">
+              <strong>MZ</strong>
+              <span>Smart Tool House</span>
             </span>
           </Link>
 
@@ -93,36 +93,37 @@ export default function Header() {
           <button className="mz-btn-ghost hidden lg:inline-flex" onClick={install}><InstallIcon className="h-4 w-4" /> {installLabel}</button>
           <ThemeToggle className="hidden sm:inline-flex" />
 
-          <button
-            type="button"
-            className={`mz-mobile-install-btn xl:hidden ${pwa.installed ? "is-installed" : ""}`}
-            onClick={install}
-            aria-label={installLabel}
-            title={installLabel}
-          >
-            <InstallIcon className="h-4 w-4" />
-            <span className="hidden min-[430px]:inline">{pwa.installed ? "Installed" : "Install"}</span>
-          </button>
+          {!pwa.installed ? (
+            <button
+              type="button"
+              className="mz-mobile-install-btn ml-auto xl:hidden"
+              onClick={install}
+              aria-label="Install MZ Smart Tool House app"
+              title="Install App"
+            >
+              <Download className="h-4 w-4" />
+              <span>Install</span>
+            </button>
+          ) : <span className="ml-auto xl:hidden" />}
 
-          <button className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-navy-200/80 bg-white/80 text-navy-600 shadow-sm xl:hidden dark:border-navy-700 dark:bg-navy-900/80 dark:text-navy-300" onClick={() => setMobileOpen((value) => !value)} aria-label="Toggle navigation" aria-expanded={mobileOpen}>
+          <button className="mz-mobile-menu-btn xl:hidden" onClick={() => setMobileOpen((value) => !value)} aria-label="Toggle navigation" aria-expanded={mobileOpen}>
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
 
-        <div className="mz-section pb-2.5 2xl:hidden"><SearchBar size="sm" placeholder="Search 300+ tools…" /></div>
-
         {mobileOpen ? (
-          <div className="border-t border-navy-100 bg-white px-4 py-4 shadow-lg dark:border-navy-800 dark:bg-navy-950 xl:hidden">
+          <div className="mz-mobile-menu-panel border-t border-navy-100 bg-white px-4 py-4 shadow-lg dark:border-navy-800 dark:bg-navy-950 xl:hidden">
             <div className="mz-section !px-0">
+              <div className="mb-3"><SearchBar size="sm" placeholder="Search all tools…" /></div>
               {!pwa.installed ? (
-                <div className="mb-3 flex items-center gap-3 rounded-2xl border border-brand-100 bg-brand-50/70 p-3 dark:border-brand-900/60 dark:bg-brand-950/40">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-600 text-white"><Download className="h-5 w-5" /></span>
-                  <div className="min-w-0 flex-1"><p className="text-sm font-extrabold">Get the MZ app</p><p className="mt-0.5 text-xs text-navy-500 dark:text-navy-400">Add MZ Smart Tool House to your home screen.</p></div>
-                  <button className="mz-btn-primary !min-h-10 !px-3" onClick={() => { install(); setMobileOpen(false); }}>Install</button>
-                </div>
+                <button type="button" onClick={() => { install(); setMobileOpen(false); }} className="mz-mobile-menu-install">
+                  <span><Download className="h-5 w-5" /></span>
+                  <span className="min-w-0 flex-1 text-left"><strong>Install MZ Smart Tool House</strong><small>Launch it from your home screen like an app.</small></span>
+                  <ChevronDown className="h-4 w-4 -rotate-90" />
+                </button>
               ) : null}
 
-              <div className="max-h-[52vh] overflow-y-auto overscroll-contain pr-1">
+              <div className="max-h-[54vh] overflow-y-auto overscroll-contain pr-1">
                 <div className="grid gap-1 sm:grid-cols-2">
                   {PRIMARY.map((link) => (
                     <NavLink key={link.to} end={link.to === "/"} to={link.to} onClick={() => setMobileOpen(false)} className="rounded-xl px-3 py-3 text-sm font-semibold text-navy-700 hover:bg-brand-50 dark:text-navy-200 dark:hover:bg-navy-900">{link.label}</NavLink>
@@ -135,7 +136,7 @@ export default function Header() {
 
               <div className="mt-3 grid gap-2 sm:grid-cols-2">
                 <button className="mz-btn-secondary w-full" onClick={() => { setFeedbackOpen(true); setMobileOpen(false); }}><MessageCircle className="h-4 w-4" /> Feedback</button>
-                <button className="mz-btn-secondary w-full" onClick={() => { install(); setMobileOpen(false); }}><InstallIcon className="h-4 w-4" /> {installLabel}</button>
+                {!pwa.installed ? <button className="mz-btn-secondary w-full" onClick={() => { install(); setMobileOpen(false); }}><Download className="h-4 w-4" /> Install App</button> : null}
               </div>
               <div className="mt-3 flex items-center justify-between rounded-xl border border-navy-100 px-3 py-3 dark:border-navy-800"><span className="text-sm font-medium">Appearance</span><ThemeToggle /></div>
             </div>

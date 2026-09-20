@@ -11,7 +11,7 @@ assert.match(html, /rel="preload" as="image" href="\/assets\/mz-smart-office-her
 assert.match(pwa, /beforeinstallprompt/, 'PWA manager must listen for browser install eligibility');
 assert.match(pwa, /deferred\.prompt\(\)/, 'Install buttons must be able to invoke the browser install prompt when available');
 const beforeInstallHandler = pwa.match(/const onBeforeInstall = \(event\) => \{([\s\S]*?)\n    \};/)?.[1] || '';
-assert.doesNotMatch(beforeInstallHandler, /event\.preventDefault\(\)/, 'Install flow must not suppress the native browser path or reintroduce the deferred-prompt diagnostic');
+assert.match(beforeInstallHandler, /event\.preventDefault\(\)/, 'Custom install UI must defer the browser prompt before storing the install event');
 assert.match(pwa, /mz-pwa-install-request/, 'Shared install request event must remain wired');
 assert.match(pwa, /sessionStorage/, 'First-visit app promotion should not spam the user within one browser session');
 assert.doesNotMatch(dash, /👋/, 'Dashboard welcome must not use the waving-hand emoji');

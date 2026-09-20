@@ -40,10 +40,10 @@ function withPageHistory(page, next) {
   return { ...next, history: [...(page.history || []), snapshotPage(page)].slice(-16), future: [] };
 }
 
-function canvasFromImage(img) {
+function canvasFromImage(img, maxSide = MAX_SIDE) {
   const scale = Math.min(
     1,
-    MAX_SIDE /
+    maxSide /
       Math.max(img.naturalWidth || img.width, img.naturalHeight || img.height),
   );
   const c = document.createElement("canvas");
@@ -207,6 +207,8 @@ export default function SmartDocumentScanner() {
     [cropOpen, setCropOpen] = useState(false),
     [cropZoom, setCropZoom] = useState(1),
     [compareOpen, setCompareOpen] = useState(false),
+    [previewData, setPreviewData] = useState(""),
+    [previewBusy, setPreviewBusy] = useState(false),
     [crop, setCrop] = useState([
       [0.03, 0.03],
       [0.97, 0.03],
@@ -218,6 +220,41 @@ export default function SmartDocumentScanner() {
     stream.current = null;
     setCamera(false);
   };
+
+  // Generate a lightweight live preview whenever the user changes a filter or
+  // adjustment. Export still uses the full-resolution pipeline, so the preview
+  // is responsive on phones without reducing final output quality.
+  useEffect(() => {
+    const page = pages[selected];
+    if (!page) {
+      setPreviewData("");
+      setPreviewBusy(false);
+      return undefined;
+    }
+    let cancelled = false;
+    const timer = window.setTimeout(async () => {
+      setPreviewBusy(true);
+      try {
+        const img = await loadImage(page.sourceData || page.data);
+        const canvas = canvasFromImage(img, 900);
+        let points = [[0, 0], [canvas.width, 0], [canvas.width, canvas.height], [0, canvas.height]];
+        if (page.cropApplied && page.detectedCrop) {
+          const candidate = page.detectedCrop.map(([x, y]) => [x * canvas.width, y * canvas.height]);
+          points = validateDocumentCorners(candidate, canvas.width, canvas.height, 0.001) || points;
+        }
+        const preview = warp(canvas, points, mode, { brightness, contrast, sharpen });
+        if (!cancelled) setPreviewData(preview.toDataURL("image/jpeg", 0.86));
+      } catch {
+        if (!cancelled) setPreviewData(page.data || page.sourceData || "");
+      } finally {
+        if (!cancelled) setPreviewBusy(false);
+      }
+    }, 90);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, [selected, pages[selected]?.id, pages[selected]?.sourceData, pages[selected]?.cropApplied, pages[selected]?.detectedCrop, mode, brightness, contrast, sharpen]);
   const cameraSupported =
     typeof window !== "undefined" && !!navigator.mediaDevices?.getUserMedia;
   const start = async () => {
@@ -711,8 +748,12 @@ export default function SmartDocumentScanner() {
     }
   };
   return (
-    <div className="space-y-6">
-      <div className="mz-scanner-panel">
+    <div className="mz-scanner-app space-y-5">
+      <div className="mz-scanner-panel mz-scanner-capture-panel">
+        <div className="mz-scanner-panel-heading">
+          <div><span className="mz-scanner-step">STEP 1</span><h2>Capture your document</h2><p>Use the camera or choose a photo. Everything is processed locally in your browser.</p></div>
+          <span className="mz-scanner-local-badge">Private · on device</span>
+        </div>
         {!camera ? (
           <div>
             <div className="grid gap-4 sm:grid-cols-2">
@@ -783,35 +824,42 @@ export default function SmartDocumentScanner() {
             {error}
           </div>
         )}
-        <div className="mt-5 flex flex-wrap gap-2">
-          <span className="self-center text-xs font-bold uppercase tracking-wider text-navy-400">
-            Enhance
-          </span>
-          {[
-            ["original", "Original"],
-            ["auto", "Auto"],
-            ["document", "Document"],
-            ["light", "Light"],
-            ["grayscale", "Grayscale"],
-            ["bw", "B&W"],
-            ["contrast", "High Contrast"],
-            ["sharpen", "Sharpen"],
-          ].map(([v, l]) => (
-            <button
-              key={v}
-              className={mode === v ? "mz-btn-primary" : "mz-btn-secondary"}
-              onClick={() => setMode(v)}
-            >
-              {l}
-            </button>
-          ))}
-        </div>
-        <div className="mt-5 grid gap-4 rounded-2xl border border-navy-100 bg-white/60 p-4 sm:grid-cols-3 dark:border-navy-800 dark:bg-navy-900/40">
-          <label className="text-xs font-bold uppercase tracking-wide text-navy-500">Brightness <span className="float-right font-medium normal-case">{brightness}</span><input className="mt-2 w-full accent-emerald-600" type="range" min="-60" max="60" value={brightness} onChange={(e) => setBrightness(Number(e.target.value))} /></label>
-          <label className="text-xs font-bold uppercase tracking-wide text-navy-500">Contrast <span className="float-right font-medium normal-case">{contrast}</span><input className="mt-2 w-full accent-emerald-600" type="range" min="-60" max="80" value={contrast} onChange={(e) => setContrast(Number(e.target.value))} /></label>
-          <label className="text-xs font-bold uppercase tracking-wide text-navy-500">Sharpen <span className="float-right font-medium normal-case">{sharpen}</span><input className="mt-2 w-full accent-emerald-600" type="range" min="0" max="100" value={sharpen} onChange={(e) => setSharpen(Number(e.target.value))} /></label>
-          <div className="sm:col-span-3 flex flex-wrap gap-2"><button type="button" className="mz-btn-secondary" onClick={applyEnhancement} disabled={busy || !pages[selected]?.cropApplied}>Apply Enhancement</button><button type="button" className="mz-btn-ghost" onClick={() => { setBrightness(0); setContrast(0); setSharpen(0); setMode("original"); }}>Reset Enhancement</button></div>
-        </div>
+        {pages[selected] ? (
+          <div className="mz-scanner-enhance-card">
+            <div className="mz-scanner-enhance-head">
+              <div><span className="mz-scanner-step">LIVE FILTERS</span><h3>Enhance the scan</h3><p>Tap a look or fine-tune it. The preview updates immediately.</p></div>
+              {previewBusy ? <span className="mz-scanner-preview-status">Updating…</span> : <span className="mz-scanner-preview-status is-ready">Live preview</span>}
+            </div>
+            <div className="mz-scanner-filter-preview">
+              <img src={previewData || pages[selected].data || pages[selected].sourceData} alt={`Live enhancement preview for page ${selected + 1}`} />
+              <span>{previewBusy ? "Updating…" : "Preview"}</span>
+            </div>
+            <div className="mz-scanner-filter-strip" role="group" aria-label="Document filters">
+              {[
+                ["original", "Original"],
+                ["auto", "Auto"],
+                ["document", "Document"],
+                ["light", "Light"],
+                ["grayscale", "Grayscale"],
+                ["bw", "B&W"],
+                ["contrast", "Contrast"],
+                ["sharpen", "Sharpen"],
+              ].map(([v, l]) => (
+                <button key={v} type="button" className={`mz-scanner-filter ${mode === v ? "is-active" : ""}`} onClick={() => setMode(v)}>{l}</button>
+              ))}
+            </div>
+            <div className="mz-scanner-adjust-grid">
+              <label>Brightness <span>{brightness}</span><input type="range" min="-60" max="60" value={brightness} onChange={(e) => setBrightness(Number(e.target.value))} /></label>
+              <label>Contrast <span>{contrast}</span><input type="range" min="-60" max="80" value={contrast} onChange={(e) => setContrast(Number(e.target.value))} /></label>
+              <label>Sharpen <span>{sharpen}</span><input type="range" min="0" max="100" value={sharpen} onChange={(e) => setSharpen(Number(e.target.value))} /></label>
+            </div>
+            <div className="mz-scanner-enhance-actions">
+              <button type="button" className="mz-btn-primary" onClick={applyEnhancement} disabled={busy || !pages[selected]?.cropApplied}><Wand2 className="h-4 w-4" /> Apply to page</button>
+              <button type="button" className="mz-btn-ghost" onClick={() => { setBrightness(0); setContrast(0); setSharpen(0); setMode("original"); }}>Reset</button>
+              {!pages[selected]?.cropApplied ? <small>Review/crop the page first, then apply the enhancement to the export.</small> : null}
+            </div>
+          </div>
+        ) : null}
       </div>
       {message && (
         <div
@@ -825,7 +873,7 @@ export default function SmartDocumentScanner() {
         <section className="mz-scanner-pages" aria-labelledby="scanner-review-title">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
-              <p className="text-xs font-bold uppercase tracking-wider text-brand-600">Document analysis</p>
+              <p className="mz-scanner-step">STEP 2 · REVIEW</p>
               <h2 id="scanner-review-title" className="mt-1 text-lg font-extrabold text-navy-900 dark:text-white">Review page {selected + 1}</h2>
               <p className="mt-1 text-sm text-navy-500 dark:text-navy-400">
                 {pages[selected].detected
@@ -840,9 +888,10 @@ export default function SmartDocumentScanner() {
             </span>
             {pages[selected].detected && Number.isFinite(pages[selected].detectionConfidence) ? <span className="rounded-full bg-navy-100 px-3 py-1 text-xs font-semibold text-navy-600 dark:bg-navy-800 dark:text-navy-300" title="Algorithmic boundary score, not a probability">Edge score {pages[selected].detectionConfidence.toFixed(2)}</span> : null}
           </div>
-          <div className="mx-auto mt-5 flex max-w-3xl justify-center overflow-auto rounded-2xl bg-black p-2">
+          <div className="mz-scanner-preview-stage mx-auto mt-5 flex max-w-3xl justify-center overflow-hidden rounded-3xl bg-slate-950 p-2">
             <div className="relative inline-block max-w-full">
-              <img src={pages[selected].cropApplied ? pages[selected].data : (pages[selected].sourceData || pages[selected].data)} alt={`Document analysis for page ${selected + 1}`} className="block max-h-[65vh] max-w-full select-none" draggable="false" />
+              <img src={previewData || (pages[selected].cropApplied ? pages[selected].data : (pages[selected].sourceData || pages[selected].data))} alt={`Document analysis for page ${selected + 1}`} className="block max-h-[65vh] max-w-full select-none rounded-2xl" draggable="false" />
+              <span className="mz-scanner-live-chip">{previewBusy ? "Updating preview…" : mode === "original" && brightness === 0 && contrast === 0 && sharpen === 0 ? "Original" : "Live enhanced preview"}</span>
               {!pages[selected].cropApplied && pages[selected].detectedCrop ? (
                 <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
                   <polygon points={pages[selected].detectedCrop.map(([x,y]) => `${x*100},${y*100}`).join(" ")} fill="rgba(34,197,94,.10)" stroke="rgb(34 197 94)" strokeWidth="0.8" vectorEffect="non-scaling-stroke" />
@@ -851,7 +900,7 @@ export default function SmartDocumentScanner() {
               ) : null}
             </div>
           </div>
-          <div className="mt-5 flex flex-wrap gap-2">
+          <div className="mz-scanner-review-actions mt-5">
             {pages[selected].detected && !pages[selected].cropApplied ? <button type="button" className="mz-btn-primary" onClick={applyDetectedCrop} disabled={busy}>Apply Auto Crop</button> : null}
             <button type="button" className="mz-btn-secondary" onClick={openCrop}>Adjust Manually</button>
             <button type="button" className="mz-btn-secondary" onClick={redetect} disabled={busy}>Auto Detect</button>
@@ -1008,7 +1057,7 @@ export default function SmartDocumentScanner() {
           </div>
           {hasUnreviewedPages ? <p className="mt-4 rounded-xl bg-amber-50 p-3 text-sm text-amber-800 dark:bg-amber-950/30 dark:text-amber-200">Review each page before creating PDF/JPG output. Select a page and apply Auto Crop, Manual Crop, or Use Full Photo.</p> : null}
           <div className="mt-4 grid gap-3 rounded-2xl border border-navy-100 bg-white/70 p-3 sm:grid-cols-2 dark:border-navy-800 dark:bg-navy-900/50"><label className="text-xs font-bold uppercase tracking-wide text-navy-500">PDF page size<select className="mz-input mt-2" value={pdfSize} onChange={(e)=>setPdfSize(e.target.value)}><option value="a4">A4</option><option value="letter">US Letter</option></select></label><label className="text-xs font-bold uppercase tracking-wide text-navy-500">PDF margins<select className="mz-input mt-2" value={pdfMargin} onChange={(e)=>setPdfMargin(e.target.value)}><option value="none">None</option><option value="small">Small</option><option value="normal">Normal</option></select></label></div>
-          <div className="mt-5 flex flex-wrap gap-2">
+          <div className="mz-scanner-export-actions mt-5">
             <button className="mz-btn-secondary" onClick={openCrop}>
               Crop
             </button>

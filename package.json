@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "MZ Smart Tool House \u2014 a global browser-first productivity, office, science, engineering, education, developer and utility platform.",
+  "description": "MZ Smart Tool House — a global browser-first productivity, office, science, engineering, education, developer and utility platform.",
   "scripts": {
     "dev": "vite --force",
     "build": "vite build",
@@ -16,7 +16,7 @@
     "test:scanner": "node test/scanner.test.mjs",
     "test:health": "node test/tool-health.test.mjs",
     "test:bundle": "node test/bundle-check-global.mjs",
-    "test:all": "npm run test:calculators && npm run test:simple-calculators && npm run test:fixtures && npm run test:converters && npm run test:science && npm run test:warning-fixes && npm run test:dependency-safety && npm run test:registry && npm run test:functional-audit && npm run test:category-registry && npm run test:no-fake && npm run test:platform && npm run test:office-platform && npm run test:final-platform && npm run test:production-master && npm run test:spreadsheet && npm run test:seo-architecture && npm run test:compiler-service && npm run test:health && npm run test:capacitor && npm run test:image && npm run test:pdf && npm run test:scanner && npm run test:bundle && npm run test:pwa",
+    "test:all": "npm run test:calculators && npm run test:simple-calculators && npm run test:fixtures && npm run test:converters && npm run test:science && npm run test:warning-fixes && npm run test:dependency-safety && npm run test:registry && npm run test:functional-audit && npm run test:category-registry && npm run test:no-fake && npm run test:platform && npm run test:office-platform && npm run test:final-platform && npm run test:production-master && npm run test:spreadsheet && npm run test:seo-architecture && npm run test:compiler-service && npm run test:health && npm run test:capacitor && npm run test:image && npm run test:pdf && npm run test:scanner && npm run test:bundle && npm run test:pwa && npm run test:mobile-ui",
     "test:registry": "node test/tool-registry-audit.mjs",
     "test:functional-audit": "node test/tool-functional-audit.mjs",
     "prebuild": "npm run verify:deps && node scripts/generate-pwa.js && node scripts/generate-sitemap.js",
@@ -44,7 +44,8 @@
     "test:dependency-safety": "node test/dependency-safety.test.mjs",
     "test:converters": "node test/converters.test.mjs",
     "test:science": "node test/science-formulas.test.mjs",
-    "test:warning-fixes": "node test/warning-fixes.test.mjs"
+    "test:warning-fixes": "node test/warning-fixes.test.mjs",
+    "test:mobile-ui": "node test/mobile-ui.test.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.436.0",

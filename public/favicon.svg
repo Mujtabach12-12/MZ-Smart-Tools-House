@@ -1,31 +1,62 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="bg" x1="70" y1="70" x2="940" y2="940" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#0B3CC1"/>
-      <stop offset="0.52" stop-color="#2563EB"/>
-      <stop offset="1" stop-color="#6D28D9"/>
+      <stop offset="0.5" stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#4F46E5"/>
     </linearGradient>
-    <linearGradient id="bolt" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#67E8F9"/>
-      <stop offset="1" stop-color="#22D3EE"/>
+    <linearGradient id="core" x1="330" y1="300" x2="700" y2="720" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#E0ECFF"/>
     </linearGradient>
     <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
-      <feDropShadow dx="0" dy="22" stdDeviation="24" flood-color="#020617" flood-opacity=".34"/>
+      <feDropShadow dx="0" dy="34" stdDeviation="34" flood-color="#08163F" flood-opacity=".34"/>
     </filter>
   </defs>
-  <rect x="48" y="48" width="928" height="928" rx="218" fill="url(#bg)" filter="url(#shadow)"/>
-  <rect x="72" y="72" width="880" height="880" rx="194" fill="none" stroke="#93C5FD" stroke-opacity=".28" stroke-width="8"/>
-  <circle cx="790" cy="220" r="110" fill="#38BDF8" fill-opacity=".10"/>
-  <path d="M170 720c150-84 291-84 440-4 112 60 187 57 247 26" fill="none" stroke="#60A5FA" stroke-opacity=".24" stroke-width="28" stroke-linecap="round"/>
-  <g fill="#fff">
-    <path d="M142 286h98l70 168 72-168h98v430h-83V414l-63 154h-51l-62-154v302h-79z"/>
-    <path d="M522 286h287v72L623 634h193v82H515v-72l186-276H522z"/>
+  <rect x="52" y="52" width="920" height="920" rx="226" fill="url(#bg)" filter="url(#shadow)"/>
+  <rect x="76" y="76" width="872" height="872" rx="202" fill="none" stroke="#BFDBFE" stroke-opacity=".28" stroke-width="8"/>
+  <circle cx="512" cy="512" r="302" fill="#FFFFFF" fill-opacity=".06" stroke="#DBEAFE" stroke-opacity=".18" stroke-width="5" stroke-dasharray="14 18"/>
+
+  <!-- tool orbit: document -->
+  <g transform="translate(182 200)">
+    <rect width="166" height="166" rx="52" fill="#FFFFFF" fill-opacity=".14" stroke="#FFFFFF" stroke-opacity=".26" stroke-width="5"/>
+    <path d="M55 39h43l24 24v64H55z" fill="none" stroke="#fff" stroke-width="10" stroke-linejoin="round"/>
+    <path d="M98 39v25h24M72 87h34M72 106h28" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
   </g>
-  <path d="M560 120l-84 184h72l-48 160 168-222h-78l62-122z" fill="url(#bolt)" stroke="#CFFAFE" stroke-width="8" stroke-linejoin="round"/>
-  <g transform="translate(724 680) rotate(-18)">
-    <path d="M8 24a78 78 0 0 1 111 111l-35-35a29 29 0 1 0-41-41z" fill="#fff"/>
-    <path d="M74 105l96 96" stroke="#fff" stroke-width="42" stroke-linecap="round"/>
-    <circle cx="174" cy="205" r="31" fill="none" stroke="#fff" stroke-width="18"/>
+  <!-- calculator -->
+  <g transform="translate(676 184)">
+    <rect width="166" height="166" rx="52" fill="#FFFFFF" fill-opacity=".14" stroke="#FFFFFF" stroke-opacity=".26" stroke-width="5"/>
+    <rect x="48" y="36" width="70" height="94" rx="14" fill="none" stroke="#fff" stroke-width="10"/>
+    <path d="M64 58h38M65 84h7m19 0h7M65 105h7m19 0h7" stroke="#fff" stroke-width="9" stroke-linecap="round"/>
   </g>
-  <text x="512" y="838" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-size="78" font-weight="800" letter-spacing="14">TOOLS</text>
+  <!-- code -->
+  <g transform="translate(706 670)">
+    <rect width="166" height="166" rx="52" fill="#FFFFFF" fill-opacity=".14" stroke="#FFFFFF" stroke-opacity=".26" stroke-width="5"/>
+    <path d="M69 53L39 83l30 30M99 53l30 30-30 30" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <!-- image -->
+  <g transform="translate(154 658)">
+    <rect width="166" height="166" rx="52" fill="#FFFFFF" fill-opacity=".14" stroke="#FFFFFF" stroke-opacity=".26" stroke-width="5"/>
+    <rect x="39" y="42" width="88" height="80" rx="14" fill="none" stroke="#fff" stroke-width="10"/>
+    <circle cx="101" cy="67" r="10" fill="#fff"/>
+    <path d="M50 108l25-26 17 17 12-11 16 20" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <!-- wrench / settings -->
+  <g transform="translate(428 744)">
+    <rect width="166" height="166" rx="52" fill="#FFFFFF" fill-opacity=".14" stroke="#FFFFFF" stroke-opacity=".26" stroke-width="5"/>
+    <path d="M58 49a34 34 0 0 0 39 45l26 26a12 12 0 0 0 17-17l-26-26A34 34 0 0 0 69 38l17 17-13 13z" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- central MZ identity -->
+  <g>
+    <rect x="300" y="300" width="424" height="424" rx="138" fill="url(#core)"/>
+    <rect x="318" y="318" width="388" height="388" rx="122" fill="none" stroke="#93C5FD" stroke-width="7" stroke-opacity=".8"/>
+    <circle cx="628" cy="392" r="56" fill="#DBEAFE"/>
+    <path d="M617 352l-37 72h31l-18 59 77-89h-34l27-42z" fill="#2563EB"/>
+    <g fill="#0F3D9B">
+      <path d="M370 444h58l45 108 46-108h58v185h-50V526l-34 83h-40l-33-83v103h-50z"/>
+      <path d="M565 444h111v44l-61 96h64v45H557v-43l62-97h-54z"/>
+    </g>
+    <text x="512" y="682" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="37" font-weight="800" fill="#2563EB" letter-spacing="8">TOOLS</text>
+  </g>
 </svg>
