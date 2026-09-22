@@ -10,7 +10,7 @@ import {
   Image as ImageIcon,
   ScanLine,
   Sparkles,
-  Star,
+  Heart,
   Wrench,
 } from "lucide-react";
 import SearchBar from "../ui/SearchBar";
@@ -140,7 +140,7 @@ export default function MobileHome() {
 
       {favoriteTools.length > 0 ? (
         <section className="mz-mobile-block">
-          <div className="mz-mobile-section-head"><div><span>PINNED</span><h2>Favorites</h2></div><Star className="h-4 w-4 text-amber-500" /></div>
+          <div className="mz-mobile-section-head"><div><span>PINNED</span><h2>Favorites</h2></div><Heart className="h-4 w-4 fill-current text-rose-500" /></div>
           <div className="space-y-2.5">{favoriteTools.map((tool) => <ToolRow key={tool.id} tool={tool} />)}</div>
         </section>
       ) : null}

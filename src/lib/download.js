@@ -1,6 +1,7 @@
 import { Capacitor } from '@capacitor/core';
 import { notify } from './toast';
 import { assertNonEmptyOutput } from './files/outputValidation.js';
+import { announceToolSuccess } from './toolSuccess.js';
 
 function safeFilename(filename = 'download') {
   const cleaned = String(filename || 'download').replace(/[\\/:*?"<>|\u0000-\u001f]/g, '_').trim();
@@ -32,6 +33,7 @@ async function saveNative(data, filename, mimeType) {
   });
 
   notify(`Saved ${name} to Documents.`, { type: 'success', title: 'File ready' });
+  announceToolSuccess({ source: 'download', filename: name });
 
   try {
     if ((await Share.canShare()).value) {
@@ -69,6 +71,7 @@ export async function downloadBytes(bytes, filename, mimeType = 'application/oct
   const blob = new Blob([bytes], { type: mimeType });
   triggerBrowserDownload(blob, filename);
   notify(`Prepared ${safeFilename(filename)} for download.`, { type: 'success', title: 'Your file is ready' });
+  announceToolSuccess({ source: 'download', filename: safeFilename(filename) });
 }
 
 export async function downloadBlob(blob, filename) {
@@ -76,6 +79,7 @@ export async function downloadBlob(blob, filename) {
   if (Capacitor.isNativePlatform()) return saveNative(blob, filename, blob.type || 'application/octet-stream');
   triggerBrowserDownload(blob, filename);
   notify(`Prepared ${safeFilename(filename)} for download.`, { type: 'success', title: 'Your file is ready' });
+  announceToolSuccess({ source: 'download', filename: safeFilename(filename) });
 }
 
 /**

@@ -10,6 +10,7 @@ import toolComponents from "../tools";
 import NotFound from "./NotFound";
 import { addRecentTool } from "../lib/localPreferences";
 import { getToolSeo } from "../data/toolSeo";
+import ToolSuccessFeedback from "../components/ui/ToolSuccessFeedback";
 
 const FILE_TOOL_CATEGORIES = new Set(["pdf-tools", "image-tools", "scanner-tools", "document-tools", "office-tools"]);
 const APP_WORKSPACES = new Set([
@@ -73,7 +74,7 @@ export default function ToolPage() {
        <p className="mt-2 max-w-md text-sm leading-6 text-navy-500 dark:text-navy-400">{tool.status === "coming-soon" ? "We’re building this carefully so it works properly. Thanks for your patience — please check back soon." : missingImplementation ? "This tool is registered but its implementation is missing from this build. Please use Feedback to report this issue." : "This tool is not currently enabled in the production registry."}</p>
        <Link to="/tools" className="mz-btn-primary mt-5">Browse available tools</Link>
       </ToolWorkspace>}
-    <div className="mt-8"><ToolExtras toolId={tool.id} category={tool.category} showPrivacyNote={FILE_TOOL_CATEGORIES.has(tool.category)} howTo={[`Open ${tool.name}.`,"Enter the required information and review the options.","Run the tool and review, copy or download the result."]} faq={faq} seo={seo}/></div>
+    <ToolSuccessFeedback tool={tool}/><div className="mt-8"><ToolExtras toolId={tool.id} category={tool.category} showPrivacyNote={FILE_TOOL_CATEGORIES.has(tool.category)} howTo={[`Open ${tool.name}.`,"Enter the required information and review the options.","Run the tool and review, copy or download the result."]} faq={faq} seo={seo}/></div>
    </ToolPageLayout>
  </>;
 }

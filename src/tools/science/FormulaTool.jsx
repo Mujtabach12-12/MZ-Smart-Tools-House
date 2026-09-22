@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { Calculator, Copy, RotateCcw } from 'lucide-react';
 import { formulaDefinitions } from './formulaEngine.js';
 import { notify } from '../../lib/toast';
+import { announceToolSuccess } from '../../lib/toolSuccess.js';
 
 function initialValues(fields){return Object.fromEntries(fields.map(([key,,,unit])=>[key,'']));}
 
@@ -13,7 +14,7 @@ export default function FormulaTool({ id, tool }) {
   const [error,setError] = useState('');
   const formula = useMemo(()=>definition?.formula || tool?.formula || '',[definition,tool]);
   if(!definition) throw new Error(`Formula implementation missing for ${id}`);
-  const calculate=()=>{setError('');setResult(null);try{setResult(definition.calculate(values));}catch(e){setError(e?.message||'Could not calculate this result.')}};
+  const calculate=()=>{setError('');setResult(null);try{const next=definition.calculate(values);setResult(next);announceToolSuccess({source:'calculation'});}catch(e){setError(e?.message||'Could not calculate this result.')}};
   const reset=()=>{setValues(initialValues(fields));setResult(null);setError('')};
   const copy=async()=>{if(!result?.display)return;try{await navigator.clipboard.writeText(result.display);notify('Result copied to clipboard.',{type:'success',title:'Calculation'});}catch{notify('Clipboard access is unavailable in this browser.',{type:'error',title:'Copy result'});}};
   return <div className="space-y-6">

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Clock3, Star, Trash2 } from "lucide-react";
+import { Clock3, Heart, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { getToolById } from "../../data/tools";
 import { clearFavoriteTools, clearRecentTools, getFavoriteTools, getRecentTools } from "../../lib/localPreferences";
@@ -18,5 +18,5 @@ function Strip({ title, icon:Icon, ids, clear, empty }) {
 export default function PersonalTools() {
  const [recent,setRecent]=useState(getRecentTools()); const [favorites,setFavorites]=useState(getFavoriteTools());
  useEffect(()=>{const s=()=>{setRecent(getRecentTools());setFavorites(getFavoriteTools())};window.addEventListener("mz-preferences-change",s);return()=>window.removeEventListener("mz-preferences-change",s)},[]);
- return <div className="grid lg:grid-cols-2"><Strip title="Recently Used" icon={Clock3} ids={recent} clear={()=>{clearRecentTools();setRecent([]);}} empty="Open a tool and it will appear here for quick access."/><Strip title="Favorite Tools" icon={Star} ids={favorites} clear={()=>{clearFavoriteTools();setFavorites([]);}} empty="Favorite the tools you use most and they will stay here."/></div>;
+ return <div className="grid lg:grid-cols-2"><Strip title="Recently Used" icon={Clock3} ids={recent} clear={()=>{clearRecentTools();setRecent([]);}} empty="Open a tool and it will appear here for quick access."/><Strip title="Favorite Tools" icon={Heart} ids={favorites} clear={()=>{clearFavoriteTools();setFavorites([]);}} empty="Favorite the tools you use most and they will stay here."/></div>;
 }

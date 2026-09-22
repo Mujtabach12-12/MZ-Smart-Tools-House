@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { Heart } from "lucide-react";
 import Seo from "../components/layout/Seo";
 import ToolCard from "../components/ui/ToolCard";
 import ToolIcon from "../components/ui/ToolIcon";
 import { categories } from "../data/categories";
 import { tools, searchTools, getActiveTools, getActiveToolsByCategory } from "../data/tools";
+import { getFavoriteTools } from "../lib/localPreferences";
 
 export default function AllTools() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -12,16 +14,25 @@ export default function AllTools() {
   const activeTools = getActiveTools();
   const [activeCategory, setActiveCategory] = useState(searchParams.get("category") || "all");
   const popularOnly = searchParams.get("popular") === "true";
+  const [favoriteIds, setFavoriteIds] = useState(() => getFavoriteTools());
   useEffect(() => { setQuery(searchParams.get("q") || ""); setActiveCategory(searchParams.get("category") || "all"); }, [searchParams]);
+  useEffect(() => {
+    const sync = () => setFavoriteIds(getFavoriteTools());
+    window.addEventListener("mz-preferences-change", sync);
+    window.addEventListener("storage", sync);
+    return () => { window.removeEventListener("mz-preferences-change", sync); window.removeEventListener("storage", sync); };
+  }, []);
 
   const filteredTools = useMemo(() => {
     let list = query.trim() ? searchTools(query).filter((t) => t.status === "active") : activeTools;
     if (popularOnly) list = list.filter((t) => t.popular);
-    if (activeCategory !== "all") {
+    if (activeCategory === "favorites") {
+      list = list.filter((t) => favoriteIds.includes(t.id));
+    } else if (activeCategory !== "all") {
       list = list.filter((t) => t.category === activeCategory);
     }
     return list;
-  }, [query, activeCategory, popularOnly, activeTools]);
+  }, [query, activeCategory, popularOnly, activeTools, favoriteIds]);
 
   return (
     <div className="mz-section py-12">
@@ -41,13 +52,14 @@ export default function AllTools() {
         <input aria-label="Search all tools" type="search" inputMode="search" autoComplete="off" value={query} onChange={(e) => { const value=e.target.value; setQuery(value); const next=new URLSearchParams(searchParams); value?next.set("q",value):next.delete("q"); setSearchParams(next,{replace:true}); }} placeholder={`Search ${activeTools.length} tools...`} className="mz-input mz-search-premium sm:max-w-xl" />
         <div className="mz-category-rail !bg-transparent !shadow-none !backdrop-blur-none">
           <button type="button" onClick={() => { setActiveCategory("all"); const next=new URLSearchParams(searchParams); next.delete("category"); setSearchParams(next,{replace:true}); }} className={`mz-rail-tab ${activeCategory === "all" ? "mz-rail-tab-active" : ""}`}>All <span>{activeTools.length}</span></button>
+          <button type="button" onClick={() => { setActiveCategory("favorites"); const next=new URLSearchParams(searchParams); next.set("category","favorites"); setSearchParams(next,{replace:true}); }} className={`mz-rail-tab ${activeCategory === "favorites" ? "mz-rail-tab-active" : ""}`}><Heart className={`h-4 w-4 ${activeCategory === "favorites" ? "fill-current" : ""}`} />Favorites<span>{favoriteIds.length}</span></button>
           {categories.map((cat) => <button key={cat.slug} type="button" onClick={() => { setActiveCategory(cat.slug); const next=new URLSearchParams(searchParams); next.set("category",cat.slug); setSearchParams(next,{replace:true}); }} className={`mz-rail-tab ${activeCategory === cat.slug ? "mz-rail-tab-active" : ""}`}><ToolIcon name={cat.icon} className="h-4 w-4" />{cat.name}<span>{getActiveToolsByCategory(cat.slug).length}</span></button>)}
         </div>
       </div>
 
       <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {filteredTools.length === 0 ? (
-          <p className="col-span-full text-navy-500 dark:text-navy-400">No tools match your search.</p>
+          <p className="col-span-full text-navy-500 dark:text-navy-400">{activeCategory === "favorites" ? "No favorite tools yet. Tap the heart on any tool to add it here." : "No tools match your search."}</p>
         ) : (
           filteredTools.map((tool) => <ToolCard key={tool.id} tool={tool} />)
         )}

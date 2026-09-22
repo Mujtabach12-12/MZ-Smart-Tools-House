@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "MZ Smart Tool House \u2014 a global browser-first productivity, office, science, engineering, education, developer and utility platform.",
+  "description": "MZ Smart Tool House — a global browser-first productivity, office, science, engineering, education, developer and utility platform.",
   "scripts": {
     "dev": "vite --force",
     "build": "vite build",
@@ -50,7 +50,8 @@
     "test:phase4": "node test/phase4-reader-scanner.test.mjs",
     "audit:classification": "node scripts/classify-tool-registry.mjs",
     "test:classification": "node test/tool-professional-classification.test.mjs",
-    "test:requested-fixes": "node test/user-requested-quality-fixes.test.mjs"
+    "test:requested-fixes": "node test/user-requested-quality-fixes.test.mjs",
+    "test:global-ux": "node test/global-ux-enhancements.test.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.436.0",

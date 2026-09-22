@@ -7,6 +7,7 @@ import ThemeToggle from "../ui/ThemeToggle";
 import ToolIcon from "../ui/ToolIcon";
 import FeedbackDialog from "../ui/FeedbackDialog";
 import BrandMark from "../brand/BrandMark";
+import ViewScaleControl from "../ui/ViewScaleControl";
 
 const PRIMARY = [
   { to: "/", label: "Home", icon: Home },
@@ -91,6 +92,7 @@ export default function Header() {
           <div className="ml-auto hidden w-[min(22vw,18rem)] 2xl:block"><SearchBar size="sm" placeholder="Search tools…" /></div>
           <button className="mz-btn-ghost hidden lg:inline-flex" onClick={() => setFeedbackOpen(true)}><MessageCircle className="h-4 w-4" /> Feedback</button>
           <button className="mz-btn-ghost hidden lg:inline-flex" onClick={install}><InstallIcon className="h-4 w-4" /> {installLabel}</button>
+          <ViewScaleControl compact className="hidden lg:flex" />
           <ThemeToggle className="hidden sm:inline-flex" />
 
           {!pwa.installed ? (
@@ -138,7 +140,7 @@ export default function Header() {
                 <button className="mz-btn-secondary w-full" onClick={() => { setFeedbackOpen(true); setMobileOpen(false); }}><MessageCircle className="h-4 w-4" /> Feedback</button>
                 {!pwa.installed ? <button className="mz-btn-secondary w-full" onClick={() => { install(); setMobileOpen(false); }}><Download className="h-4 w-4" /> Install App</button> : null}
               </div>
-              <div className="mt-3 flex items-center justify-between rounded-xl border border-navy-100 px-3 py-3 dark:border-navy-800"><span className="text-sm font-medium">Appearance</span><ThemeToggle /></div>
+              <div className="mt-3 grid gap-2 rounded-xl border border-navy-100 px-3 py-3 dark:border-navy-800"><div className="flex items-center justify-between"><span className="text-sm font-medium">Appearance</span><ThemeToggle /></div><div className="flex items-center justify-between gap-3 border-t border-navy-100 pt-2 dark:border-navy-800"><span className="text-xs font-semibold text-navy-500 dark:text-navy-400">Page zoom</span><ViewScaleControl compact /></div></div>
             </div>
           </div>
         ) : null}

@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { announceToolSuccess } from "../../lib/toolSuccess";
 import CopyButton from "./CopyButton";
 
 export function ResultRow({ label, value, highlight = false, copyText }) {
@@ -17,6 +19,7 @@ export function ResultRow({ label, value, highlight = false, copyText }) {
 }
 
 export default function ResultCard({ children, title = "Result" }) {
+  useEffect(() => { announceToolSuccess({ source: "result" }); }, []);
   return (
     <div className="mz-card p-5">
       <h3 className="mb-3 text-sm font-semibold text-navy-900 dark:text-navy-50">{title}</h3>
