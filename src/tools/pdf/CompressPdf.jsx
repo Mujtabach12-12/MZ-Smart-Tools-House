@@ -100,10 +100,14 @@ export default function CompressPdf() {
             <label key={id} className={`cursor-pointer rounded-2xl border p-4 ${quality === id ? "border-brand-500 bg-brand-50 dark:bg-brand-950/30" : "border-navy-200 dark:border-navy-700"}`}>
               <input className="mr-2" type="radio" name="pdf-quality" value={id} checked={quality === id} onChange={() => setQuality(id)} />
               <span className="font-semibold">{preset.label}</span>
+              <span className="mt-1 block text-xs font-semibold text-brand-700 dark:text-brand-300">Typical saving: {preset.expectedSaving}</span>
               <span className="mt-1 block text-xs text-navy-500">{id === "low" ? "Structural/lossless; preserves text, vectors, links and forms" : id === "medium" ? "150 DPI raster option for scan/image-heavy PDFs" : "96 DPI raster option when file size matters most"}</span>
             </label>
           ))}
         </div>
+        <p className="mt-3 text-xs leading-5 text-navy-500 dark:text-navy-400">
+          Saving percentages are practical estimates, not guarantees. Real compression depends on whether the PDF contains text, vectors, photos or scanned pages. After processing, MZ shows the exact measured percentage saved; if a mode would make the file larger, the smaller/original valid PDF is kept instead.
+        </p>
       </fieldset>
 
       <div className="mt-6 flex flex-wrap gap-3">

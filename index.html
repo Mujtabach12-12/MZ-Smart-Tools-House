@@ -32,28 +32,26 @@
 <script>(function(){try{var s=localStorage.getItem("mz-theme"),d=window.matchMedia("(prefers-color-scheme: dark)").matches;if(s==="dark"||(s!=="light"&&d))document.documentElement.classList.add("dark");var standalone=window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true;if(!standalone&&sessionStorage.getItem("mz-web-startup-seen")==="1")document.documentElement.classList.add("mz-web-startup-seen")}catch(e){}})();</script>
 </head>
 <body class="bg-white dark:bg-navy-950 text-navy-900 dark:text-navy-50">
-<!-- Native/Android-first startup overlay. It is intentionally in index.html so it appears before React finishes loading. -->
-<div id="mz-native-startup" class="mz-native-startup" role="status" aria-live="polite" aria-label="Welcome to MZ Smart Tool House">
+<!-- Lightweight first-paint tools loader. No video asset: fast, branded, and immediately removable once the app is ready. -->
+<div id="mz-native-startup" class="mz-native-startup" role="status" aria-live="polite" aria-label="Loading MZ Smart Tool House">
   <div class="mz-native-startup-glow mz-native-startup-glow-a"></div>
   <div class="mz-native-startup-glow mz-native-startup-glow-b"></div>
   <div class="mz-native-startup-inner">
-    <div class="mz-native-startup-logo-wrap">
-      <img src="/icons/icon-512.png" width="512" height="512" alt="MZ Smart Tool House" class="mz-native-startup-logo">
+    <div class="mz-tool-loader" aria-hidden="true">
+      <div class="mz-tool-loader-orbit">
+        <span class="mz-tool-chip mz-tool-chip-a">PDF</span>
+        <span class="mz-tool-chip mz-tool-chip-b">&lt;/&gt;</span>
+        <span class="mz-tool-chip mz-tool-chip-c">IMG</span>
+        <span class="mz-tool-chip mz-tool-chip-d">123</span>
+      </div>
+      <div class="mz-native-startup-logo-wrap">
+        <img src="/icons/icon-512.png" width="512" height="512" alt="MZ Smart Tool House" class="mz-native-startup-logo">
+      </div>
     </div>
-    <div class="mz-native-startup-kicker">WELCOME TO</div>
     <h1>MZ <span>Smart Tool House</span></h1>
-    <p class="mz-native-startup-subtitle">307+ tools · one focused workspace</p>
+    <p class="mz-native-startup-subtitle">Loading your tools…</p>
+    <div class="mz-native-startup-dots" aria-hidden="true"><i></i><i></i><i></i></div>
     <p class="mz-native-startup-developer">Developed by <strong>Muhammad Mujtaba</strong></p>
-    <div class="mz-native-startup-video-wrap">
-      <video src="/startup/mz-office-welcome.mp4" poster="/icons/icon-512.png" autoplay muted playsinline loop preload="auto" class="mz-native-startup-video" aria-hidden="true"></video>
-    </div>
-    <div class="mz-native-startup-message">
-      <span class="mz-native-startup-spinner"></span>
-      <span>Getting your smart tools ready…</span>
-    </div>
-    <div class="mz-native-startup-progress"><span></span></div>
-    <div class="mz-native-startup-dots"><i></i><i></i><i></i></div>
-    <p class="mz-native-startup-footer">Work • Study • Create • Build</p>
   </div>
 </div>
 

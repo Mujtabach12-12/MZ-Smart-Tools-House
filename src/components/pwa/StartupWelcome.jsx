@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { Capacitor } from "@capacitor/core";
 
-const APP_STARTUP_MS = 1650;
-const WEB_STARTUP_MS = 1150;
+const APP_STARTUP_MS = 1250;
+const WEB_STARTUP_MS = 1000;
 
 export default function StartupWelcome() {
   useEffect(() => {
@@ -31,7 +31,7 @@ export default function StartupWelcome() {
     const duration = appLike ? APP_STARTUP_MS : WEB_STARTUP_MS;
     const leaveTimer = window.setTimeout(
       () => startup.classList.add("is-leaving"),
-      Math.max(450, duration - 320),
+      Math.max(420, duration - 260),
     );
     const hideTimer = window.setTimeout(() => {
       startup.classList.add("is-hidden");

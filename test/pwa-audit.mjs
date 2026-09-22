@@ -12,7 +12,6 @@ const required = [
   ['src/components/pwa/PwaManager.jsx', 'PWA manager'],
   ['src/components/layout/MobileBottomNav.jsx', 'mobile app navigation'],
   ['scripts/generate-pwa.js', 'PWA build generator'],
-  ['public/startup/mz-office-welcome.mp4', 'office startup animation'],
   ['src/components/pwa/StartupWelcome.jsx', 'startup welcome screen'],
 ];
 for (const [file, label] of required) if (!fs.existsSync(path.join(root, file))) throw new Error(`Missing ${label}: ${file}`);
@@ -26,7 +25,7 @@ const index = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 if (!index.includes('rel="manifest"')) throw new Error('Manifest link missing');
 if (!index.includes('apple-touch-icon')) throw new Error('Apple touch icon missing');
 if (!index.includes('id="mz-native-startup"')) throw new Error('Guaranteed first-paint startup overlay missing');
-if (!index.includes('/startup/mz-office-welcome.mp4')) throw new Error('Startup video is not embedded in first-paint overlay');
+if (!index.includes('mz-tool-loader')) throw new Error('Lightweight startup tools loader is missing');
 const main = fs.readFileSync(path.join(root, 'src/main.jsx'), 'utf8');
 if (!main.includes('PwaManager')) throw new Error('PWA manager not mounted');
 if (!main.includes('StartupWelcome')) throw new Error('Startup welcome not mounted');
@@ -37,10 +36,10 @@ if (!mobileNav.includes('smart-document-scanner')) throw new Error('Mobile app n
 const pwaManager = fs.readFileSync(path.join(root, 'src/components/pwa/PwaManager.jsx'), 'utf8');
 if (!pwaManager.includes('beforeinstallprompt') || !pwaManager.includes('deferred.prompt()')) throw new Error('One-tap PWA install flow is not wired');
 const sw = fs.readFileSync(path.join(root, 'public/sw.js'), 'utf8');
-if (!sw.includes('/startup/mz-office-welcome.mp4')) throw new Error('Startup animation is not in the offline shell');
+if (sw.includes('/startup/mz-office-welcome.mp4')) throw new Error('Obsolete startup video should not be precached');
 for (const token of ['install', 'activate', 'fetch', 'CACHE_VERSION']) if (!sw.includes(token)) throw new Error(`Service worker missing ${token} handling`);
 const scanner = fs.readFileSync(path.join(root, 'src/tools/scanner/SmartDocumentScanner.jsx'), 'utf8');
-if (!scanner.includes('capture="environment"')) throw new Error('Scanner image input is missing mobile camera capture hint');
+if (scanner.includes('capture="environment"')) throw new Error('Scanner file picker must not force the camera when choosing from device files');
 const dims = execFileSync('file', ['public/icons/icon-192.png','public/icons/icon-512.png','public/icons/icon-maskable.png'], {encoding:'utf8'});
 if (!dims.includes('192 x 192') || !dims.includes('512 x 512')) throw new Error(`Unexpected icon dimensions:\n${dims}`);
-console.log('PWA audit passed: manifest, icons, service worker, install manager, scanner capture and metadata verified.');
+console.log('PWA audit passed: manifest, icons, service worker, install manager, scanner file picker and metadata verified.');

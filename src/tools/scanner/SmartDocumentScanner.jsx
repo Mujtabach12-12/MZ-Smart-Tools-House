@@ -66,7 +66,7 @@ async function displayUrlForAsset(_asset, _rotation, analysisProxy) {
   // Always display a bounded proxy. The immutable original remains the master
   // for perspective correction and export, so camera-sized images do not need
   // to be decoded at full resolution merely to draw the crop UI.
-  const blob = await scannerCanvasToBlob(analysisProxy, "image/jpeg", 0.9);
+  const blob = await scannerCanvasToBlob(analysisProxy, "image/jpeg", 0.94);
   return URL.createObjectURL(blob); // display-only preview; never used for export
 }
 
@@ -143,7 +143,7 @@ export default function SmartDocumentScanner() {
         const raw = normalizedPointsToPixels(page.detectedCrop || [[0,0],[1,0],[1,1],[0,1]], proxy.width, proxy.height);
         const points = validateDocumentCorners(raw, proxy.width, proxy.height, 0.001) || [[0,0],[proxy.width,0],[proxy.width,proxy.height],[0,proxy.height]];
         const preview = await warpPerspective(proxy, points, mode, { brightness, contrast, sharpen }, { maxSide: SCANNER_PREVIEW_MAX_SIDE, maxPixels: 1_500_000, yieldEveryRows: 0 });
-        const blob = await scannerCanvasToBlob(preview.canvas, "image/jpeg", 0.84);
+        const blob = await scannerCanvasToBlob(preview.canvas, "image/jpeg", 0.92);
         if (!cancelled) {
           previewUrl = URL.createObjectURL(blob);
           setPreviewData(previewUrl);
@@ -451,7 +451,7 @@ export default function SmartDocumentScanner() {
       if (page.thumbnailUrl) URL.revokeObjectURL(page.thumbnailUrl);
       setPages((items) => items.map((item, index) => index === selected
         ? withPageHistory(item, {
-            ...item, data: thumbnailUrl, outputBlob, outputUrl, thumbnailUrl, width: output.width, height: output.height,
+            ...item, data: outputUrl, outputBlob, outputUrl, thumbnailUrl, width: output.width, height: output.height,
             filterApplied: true, filterMode: mode, brightness, contrast, sharpen,
           }) : item));
       setWorkflowStep("export");
@@ -680,7 +680,6 @@ export default function SmartDocumentScanner() {
         hidden
         type="file"
         accept="image/jpeg,image/png,image/webp"
-        capture="environment"
         onChange={choose}
       />
 
@@ -734,8 +733,8 @@ export default function SmartDocumentScanner() {
               </button>
               <button className="mz-scanner-big-action" onClick={() => input.current?.click()} disabled={busy}>
                 <Upload />
-                <strong>Choose Photo</strong>
-                <small>JPG, PNG or WebP</small>
+                <strong>Choose from Files</strong>
+                <small>Open phone file manager · JPG, PNG or WebP</small>
               </button>
             </div>
           ) : (
@@ -888,6 +887,22 @@ export default function SmartDocumentScanner() {
             <p>{pages.length} ready page{pages.length === 1 ? "" : "s"}. Add another page and it will go through Crop → Filter before returning here.</p>
           </div>
 
+          {selectedPage?.outputUrl ? (
+            <div className="mz-scanner-master-preview" aria-label={`High-quality preview of page ${selected + 1}`}>
+              <div className="mz-scanner-master-preview-head">
+                <div>
+                  <strong>High-quality page preview</strong>
+                  <span>Page {selected + 1} · {selectedPage.width} × {selectedPage.height}px</span>
+                </div>
+                <span className="mz-scanner-master-badge">MASTER OUTPUT</span>
+              </div>
+              <div className="mz-scanner-master-preview-stage">
+                <img src={selectedPage.outputUrl} alt={`Processed high-quality scan page ${selected + 1}`} />
+              </div>
+              <p>The page manager below uses small thumbnails for speed. PDF and image exports use this full-resolution processed master.</p>
+            </div>
+          ) : null}
+
           <div className="mz-scanner-ready-grid">
             {pages.map((page, index) => (
               <article
@@ -919,8 +934,8 @@ export default function SmartDocumentScanner() {
           <div className="mz-scanner-add-more">
             <button className="mz-scanner-add-card" onClick={() => input.current?.click()} disabled={busy}>
               <Plus />
-              <strong>Add another image</strong>
-              <small>Choose a photo and crop it next</small>
+              <strong>Add from Files</strong>
+              <small>Open phone file manager and crop it next</small>
             </button>
             <button className="mz-scanner-add-card" onClick={() => start()} disabled={busy || !cameraSupported}>
               <Camera />

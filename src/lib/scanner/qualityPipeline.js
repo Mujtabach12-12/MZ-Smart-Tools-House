@@ -7,7 +7,7 @@
  */
 
 export const SCANNER_DETECTION_MAX_SIDE = 1600;
-export const SCANNER_PREVIEW_MAX_SIDE = 900;
+export const SCANNER_PREVIEW_MAX_SIDE = 1400;
 export const SCANNER_MAX_OUTPUT_PIXELS = 24_000_000;
 
 const clamp01 = (n) => Math.min(1, Math.max(0, n));

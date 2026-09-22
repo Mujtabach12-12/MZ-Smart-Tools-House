@@ -22,7 +22,7 @@ assert.ok(scannerSource.includes("mz-scanner-crop-handle"),"crop handles must be
 assert.ok(scannerSource.includes("Confirm Crop & Continue"),"crop step must explicitly continue to filtering");
 assert.ok(scannerSource.includes("Apply Filter & Continue"),"filter step must explicitly continue to export");
 assert.ok(scannerSource.includes("Export or add another image"),"export step must offer export or another page");
-assert.ok(scannerSource.includes("Add another image") && scannerSource.includes("Scan another page"),"multi-page flow must support another image or camera capture");
+assert.ok(scannerSource.includes("Add from Files") && scannerSource.includes("Scan another page"),"multi-page flow must support another image or camera capture");
 assert.ok(scannerSource.includes("previewData"),"filter page must use a live preview");
 for (const preset of ['["original", "Original"]','["document", "Document"]','["grayscale", "Grayscale"]','["bw", "Black & White"]','["auto", "Enhanced"]']) assert.ok(scannerSource.includes(preset),`scanner missing enhancement preset ${preset}`);
 assert.ok(scannerPipeline.includes('mode === "document"') && scannerPipeline.includes('mode === "grayscale"') && scannerPipeline.includes('mode === "bw"'),"scanner must implement real document/grayscale/B&W enhancement paths");

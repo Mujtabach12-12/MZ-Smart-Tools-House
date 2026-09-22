@@ -23,7 +23,7 @@ const checks = [
   ['Adaptive launcher icon', fs.existsSync(path.join(root, 'android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml'))],
   ['Native splash icon', fs.existsSync(path.join(root, 'android/app/src/main/res/drawable/mz_splash_logo_padded.png')) && fs.existsSync(path.join(root, 'android/app/src/main/res/drawable/avd_splash_logo.xml'))],
   ['First-paint startup overlay', fs.readFileSync(path.join(root, 'index.html'), 'utf8').includes('id="mz-native-startup"')],
-  ['Startup animation video', fs.existsSync(path.join(root, 'public/startup/mz-office-welcome.mp4'))],
+  ['Lightweight startup tools loader', fs.readFileSync(path.join(root, 'index.html'), 'utf8').includes('mz-tool-loader')],
 ];
 const failed = checks.filter(([, ok]) => !ok);
 if (failed.length) {
@@ -33,6 +33,5 @@ if (failed.length) {
 console.log(`Capacitor audit passed: ${checks.length} configuration and native-integration checks.`);
 console.log('Target: Capacitor 8.x / Android / com.mzsmarttoolhouse.app');
 
-assert(fs.existsSync('public/startup/mz-office-welcome.mp4'), 'Missing office startup animation');
-assert(fs.existsSync('public/startup/mz-office-welcome-poster.jpg'), 'Missing office startup poster');
-console.log('Office startup animation assets: PASS');
+assert(!fs.existsSync('public/startup/mz-office-welcome.mp4'), 'Obsolete startup video should be removed');
+console.log('Lightweight startup loader: PASS');

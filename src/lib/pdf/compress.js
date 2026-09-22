@@ -4,9 +4,9 @@ import { loadPdfDocument } from "./core.js";
 export const PDF_COMPRESSION_PRESETS = Object.freeze({
   // Internal keys remain for backward compatibility with saved UI state.
   // Labels describe quality, not an ambiguous "compression strength".
-  low: { label: "High Quality", strategy: "lossless", dpi: null, scale: null, jpegQuality: null },
-  medium: { label: "Balanced", strategy: "raster", dpi: 150, scale: 150 / 72, jpegQuality: 0.82 },
-  high: { label: "Small File", strategy: "raster", dpi: 96, scale: 96 / 72, jpegQuality: 0.68 },
+  low: { label: "High Quality", strategy: "lossless", dpi: null, scale: null, jpegQuality: null, expectedSaving: "0–15%" },
+  medium: { label: "Balanced", strategy: "raster", dpi: 150, scale: 150 / 72, jpegQuality: 0.82, expectedSaving: "20–60%" },
+  high: { label: "Small File", strategy: "raster", dpi: 96, scale: 96 / 72, jpegQuality: 0.68, expectedSaving: "40–80%" },
 });
 
 function byteLength(value) {

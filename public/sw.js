@@ -1,8 +1,8 @@
 /* MZ Smart Tool House service worker. Generated cache version is replaced before build. */
-const CACHE_VERSION = '0.1.0-79bfa06b26';
+const CACHE_VERSION = '0.1.0-658704b5d4';
 const SHELL_CACHE = `mz-tools-shell-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `mz-tools-runtime-${CACHE_VERSION}`;
-const SHELL = ['/', '/index.html', '/manifest.webmanifest', '/favicon.svg', '/icons/icon-192.png', '/icons/icon-512.png', '/icons/icon-maskable.png', '/startup/mz-office-welcome.mp4', '/startup/mz-office-welcome-poster.jpg'];
+const SHELL = ['/', '/index.html', '/manifest.webmanifest', '/favicon.svg', '/icons/icon-192.png', '/icons/icon-512.png', '/icons/icon-maskable.png'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(SHELL_CACHE).then((cache) => cache.addAll(SHELL)).then(() => self.skipWaiting()));
