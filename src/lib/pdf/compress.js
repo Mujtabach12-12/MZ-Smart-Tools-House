@@ -2,9 +2,11 @@ import { PDFDocument } from "pdf-lib";
 import { loadPdfDocument } from "./core.js";
 
 export const PDF_COMPRESSION_PRESETS = Object.freeze({
-  low: { label: "Low compression", scale: 1.75, jpegQuality: 0.86 },
-  medium: { label: "Medium compression", scale: 1.4, jpegQuality: 0.7 },
-  high: { label: "High compression", scale: 1.05, jpegQuality: 0.5 },
+  // Internal keys remain for backward compatibility with saved UI state.
+  // Labels describe quality, not an ambiguous "compression strength".
+  low: { label: "High Quality", strategy: "lossless", dpi: null, scale: null, jpegQuality: null },
+  medium: { label: "Balanced", strategy: "raster", dpi: 150, scale: 150 / 72, jpegQuality: 0.82 },
+  high: { label: "Small File", strategy: "raster", dpi: 96, scale: 96 / 72, jpegQuality: 0.68 },
 });
 
 function byteLength(value) {

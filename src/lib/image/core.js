@@ -6,7 +6,7 @@
  * ./canvas.js and are injected into ./process.js as dependencies.
  */
 
-export { formatBytes } from "../pdf/core.js";
+export { formatBytes } from "../files/format.js";
 
 /** Output formats the tools can encode to, in canvas `toBlob` terms. */
 export const OUTPUT_FORMATS = {
@@ -66,6 +66,13 @@ export function formatKeyFromMime(mime) {
     case "image/jpeg":
     case "image/jpg":
       return "jpeg";
+    case "image/gif":
+    case "image/bmp":
+      // Canvas cannot encode GIF/BMP. Prefer lossless PNG for transformations
+      // rather than silently introducing JPEG artifacts. Animated GIFs still
+      // require an explicit animation-aware tool; generic canvas tools operate
+      // on the decoded frame only.
+      return "png";
     default:
       return "jpeg";
   }

@@ -56,45 +56,43 @@ function renderToCanvas(image, options, deps) {
     background = null,
   } = options;
 
-  const base = deps.createCanvas(outputWidth, outputHeight);
-  const ctx = deps.getContext(base);
+  const transformed = !isNoOpTransform(rotation, { flipHorizontal, flipVertical });
+  const t = transformed
+    ? rotationTransform(outputWidth, outputHeight, rotation, { flipHorizontal, flipVertical })
+    : {
+        canvasWidth: outputWidth, canvasHeight: outputHeight,
+        translateX: 0, translateY: 0, rotateRadians: 0, scaleX: 1, scaleY: 1,
+      };
+
+  // Draw the source directly into the final canvas. The previous pipeline first
+  // resized/cropped into one bitmap and then drew that bitmap into a second
+  // rotation canvas, causing an avoidable second resampling pass.
+  const canvas = deps.createCanvas(t.canvasWidth, t.canvasHeight);
+  const ctx = deps.getContext(canvas);
 
   if (background) {
     ctx.fillStyle = background;
-    ctx.fillRect(0, 0, outputWidth, outputHeight);
+    ctx.fillRect(0, 0, t.canvasWidth, t.canvasHeight);
   }
 
-  ctx.drawImage(
-    image.source,
-    sourceRect.x,
-    sourceRect.y,
-    sourceRect.width,
-    sourceRect.height,
-    0,
-    0,
-    outputWidth,
-    outputHeight
-  );
-
-  if (isNoOpTransform(rotation, { flipHorizontal, flipVertical })) {
-    return { canvas: base, width: outputWidth, height: outputHeight };
+  if (transformed) {
+    ctx.translate(t.translateX, t.translateY);
+    ctx.rotate(t.rotateRadians);
+    ctx.scale(t.scaleX, t.scaleY);
+    ctx.drawImage(
+      image.source,
+      sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height,
+      -outputWidth / 2, -outputHeight / 2, outputWidth, outputHeight
+    );
+  } else {
+    ctx.drawImage(
+      image.source,
+      sourceRect.x, sourceRect.y, sourceRect.width, sourceRect.height,
+      0, 0, outputWidth, outputHeight
+    );
   }
 
-  const t = rotationTransform(outputWidth, outputHeight, rotation, { flipHorizontal, flipVertical });
-  const rotated = deps.createCanvas(t.canvasWidth, t.canvasHeight);
-  const rctx = deps.getContext(rotated);
-
-  if (background) {
-    rctx.fillStyle = background;
-    rctx.fillRect(0, 0, t.canvasWidth, t.canvasHeight);
-  }
-
-  rctx.translate(t.translateX, t.translateY);
-  rctx.rotate(t.rotateRadians);
-  rctx.scale(t.scaleX, t.scaleY);
-  rctx.drawImage(base, t.drawX, t.drawY, t.drawWidth, t.drawHeight);
-
-  return { canvas: rotated, width: t.canvasWidth, height: t.canvasHeight };
+  return { canvas, width: t.canvasWidth, height: t.canvasHeight };
 }
 
 /**
@@ -190,6 +188,13 @@ export async function processImage(file, options = {}, deps) {
       throw new Error("Your browser couldn't produce the output image. Try a different format.");
     }
 
+    // Browser adapter validates that the encoded output can be decoded and
+    // has the exact dimensions produced by the operation before a download is
+    // exposed. Test adapters may omit this hook.
+    const validation = typeof deps.validateImageOutput === "function"
+      ? await deps.validateImageOutput(blob, { expectedMime: format.mime, expectedWidth: width, expectedHeight: height })
+      : { valid: true, width, height, mime: format.mime };
+
     return {
       blob,
       size: blob.size,
@@ -202,6 +207,8 @@ export async function processImage(file, options = {}, deps) {
       attempts,
       filename: buildOutputName(file.name, formatKey, options.suffix || ""),
       originalSize: file.size,
+      validation,
+      metadataPreserved: false, // Canvas re-encoding does not preserve EXIF/ancillary metadata reliably.
       originalWidth: image.width,
       originalHeight: image.height,
       ...describeSizeChange(file.size, blob.size),
@@ -231,11 +238,30 @@ export function resizeImage(file, { width, height, lockAspect = true, format, qu
 }
 
 /** Rotate in 90° steps and/or mirror. */
-export function rotateImage(
+export async function rotateImage(
   file,
   { rotation = 0, flipHorizontal = false, flipVertical = false, format, quality = 0.92 } = {},
   deps
 ) {
+  requireDeps(deps);
+  assertSupportedImage(file);
+  const sourceFormat = formatKeyFromMime(file.type);
+  const targetFormat = format ? getFormatKey(format) : sourceFormat;
+  if (isNoOpTransform(rotation, { flipHorizontal, flipVertical }) && targetFormat === sourceFormat) {
+    const image = await deps.loadImage(file);
+    try {
+      return {
+        blob: file, size: file.size, mime: file.type, formatKey: sourceFormat,
+        width: image.width, height: image.height, quality: null, hitTarget: true, attempts: 0,
+        filename: file.name, originalSize: file.size, originalWidth: image.width, originalHeight: image.height,
+        ...describeSizeChange(file.size, file.size),
+        validation: { valid: true, width: image.width, height: image.height, mime: file.type },
+        metadataPreserved: true, retainedOriginal: true,
+      };
+    } finally {
+      image?.close?.();
+    }
+  }
   return processImage(file, { rotation, flipHorizontal, flipVertical, format, quality, suffix: "rotated" }, deps);
 }
 

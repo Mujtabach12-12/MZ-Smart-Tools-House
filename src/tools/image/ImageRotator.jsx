@@ -3,6 +3,8 @@ import { FlipHorizontal, FlipVertical, Loader2, RotateCcw, RotateCw } from "luci
 import { rotateImage } from "../../lib/image/process";
 import { browserImageDeps } from "../../lib/image/canvas";
 import { assertSupportedImage, formatKeyFromMime, getFormat } from "../../lib/image/core";
+import { createFileAsset, attachImageMetadata, setOutput } from "../../lib/files/fileAsset.js";
+import { assertFileSignature } from "../../lib/files/signatures.js";
 import { addRotation, rotatedDimensions, isNoOpTransform } from "../../lib/image/rotate";
 import { qualityAppliesTo } from "../../lib/image/compress";
 import { formatDimensions } from "../../lib/image/dimensions";
@@ -17,7 +19,7 @@ import ToolExtras from "../../components/tools/ToolExtras";
 const ACCEPTED = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
 export default function ImageRotator() {
-  const [file, setFile] = useState(null);
+  const [asset, setAsset] = useState(null);
   const [natural, setNatural] = useState(null);
   const [rotation, setRotation] = useState(0);
   const [flipHorizontal, setFlipHorizontal] = useState(false);
@@ -28,6 +30,7 @@ export default function ImageRotator() {
   const [error, setError] = useState("");
   const [result, setResult] = useState(null);
 
+  const file = asset?.original || null;
   const sourceFormat = file ? formatKeyFromMime(file.type) : "jpeg";
   const effectiveFormat = outputFormat === "auto" ? sourceFormat : outputFormat;
   const lossy = qualityAppliesTo(effectiveFormat);
@@ -35,7 +38,7 @@ export default function ImageRotator() {
 
   const projected = natural ? rotatedDimensions(natural.width, natural.height, rotation) : null;
 
-  function handleFiles([selected]) {
+  async function handleFiles([selected]) {
     setError("");
     setResult(null);
     setNatural(null);
@@ -44,9 +47,10 @@ export default function ImageRotator() {
     setFlipVertical(false);
     try {
       assertSupportedImage(selected, ACCEPTED);
-      setFile(selected);
+      await assertFileSignature(selected, ACCEPTED);
+      setAsset(createFileAsset(selected, { kind: "image" }));
     } catch (err) {
-      setFile(null);
+      setAsset(null);
       setError(err.message);
     }
   }
@@ -74,6 +78,7 @@ export default function ImageRotator() {
         browserImageDeps
       );
       setResult(output);
+      setAsset((current) => current ? setOutput(current, output) : current);
     } catch (err) {
       setError(err.message || "Something went wrong while rotating this image.");
     } finally {
@@ -82,7 +87,7 @@ export default function ImageRotator() {
   }
 
   function handleReset() {
-    setFile(null);
+    setAsset(null);
     setNatural(null);
     setRotation(0);
     setFlipHorizontal(false);
@@ -104,7 +109,10 @@ export default function ImageRotator() {
           label="Drop a JPG, PNG or WebP image here to rotate"
         />
       ) : (
-        <ImagePreview file={file} onRemove={handleReset} onLoad={setNatural} />
+        <ImagePreview file={file} onRemove={handleReset} onLoad={(dimensions) => {
+          setNatural(dimensions);
+          setAsset((current) => current ? attachImageMetadata(current, dimensions.width, dimensions.height) : current);
+        }} />
       )}
 
       {file && (
@@ -188,7 +196,7 @@ export default function ImageRotator() {
 
       {file && unchanged && (
         <p className="mt-3 text-sm text-navy-500 dark:text-navy-400">
-          No rotation or flip selected yet — saving now would just re-encode the image unchanged.
+          No rotation or flip is selected. Apply & Save will retain the original file without re-encoding it.
         </p>
       )}
 

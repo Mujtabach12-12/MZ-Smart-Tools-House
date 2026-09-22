@@ -14,6 +14,7 @@ assert.equal(validateDocumentCorners([[10,10],[11,10],[11,11],[10,11]],200,200),
 assert.equal(validateDocumentCorners([[10,10],[10,10],[190,190],[10,190]],200,200),null,"duplicate/crossed manual handles should be rejected");
 
 const scannerSource=fs.readFileSync(new URL("../src/tools/scanner/SmartDocumentScanner.jsx",import.meta.url),"utf8");
+const scannerPipeline=fs.readFileSync(new URL("../src/lib/scanner/qualityPipeline.js",import.meta.url),"utf8");
 assert.ok(scannerSource.includes('useState("capture")'),"scanner should start on the capture step");
 for (const step of ["STEP 1 OF 4","STEP 2 OF 4","STEP 3 OF 4","STEP 4 OF 4"]) assert.ok(scannerSource.includes(step),`guided scanner missing ${step}`);
 assert.ok(scannerSource.includes("Auto crop is ready. Drag any corner directly"),"auto detection must lead directly into editable crop review");
@@ -23,8 +24,13 @@ assert.ok(scannerSource.includes("Apply Filter & Continue"),"filter step must ex
 assert.ok(scannerSource.includes("Export or add another image"),"export step must offer export or another page");
 assert.ok(scannerSource.includes("Add another image") && scannerSource.includes("Scan another page"),"multi-page flow must support another image or camera capture");
 assert.ok(scannerSource.includes("previewData"),"filter page must use a live preview");
-for (const preset of ['["auto", "Auto"]','["color", "Color Boost"]','["document", "Document"]','["bw", "B&W"]']) assert.ok(scannerSource.includes(preset),`scanner missing enhancement preset ${preset}`);
-assert.ok(scannerSource.includes('mode === "color"'),"scanner must implement an actual color-enhancement path");
+for (const preset of ['["original", "Original"]','["document", "Document"]','["grayscale", "Grayscale"]','["bw", "Black & White"]','["auto", "Enhanced"]']) assert.ok(scannerSource.includes(preset),`scanner missing enhancement preset ${preset}`);
+assert.ok(scannerPipeline.includes('mode === "document"') && scannerPipeline.includes('mode === "grayscale"') && scannerPipeline.includes('mode === "bw"'),"scanner must implement real document/grayscale/B&W enhancement paths");
+assert.ok(scannerSource.includes("ImageCapture") && scannerSource.includes("takePhoto"),"scanner should prefer a high-resolution still capture when ImageCapture is supported");
+assert.ok(scannerSource.includes("SwitchCamera") && scannerSource.includes("torchSupported"),"scanner camera should expose capability-based camera switching/flash controls");
+assert.ok(scannerSource.includes("retakeSelected"),"scanner crop review should allow a real retake without accepting a bad page");
+assert.ok(scannerSource.includes("thumbnailUrl") && scannerSource.includes("outputBlob"),"scanner must keep UI thumbnails separate from processed page masters");
+assert.ok(scannerSource.includes("draggable") && scannerSource.includes("reorderPage"),"scanner page manager should support direct desktop reordering with touch-friendly fallback controls");
 assert.ok(scannerSource.includes("PDF page size") && scannerSource.includes("US Letter") && scannerSource.includes("PDF margins"),"scanner PDF export should expose page size and margins");
 assert.ok(scannerSource.includes("Searchable PDF") && scannerSource.includes("OCR Page"),"scanner should retain OCR/searchable PDF export paths");
 assert.ok(scannerSource.includes("withPageHistory"),"scanner page changes should continue to preserve history snapshots");

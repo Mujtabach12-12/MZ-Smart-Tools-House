@@ -139,11 +139,12 @@ await test("getFormat resolves jpeg/jpg/png/webp", () => {
 await test("getFormat rejects an unknown format with a readable message", () => {
   assert.throws(() => getFormat("tiff"), /not a supported output format/);
 });
-await test("formatKeyFromMime maps input types, defaulting to jpeg", () => {
+await test("formatKeyFromMime preserves supported formats and uses lossless PNG for GIF/BMP edits", () => {
   assert.equal(formatKeyFromMime("image/png"), "png");
   assert.equal(formatKeyFromMime("image/webp"), "webp");
   assert.equal(formatKeyFromMime("image/jpg"), "jpeg");
-  assert.equal(formatKeyFromMime("image/gif"), "jpeg");
+  assert.equal(formatKeyFromMime("image/gif"), "png");
+  assert.equal(formatKeyFromMime("image/bmp"), "png");
   assert.equal(formatKeyFromMime(undefined), "jpeg");
 });
 await test("formatLabel gives human names", () => {
@@ -590,13 +591,14 @@ await test("cropImage rejects a crop outside the image with a clear message", as
 await test("cropImage requires a selection", () => {
   assert.throws(() => cropImage(fakeFile("a.jpg", "image/jpeg"), {}, fakeDeps()), /Select the area/);
 });
-await test("rotateImage 90° makes a second, swapped canvas and applies the transform", async () => {
+await test("rotateImage 90° renders once into the final swapped canvas", async () => {
   const deps = fakeDeps({ width: 800, height: 600 });
   const r = await rotateImage(fakeFile("p.jpg", "image/jpeg"), { rotation: 90 }, deps);
   assert.equal(r.width, 600);
   assert.equal(r.height, 800);
-  assert.equal(deps.calls.canvases.length, 2);
-  assert.deepEqual(deps.calls.canvases[1], { width: 600, height: 800 });
+  assert.equal(deps.calls.canvases.length, 1);
+  assert.deepEqual(deps.calls.canvases[0], { width: 600, height: 800 });
+  assert.equal(deps.calls.encodes.length, 1, "rotation should have only one lossy encode");
 
   const ops = deps.calls.transforms;
   assert.equal(ops[0].op, "translate");
@@ -604,10 +606,14 @@ await test("rotateImage 90° makes a second, swapped canvas and applies the tran
   assert.equal(ops[1].op, "rotate");
   assert.ok(Math.abs(ops[1].radians - Math.PI / 2) < 1e-9);
 });
-await test("rotateImage with no rotation skips the second canvas entirely", async () => {
+await test("rotateImage no-op preserves the original without canvas or re-encode", async () => {
   const deps = fakeDeps({ width: 800, height: 600 });
-  await rotateImage(fakeFile("p.jpg", "image/jpeg"), { rotation: 0 }, deps);
-  assert.equal(deps.calls.canvases.length, 1);
+  const input = fakeFile("p.jpg", "image/jpeg");
+  const result = await rotateImage(input, { rotation: 0 }, deps);
+  assert.equal(result.blob, input);
+  assert.equal(result.retainedOriginal, true);
+  assert.equal(deps.calls.canvases.length, 0);
+  assert.equal(deps.calls.encodes.length, 0);
   assert.equal(deps.calls.transforms.length, 0);
 });
 await test("flip alone still applies a transform pass", async () => {

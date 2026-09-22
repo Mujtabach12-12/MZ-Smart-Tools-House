@@ -11,6 +11,7 @@
  */
 
 import { formatLabel } from "./core.js";
+import { validateImageOutput } from "../files/outputValidation.js";
 
 /**
  * Decodes a File into something drawable, preferring `createImageBitmap`
@@ -152,4 +153,5 @@ export const browserImageDeps = {
   createCanvas,
   getContext,
   canvasToBlob,
+  validateImageOutput: (blob, options) => validateImageOutput(blob, { ...options, decodeImage: loadImage }),
 };

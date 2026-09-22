@@ -1,4 +1,6 @@
 import { PDFDocument } from "pdf-lib";
+import { formatBytes } from "../files/format.js";
+export { formatBytes };
 
 /**
  * Loads a PDF from raw bytes with a friendly error on invalid/corrupt/encrypted files.
@@ -14,12 +16,6 @@ export async function loadPdfDocument(bytes) {
   }
 }
 
-export function formatBytes(bytes) {
-  if (bytes === 0) return "0 B";
-  const units = ["B", "KB", "MB", "GB"];
-  const i = Math.floor(Math.log(bytes) / Math.log(1024));
-  return `${(bytes / 1024 ** i).toFixed(i === 0 ? 0 : 2)} ${units[i]}`;
-}
 
 /** Parses a human page-range string like "1-3,5,8-9" into 0-based indices, validated against pageCount. */
 export function parsePageRanges(input, pageCount) {

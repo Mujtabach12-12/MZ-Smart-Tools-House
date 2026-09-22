@@ -1,45 +1,61 @@
-// Browser-only: renders PDF pages to raster images using pdfjs-dist + the
-// native <canvas> element. This module is not used during SSR/Node builds.
+// Browser-only PDF-to-raster export. Viewing uses ./rendering.js instead.
 import * as pdfjsLib from "pdfjs-dist";
-// Vite-specific `?url` import resolves to the built worker file's URL so it
-// can be bundled and served correctly in production.
 import pdfjsWorkerUrl from "pdfjs-dist/build/pdf.worker.min.mjs?url";
+import { scaleForDpi } from "./rendering.js";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorkerUrl;
 
 /**
- * bytes: Uint8Array of the PDF
- * format: "image/jpeg" | "image/png"
- * scale: render scale (2 = ~144 DPI-ish, good default for readability)
- * onProgress: (current, total) => void
- * Returns [{ pageNumber, blob }]
+ * Explicit raster export. `dpi` is preferred over the legacy `scale` option so
+ * output resolution is a user/tool decision rather than a screen-preview size.
+ * Returns [{ pageNumber, blob, width, height, dpi }].
  */
-export async function renderPdfPagesToImages(bytes, { format = "image/jpeg", quality = 0.92, scale = 2, onProgress } = {}) {
+export async function renderPdfPagesToImages(bytes, {
+  format = "image/jpeg",
+  quality = 0.92,
+  dpi = 150,
+  scale,
+  maxPixelsPerPage = 40_000_000,
+  onProgress,
+} = {}) {
   let pdf;
   try {
-    // pdfjs mutates the buffer it's given in some versions; pass a copy.
     pdf = await pdfjsLib.getDocument({ data: bytes.slice() }).promise;
   } catch {
     throw new Error("This file doesn't look like a valid PDF, or it may be corrupted.");
   }
 
+  const renderScale = Number.isFinite(scale) ? scale : scaleForDpi(dpi);
   const results = [];
-  for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
-    const page = await pdf.getPage(pageNumber);
-    const viewport = page.getViewport({ scale });
+  try {
+    for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+      const page = await pdf.getPage(pageNumber);
+      const viewport = page.getViewport({ scale: renderScale });
+      const pixels = viewport.width * viewport.height;
+      if (pixels > maxPixelsPerPage) {
+        throw new Error(`Page ${pageNumber} would require ${Math.round(pixels / 1_000_000)} megapixels at this resolution. Choose a lower DPI to avoid running out of memory.`);
+      }
 
-    const canvas = document.createElement("canvas");
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-    const context = canvas.getContext("2d");
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.max(1, Math.round(viewport.width));
+      canvas.height = Math.max(1, Math.round(viewport.height));
+      const context = canvas.getContext("2d", { alpha: format === "image/png" });
+      if (!context) throw new Error(`Could not create a rendering surface for page ${pageNumber}.`);
+      if (format === "image/jpeg") {
+        context.fillStyle = "#fff";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+      }
 
-    await page.render({ canvasContext: context, viewport }).promise;
+      await page.render({ canvasContext: context, viewport }).promise;
+      const blob = await new Promise((resolve) => canvas.toBlob(resolve, format, format === "image/png" ? undefined : quality));
+      if (!blob) throw new Error(`Could not render page ${pageNumber} to an image.`);
 
-    const blob = await new Promise((resolve) => canvas.toBlob(resolve, format, quality));
-    if (!blob) throw new Error(`Could not render page ${pageNumber} to an image.`);
-
-    results.push({ pageNumber, blob });
-    onProgress?.(pageNumber, pdf.numPages);
+      results.push({ pageNumber, blob, width: canvas.width, height: canvas.height, dpi: Number.isFinite(scale) ? Math.round(scale * 72) : dpi });
+      onProgress?.(pageNumber, pdf.numPages);
+      page.cleanup?.();
+    }
+  } finally {
+    try { await pdf.destroy?.(); } catch { /* best-effort cleanup */ }
   }
 
   return results;

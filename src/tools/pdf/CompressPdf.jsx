@@ -25,20 +25,29 @@ export default function CompressPdf() {
     // original bytes intact because pdf-lib uses them immediately afterwards.
     const loadingTask = pdfjs.getDocument({ data: bytes.slice() });
     const pdf = await loadingTask.promise;
-    return async (index, preset) => {
+    const renderPage = async (index, preset) => {
       const page = await pdf.getPage(index + 1);
-      const viewport = page.getViewport({ scale: preset.scale });
-      const canvas = document.createElement("canvas");
-      canvas.width = Math.max(1, Math.round(viewport.width));
-      canvas.height = Math.max(1, Math.round(viewport.height));
-      const context = canvas.getContext("2d", { alpha: false });
-      context.fillStyle = "#fff";
-      context.fillRect(0, 0, canvas.width, canvas.height);
-      await page.render({ canvasContext: context, viewport }).promise;
-      const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/jpeg", preset.jpegQuality));
-      if (!blob) throw new Error(`Page ${index + 1} could not be encoded.`);
-      return { bytes: new Uint8Array(await blob.arrayBuffer()), width: canvas.width, height: canvas.height };
+      try {
+        const viewport = page.getViewport({ scale: preset.scale });
+        const pixels = viewport.width * viewport.height;
+        if (pixels > 40_000_000) {
+          throw new Error(`Page ${index + 1} is too large to raster-compress safely at ${preset.dpi} DPI. Choose High Quality or process the PDF on a desktop with more memory.`);
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.max(1, Math.round(viewport.width));
+        canvas.height = Math.max(1, Math.round(viewport.height));
+        const context = canvas.getContext("2d", { alpha: false });
+        context.fillStyle = "#fff";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        await page.render({ canvasContext: context, viewport }).promise;
+        const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/jpeg", preset.jpegQuality));
+        if (!blob) throw new Error(`Page ${index + 1} could not be encoded.`);
+        return { bytes: new Uint8Array(await blob.arrayBuffer()), width: canvas.width, height: canvas.height };
+      } finally {
+        page.cleanup?.();
+      }
     };
+    return { renderPage, cleanup: () => pdf.destroy?.() };
   }
 
   function handleFiles([selected]) {
@@ -57,10 +66,14 @@ export default function CompressPdf() {
     setResult(null);
     try {
       const bytes = await fileToUint8Array(file);
-      const renderPage = quality === "low" ? undefined : await createPageRenderer(bytes);
-      const r = await compressPdf(bytes, { quality, renderPage });
-      setResult(r);
-      setOutputBytes(r.bytes);
+      const renderer = quality === "low" ? null : await createPageRenderer(bytes);
+      try {
+        const r = await compressPdf(bytes, { quality, renderPage: renderer?.renderPage });
+        setResult(r);
+        setOutputBytes(r.bytes);
+      } finally {
+        await renderer?.cleanup?.();
+      }
     } catch (err) {
       setError(err.message);
     } finally {
@@ -87,7 +100,7 @@ export default function CompressPdf() {
             <label key={id} className={`cursor-pointer rounded-2xl border p-4 ${quality === id ? "border-brand-500 bg-brand-50 dark:bg-brand-950/30" : "border-navy-200 dark:border-navy-700"}`}>
               <input className="mr-2" type="radio" name="pdf-quality" value={id} checked={quality === id} onChange={() => setQuality(id)} />
               <span className="font-semibold">{preset.label}</span>
-              <span className="mt-1 block text-xs text-navy-500">{id === "low" ? "Lossless; best for text and forms" : id === "medium" ? "Balanced for scanned PDFs" : "Smallest output; lower image detail"}</span>
+              <span className="mt-1 block text-xs text-navy-500">{id === "low" ? "Structural/lossless; preserves text, vectors, links and forms" : id === "medium" ? "150 DPI raster option for scan/image-heavy PDFs" : "96 DPI raster option when file size matters most"}</span>
             </label>
           ))}
         </div>
@@ -140,7 +153,7 @@ export default function CompressPdf() {
         ]}
         faq={[
           { q: "How much can I expect to save?", a: "It depends on the PDF. The displayed sizes and percentage are calculated from the actual generated file; no fixed saving is promised." },
-          { q: "Will compression reduce quality?", a: "Low mode is lossless. Medium and high modes re-render pages as JPEG images, so they trade image detail and selectable text for smaller files." },
+          { q: "Will compression reduce quality?", a: "High Quality is lossless. Balanced and Small File are explicit raster-compression options for scan/image-heavy PDFs, so they can trade detail and selectable/interactive content for a smaller file." },
         ]}
       />
     </div>

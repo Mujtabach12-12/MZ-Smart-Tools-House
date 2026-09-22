@@ -30,7 +30,7 @@ assert.ok(errorBoundary.includes("mz-feedback-open") && errorBoundary.includes("
 
 const scanner = read("src/tools/scanner/SmartDocumentScanner.jsx");
 for (const token of [
-  'useState("capture")', "Confirm Crop & Continue", "Apply Filter & Continue", "Export or add another image", "US Letter", "PDF margins", "JSZip", "Auto", "Color Boost", "Grayscale", "B&W", "Searchable PDF", "OCR Page"
+  'useState("capture")', "Confirm Crop & Continue", "Apply Filter & Continue", "Export or add another image", "US Letter", "PDF margins", "JSZip", "Enhanced", "Document", "Grayscale", "Black & White", "Searchable PDF", "OCR Page"
 ]) assert.ok(scanner.includes(token), `scanner production workflow missing ${token}`);
 
 const recent = read("src/components/home/RecentFiles.jsx");
@@ -55,7 +55,7 @@ for (const token of ['"form-name": "mz-feedback"', 'fetch("/"', 'Open Feedback']
 assert.ok(!contact.includes("isn't wired") && !contact.includes("not wired"), "contact form must not present a fake success stub");
 
 const pdfViewer = read("src/tools/office/PdfViewer.jsx");
-for (const token of ["Fit width", "Fit page", 'fit("width")', 'fit("page")'])
+for (const token of ["Fit width", "Fit page", 'fitView("width")', 'fitView("page")', "Download original"])
   assert.ok(pdfViewer.includes(token), `PDF viewer missing ${token}`);
 
 const hardcodedSiteUrls = sourceFiles("src").filter((path) => path !== "src/components/layout/Seo.jsx" && read(path).includes("https://www.mzsolutions.app"));

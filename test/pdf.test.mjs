@@ -220,7 +220,8 @@ await test("raster compression preserves pages and uses the supplied quality pre
   assert.equal(result.pageCount, 3);
   assert.ok(result.compressedSize <= result.originalSize, "quality compression must never return a larger output");
   assert.deepEqual(calls.map((x) => x.index), [0, 1, 2]);
-  assert.equal(calls[0].preset.jpegQuality, 0.5);
+  assert.equal(calls[0].preset.jpegQuality, 0.68);
+  assert.ok(Math.abs(calls[0].preset.scale - (96 / 72)) < 1e-9, "Small File mode should rasterize at 96 DPI");
 });
 await test("rejects unknown compression quality", async () => {
   const pdf = await makePdf(1);

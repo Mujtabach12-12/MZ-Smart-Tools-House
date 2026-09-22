@@ -16,7 +16,7 @@
     "test:scanner": "node test/scanner.test.mjs",
     "test:health": "node test/tool-health.test.mjs",
     "test:bundle": "node test/bundle-check-global.mjs",
-    "test:all": "npm run test:calculators && npm run test:simple-calculators && npm run test:fixtures && npm run test:converters && npm run test:science && npm run test:warning-fixes && npm run test:dependency-safety && npm run test:registry && npm run test:functional-audit && npm run test:category-registry && npm run test:no-fake && npm run test:platform && npm run test:office-platform && npm run test:final-platform && npm run test:production-master && npm run test:spreadsheet && npm run test:seo-architecture && npm run test:compiler-service && npm run test:health && npm run test:capacitor && npm run test:image && npm run test:pdf && npm run test:scanner && npm run test:bundle && npm run test:pwa && npm run test:mobile-ui",
+    "test:all": "npm run test:calculators && npm run test:simple-calculators && npm run test:fixtures && npm run test:converters && npm run test:science && npm run test:warning-fixes && npm run test:dependency-safety && npm run test:registry && npm run test:functional-audit && npm run test:category-registry && npm run test:no-fake && npm run test:platform && npm run test:office-platform && npm run test:final-platform && npm run test:production-master && npm run test:spreadsheet && npm run test:seo-architecture && npm run test:compiler-service && npm run test:health && npm run test:capacitor && npm run test:quality && npm run test:image && npm run test:pdf && npm run test:scanner && npm run test:phase4 && npm run test:bundle && npm run test:pwa && npm run test:mobile-ui",
     "test:registry": "node test/tool-registry-audit.mjs",
     "test:functional-audit": "node test/tool-functional-audit.mjs",
     "prebuild": "npm run verify:deps && node scripts/generate-pwa.js && node scripts/generate-sitemap.js",
@@ -45,7 +45,11 @@
     "test:converters": "node test/converters.test.mjs",
     "test:science": "node test/science-formulas.test.mjs",
     "test:warning-fixes": "node test/warning-fixes.test.mjs",
-    "test:mobile-ui": "node test/mobile-ui.test.mjs"
+    "test:mobile-ui": "node test/mobile-ui.test.mjs",
+    "test:quality": "node test/quality-architecture.test.mjs",
+    "test:phase4": "node test/phase4-reader-scanner.test.mjs",
+    "audit:classification": "node scripts/classify-tool-registry.mjs",
+    "test:classification": "node test/tool-professional-classification.test.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.436.0",

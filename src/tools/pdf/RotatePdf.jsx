@@ -2,7 +2,10 @@ import { useState } from "react";
 import { Loader2, RotateCw } from "lucide-react";
 import { rotatePdf } from "../../lib/pdf/rotate";
 import { getPdfPageCount } from "../../lib/pdf/pageCount";
-import { fileToUint8Array, downloadBytes } from "../../lib/download";
+import { fileToUint8Array, downloadArtifact } from "../../lib/download";
+import { createFileAsset, attachPdfMetadata, setOutput } from "../../lib/files/fileAsset.js";
+import { assertFileSignature } from "../../lib/files/signatures.js";
+import { createOutputArtifact, validatePdfOutput } from "../../lib/files/outputValidation.js";
 import FileDropzone from "../../components/tools/FileDropzone";
 import FileListItem from "../../components/tools/FileListItem";
 import ErrorMessage from "../../components/tools/ErrorMessage";
@@ -11,27 +14,27 @@ import ToolExtras from "../../components/tools/ToolExtras";
 const ANGLES = [90, 180, 270];
 
 export default function RotatePdf() {
-  const [file, setFile] = useState(null);
+  const [asset, setAsset] = useState(null);
   const [pageCount, setPageCount] = useState(null);
   const [angle, setAngle] = useState(90);
   const [pagesInput, setPagesInput] = useState("all");
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState("");
   const [done, setDone] = useState(false);
+  const file = asset?.original || null;
 
   async function handleFiles([selected]) {
     setError(""); setDone(false);
-    if (selected.type !== "application/pdf") {
-      setError(`"${selected.name}" is not a PDF file.`);
-      return;
-    }
-    setFile(selected);
+    if (!selected) return;
     try {
+      await assertFileSignature(selected, "application/pdf");
       const bytes = await fileToUint8Array(selected);
-      setPageCount(await getPdfPageCount(bytes));
-    } catch {
-      setError("This file doesn't look like a valid PDF, or it may be corrupted.");
-      setFile(null);
+      const count = await getPdfPageCount(bytes);
+      setPageCount(count);
+      setAsset(attachPdfMetadata(createFileAsset(selected, { kind: "pdf" }), count));
+    } catch (err) {
+      setError(err.message || "This file doesn't look like a valid PDF, or it may be corrupted.");
+      setAsset(null);
     }
   }
 
@@ -42,8 +45,19 @@ export default function RotatePdf() {
     setDone(false);
     try {
       const bytes = await fileToUint8Array(file);
+      // rotatePdf edits the PDF page rotation structurally with pdf-lib. It
+      // never rasterizes pages, so text/vector/image quality is preserved.
       const rotated = await rotatePdf(bytes, angle, pagesInput);
-      downloadBytes(rotated, `rotated-${file.name}`, "application/pdf");
+      const validation = await validatePdfOutput(rotated, { expectedPageCount: pageCount });
+      const output = createOutputArtifact({
+        data: rotated,
+        filename: `rotated-${file.name}`,
+        mimeType: "application/pdf",
+        pageCount: validation.pageCount,
+        metadata: { structural: true, rasterized: false },
+      });
+      setAsset((current) => setOutput(current, output));
+      await downloadArtifact(output);
       setDone(true);
     } catch (err) {
       setError(err.message);
@@ -53,7 +67,7 @@ export default function RotatePdf() {
   }
 
   function handleReset() {
-    setFile(null); setPageCount(null); setAngle(90); setPagesInput("all"); setError(""); setDone(false);
+    setAsset(null); setPageCount(null); setAngle(90); setPagesInput("all"); setError(""); setDone(false);
   }
 
   return (
@@ -105,7 +119,7 @@ export default function RotatePdf() {
 
       <div className="mt-6 space-y-3">
         <ErrorMessage message={error} />
-        {done && !error && <p className="text-sm font-medium text-green-600">Your rotated PDF has been downloaded.</p>}
+        {done && !error && <p className="text-sm font-medium text-green-600">Your structurally rotated PDF was validated and downloaded without rasterizing its pages.</p>}
       </div>
 
       <ToolExtras
@@ -119,6 +133,7 @@ export default function RotatePdf() {
         ]}
         faq={[
           { q: "Can I rotate only some pages?", a: "Yes — enter a page range like \"2-3\" instead of \"all\"." },
+          { q: "Does this reduce PDF quality?", a: "No rasterization is used. The page rotation is changed structurally inside the PDF and the generated file is validated before download." },
         ]}
       />
     </div>
