@@ -2,29 +2,33 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
-  BookOpenText,
   Calculator,
   Code2,
   FileText,
   Grid2X2,
   Image as ImageIcon,
-  ScanLine,
   Sparkles,
   Heart,
-  Wrench,
 } from "lucide-react";
 import SearchBar from "../ui/SearchBar";
 import ToolIcon from "../ui/ToolIcon";
+import Tool3DIcon from "../ui/Tool3DIcon";
 import { categories } from "../../data/categories";
 import { getActiveTools, getPopularTools, getToolById } from "../../data/tools";
 import { getFavoriteTools, getRecentTools } from "../../lib/localPreferences";
 
 const quickTools = [
-  ["Scan", "smart-document-scanner", ScanLine, "mint"],
-  ["Compress PDF", "pdf-compressor", FileText, "blue"],
-  ["Write", "mz-online-word", BookOpenText, "violet"],
-  ["Convert", "length-converter", Wrench, "amber"],
+  ["Scan", "smart-document-scanner", "Capture documents"],
+  ["Compress PDF", "pdf-compressor", "Reduce PDF size"],
+  ["Write", "mz-online-word", "Create a document"],
+  ["Convert", "length-converter", "Convert units fast"],
 ];
+
+const CATEGORY_ACCENTS = {
+  blue: "#2563eb", purple: "#7c3aed", emerald: "#059669", indigo: "#4f46e5",
+  violet: "#7c3aed", slate: "#475569", amber: "#d97706", cyan: "#0891b2",
+  teal: "#0f766e", sky: "#0284c7", orange: "#ea580c", lime: "#65a30d", rose: "#e11d48",
+};
 
 const categorySlugs = [
   "office-tools",
@@ -39,7 +43,7 @@ function ToolRow({ tool }) {
   if (!tool) return null;
   return (
     <Link to={tool.route || `/tools/${tool.id}`} className="mz-mobile-tool-row">
-      <span className="mz-mobile-tool-row-icon"><ToolIcon name={tool.icon} /></span>
+      <Tool3DIcon tool={tool} size="sm" />
       <span className="min-w-0 flex-1">
         <strong>{tool.name}</strong>
         <small>{tool.description}</small>
@@ -78,14 +82,17 @@ export default function MobileHome() {
           <p>Work, study, scan, convert and create without jumping between different websites.</p>
           <div className="mt-5"><SearchBar size="lg" placeholder="Search tools, PDFs, calculators…" /></div>
           <div className="mt-4 grid grid-cols-2 gap-2.5">
-            {quickTools.map(([label, id, Icon, tone]) => {
+            {quickTools.map(([label, id, helper]) => {
               const tool = getToolById(id);
               if (!tool) return null;
               return (
-                <Link key={id} to={tool.route} className={`mz-mobile-quick-card tone-${tone}`}>
-                  <span><Icon className="h-5 w-5" /></span>
-                  <strong>{label}</strong>
-                  <small>Open tool</small>
+                <Link key={id} to={tool.route} className="mz-mobile-quick-card">
+                  <Tool3DIcon tool={tool} size="sm" />
+                  <span className="mz-mobile-quick-copy">
+                    <strong>{label}</strong>
+                    <small>{helper}</small>
+                  </span>
+                  <ArrowRight className="mz-mobile-quick-arrow" aria-hidden="true" />
                 </Link>
               );
             })}
@@ -108,7 +115,9 @@ export default function MobileHome() {
         <div className="mz-mobile-category-grid">
           {homeCategories.map((category) => (
             <Link key={category.slug} to={category.route || `/categories/${category.slug}`} className="mz-mobile-category-card">
-              <span><ToolIcon name={category.icon} /></span>
+              <span className="mz-mobile-category-visual" style={{ "--mz-category-accent": CATEGORY_ACCENTS[category.accent] || "#2563eb" }}>
+                <span className="mz-mobile-category-visual-inner"><ToolIcon name={category.icon} /></span>
+              </span>
               <strong>{category.name}</strong>
             </Link>
           ))}

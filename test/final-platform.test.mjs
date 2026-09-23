@@ -18,8 +18,12 @@ const converter=fs.readFileSync("src/tools/reference/TimeZoneConverter.jsx","utf
 assert.ok(converter.includes("Intl.DateTimeFormat")&&converter.includes("formatToParts"),"Time Zone Converter must use timezone-aware Intl conversion");
 
 const feedback=fs.readFileSync("src/components/ui/FeedbackDialog.jsx","utf8");
-for(const token of ["mz-feedback","form-name","queueFeedback","saved on this device","Current page".toLowerCase()]){
+const feedbackLib=fs.readFileSync("src/lib/feedback.js","utf8");
+for(const token of ["saved on this device","Current page".toLowerCase()]){
   if(token==="current page")assert.ok(feedback.toLowerCase().includes(token),`Feedback dialog missing ${token}`); else assert.ok(feedback.includes(token),`Feedback dialog missing ${token}`);
+}
+for(const token of ["mz-feedback","form-name","queueFeedback"]){
+  assert.ok(feedbackLib.includes(token),`Feedback service missing ${token}`);
 }
 const html=fs.readFileSync("index.html","utf8");
 assert.ok(html.includes('name="mz-feedback"')&&html.includes('data-netlify="true"'),"Netlify feedback form detector markup missing");

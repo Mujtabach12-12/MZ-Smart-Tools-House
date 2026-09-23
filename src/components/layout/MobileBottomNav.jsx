@@ -17,6 +17,7 @@ export default function MobileBottomNav() {
           key={to}
           to={to}
           end={end}
+          onClick={() => window.dispatchEvent(new Event("mz-close-navigation"))}
           className={({ isActive }) => `mz-mobile-bottom-link ${featured ? "is-featured" : ""} ${isActive ? "is-active" : ""}`}
         >
           <span className="mz-mobile-nav-icon"><Icon aria-hidden="true" /></span>

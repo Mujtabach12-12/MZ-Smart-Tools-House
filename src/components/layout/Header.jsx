@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { CheckCircle2, ChevronDown, Download, Home, Menu, MessageCircle, X } from "lucide-react";
 import { categories } from "../../data/categories";
 import SearchBar from "../ui/SearchBar";
@@ -7,7 +7,6 @@ import ThemeToggle from "../ui/ThemeToggle";
 import ToolIcon from "../ui/ToolIcon";
 import FeedbackDialog from "../ui/FeedbackDialog";
 import BrandMark from "../brand/BrandMark";
-import ViewScaleControl from "../ui/ViewScaleControl";
 
 const PRIMARY = [
   { to: "/", label: "Home", icon: Home },
@@ -21,6 +20,7 @@ const PRIMARY = [
 const PRIMARY_CATEGORY_SLUGS = new Set(["office-tools", "programming-tools", "student-tools", "ai-tools"]);
 
 export default function Header() {
+  const location = useLocation();
   const [moreOpen, setMoreOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
@@ -29,13 +29,36 @@ export default function Header() {
   useEffect(() => {
     const onPwaState = (event) => setPwa((value) => ({ ...value, ...(event.detail || {}) }));
     const openFeedback = () => setFeedbackOpen(true);
+    const closeNavigation = () => {
+      setMobileOpen(false);
+      setMoreOpen(false);
+    };
     window.addEventListener("mz-pwa-state", onPwaState);
     window.addEventListener("mz-feedback-open", openFeedback);
+    window.addEventListener("mz-close-navigation", closeNavigation);
     return () => {
       window.removeEventListener("mz-pwa-state", onPwaState);
       window.removeEventListener("mz-feedback-open", openFeedback);
+      window.removeEventListener("mz-close-navigation", closeNavigation);
     };
   }, []);
+
+  // Any successful navigation (including the fixed bottom navigation) closes
+  // the mobile drawer. This prevents a stale menu from covering the newly
+  // opened tool/page.
+  useEffect(() => {
+    setMobileOpen(false);
+    setMoreOpen(false);
+  }, [location.pathname, location.search]);
+
+  useEffect(() => {
+    if (!mobileOpen) return undefined;
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") setMobileOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [mobileOpen]);
 
   const secondary = categories.filter((category) => !PRIMARY_CATEGORY_SLUGS.has(category.slug));
   const installLabel = pwa.installed ? "Installed" : "Install App";
@@ -92,7 +115,6 @@ export default function Header() {
           <div className="ml-auto hidden w-[min(22vw,18rem)] 2xl:block"><SearchBar size="sm" placeholder="Search tools…" /></div>
           <button className="mz-btn-ghost hidden lg:inline-flex" onClick={() => setFeedbackOpen(true)}><MessageCircle className="h-4 w-4" /> Feedback</button>
           <button className="mz-btn-ghost hidden lg:inline-flex" onClick={install}><InstallIcon className="h-4 w-4" /> {installLabel}</button>
-          <ViewScaleControl compact className="hidden lg:flex" />
           <ThemeToggle className="hidden sm:inline-flex" />
 
           {!pwa.installed ? (
@@ -140,11 +162,19 @@ export default function Header() {
                 <button className="mz-btn-secondary w-full" onClick={() => { setFeedbackOpen(true); setMobileOpen(false); }}><MessageCircle className="h-4 w-4" /> Feedback</button>
                 {!pwa.installed ? <button className="mz-btn-secondary w-full" onClick={() => { install(); setMobileOpen(false); }}><Download className="h-4 w-4" /> Install App</button> : null}
               </div>
-              <div className="mt-3 grid gap-2 rounded-xl border border-navy-100 px-3 py-3 dark:border-navy-800"><div className="flex items-center justify-between"><span className="text-sm font-medium">Appearance</span><ThemeToggle /></div><div className="flex items-center justify-between gap-3 border-t border-navy-100 pt-2 dark:border-navy-800"><span className="text-xs font-semibold text-navy-500 dark:text-navy-400">Page zoom</span><ViewScaleControl compact /></div></div>
+              <div className="mt-3 rounded-xl border border-navy-100 px-3 py-3 dark:border-navy-800"><div className="flex items-center justify-between"><span className="text-sm font-medium">Appearance</span><ThemeToggle /></div></div>
             </div>
           </div>
         ) : null}
       </header>
+      {mobileOpen ? (
+        <button
+          type="button"
+          className="mz-mobile-menu-backdrop xl:hidden"
+          onClick={() => setMobileOpen(false)}
+          aria-label="Close navigation menu"
+        />
+      ) : null}
       <FeedbackDialog open={feedbackOpen} onClose={() => setFeedbackOpen(false)} />
     </>
   );

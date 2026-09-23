@@ -22,6 +22,7 @@ export default function PwaManager() {
   const installEventRef = useRef(null);
   const installedRef = useRef(initialInstalled);
   const offerTimerRef = useRef(null);
+  const updateReloadRef = useRef(false);
   const [installed, setInstalled] = useState(initialInstalled);
   const [installReady, setInstallReady] = useState(false);
   const [showInstallOffer, setShowInstallOffer] = useState(false);
@@ -131,6 +132,8 @@ export default function PwaManager() {
     maybeShowInstallOffer(1200);
 
     let webRegistration;
+    let updateTimer;
+    let removeWebUpdateListeners = () => {};
     const nativeListeners = [];
     if (isNative) {
       StatusBar.setStyle({ style: StatusBarStyle.Dark }).catch(() => {});
@@ -156,14 +159,45 @@ export default function PwaManager() {
     } else if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js', { scope: '/' }).then((reg) => {
         webRegistration = reg;
-        if (reg.waiting) setUpdateWorker(reg.waiting);
+
+        const checkForUpdate = () => reg.update().catch(() => {});
+        const onControllerChange = () => {
+          if (updateReloadRef.current) return;
+          updateReloadRef.current = true;
+          // The service worker uses skipWaiting + clients.claim. Reload once when
+          // the new controller takes over so installed/web users receive the
+          // latest application shell without needing to press an update button.
+          window.location.reload();
+        };
+        const onFocusForUpdate = () => checkForUpdate();
+        const onVisibilityForUpdate = () => { if (!document.hidden) checkForUpdate(); };
+
+        navigator.serviceWorker.addEventListener('controllerchange', onControllerChange);
+        window.addEventListener('focus', onFocusForUpdate);
+        document.addEventListener('visibilitychange', onVisibilityForUpdate);
+        removeWebUpdateListeners = () => {
+          navigator.serviceWorker.removeEventListener('controllerchange', onControllerChange);
+          window.removeEventListener('focus', onFocusForUpdate);
+          document.removeEventListener('visibilitychange', onVisibilityForUpdate);
+        };
+
+        if (reg.waiting) {
+          reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+          setUpdateWorker(reg.waiting);
+        }
         reg.addEventListener('updatefound', () => {
           const worker = reg.installing;
           if (!worker) return;
           worker.addEventListener('statechange', () => {
-            if (worker.state === 'installed' && navigator.serviceWorker.controller) setUpdateWorker(worker);
+            if (worker.state === 'installed' && navigator.serviceWorker.controller) {
+              setUpdateWorker(worker);
+              worker.postMessage({ type: 'SKIP_WAITING' });
+            }
           });
         });
+
+        checkForUpdate();
+        updateTimer = window.setInterval(checkForUpdate, 30 * 60 * 1000);
       }).catch(() => {});
     }
 
@@ -175,6 +209,8 @@ export default function PwaManager() {
       window.removeEventListener('offline', onOffline);
       window.removeEventListener('mz-pwa-install-request', requestInstall);
       nativeListeners.forEach((handle) => handle?.remove?.());
+      if (updateTimer) window.clearInterval(updateTimer);
+      removeWebUpdateListeners();
       webRegistration = null;
       document.documentElement.classList.remove('capacitor-native');
     };

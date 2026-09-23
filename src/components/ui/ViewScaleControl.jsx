@@ -1,7 +1,10 @@
 import { Minus, Plus, RotateCcw } from "lucide-react";
 import { useEffect, useState } from "react";
 
-const KEY = "mz-ui-scale";
+// v2 intentionally ignores the older header-based preference so existing
+// installs return to a clean 100% layout after the visible header control was
+// removed. Users can still opt into a different scale from Settings.
+const KEY = "mz-ui-scale-settings-v2";
 const MIN = 85;
 const MAX = 125;
 const STEP = 5;

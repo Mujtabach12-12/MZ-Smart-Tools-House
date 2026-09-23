@@ -51,7 +51,11 @@
     "audit:classification": "node scripts/classify-tool-registry.mjs",
     "test:classification": "node test/tool-professional-classification.test.mjs",
     "test:requested-fixes": "node test/user-requested-quality-fixes.test.mjs",
-    "test:global-ux": "node test/global-ux-enhancements.test.mjs"
+    "test:global-ux": "node test/global-ux-enhancements.test.mjs",
+    "test:dashboard-polish": "node test/dashboard-polish.test.mjs",
+    "test:viewport": "node test/viewport-normalization.test.mjs",
+    "test:viewport-lock": "node test/viewport-lock.test.mjs",
+    "test:auto-update-lock": "node test/auto-update-viewport-lock.test.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.436.0",

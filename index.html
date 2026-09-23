@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content"/>
 <meta name="theme-color" content="#2563eb"/>
 <meta name="mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -29,7 +29,7 @@
 <link rel="apple-touch-icon" href="/icons/icon-192.png"/>
 <link rel="preload" as="image" href="/assets/mz-smart-office-hero.webp" type="image/webp" />
     <link rel="manifest" href="/manifest.webmanifest"/>
-<script>(function(){try{var s=localStorage.getItem("mz-theme"),d=window.matchMedia("(prefers-color-scheme: dark)").matches;if(s==="dark"||(s!=="light"&&d))document.documentElement.classList.add("dark");var z=parseInt(localStorage.getItem("mz-ui-scale")||"100",10);if(!Number.isFinite(z)||z<85||z>125)z=100;document.documentElement.style.setProperty("--mz-ui-scale",String(z/100));document.documentElement.dataset.mzUiScale=String(z);var standalone=window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true;if(!standalone&&sessionStorage.getItem("mz-web-startup-seen")==="1")document.documentElement.classList.add("mz-web-startup-seen")}catch(e){}})();</script>
+<script>(function(){try{var s=localStorage.getItem("mz-theme"),d=window.matchMedia("(prefers-color-scheme: dark)").matches;if(s==="dark"||(s!=="light"&&d))document.documentElement.classList.add("dark");localStorage.removeItem("mz-ui-scale-settings-v2");localStorage.removeItem("mz-ui-scale");var standalone=window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true;if(!standalone&&sessionStorage.getItem("mz-web-startup-seen")==="1")document.documentElement.classList.add("mz-web-startup-seen")}catch(e){}})();</script>
 </head>
 <body class="bg-white dark:bg-navy-950 text-navy-900 dark:text-navy-50">
 <!-- Branded first-paint tools loader. No video asset; the requested 5–7 second sequence keeps tool names readable while the app starts. -->

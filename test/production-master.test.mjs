@@ -20,8 +20,11 @@ const download = read("src/lib/download.js");
 assert.ok(download.includes("notify(") && download.includes("Your file is ready"), "downloads must publish a truthful shared ready notification");
 
 const feedback = read("src/components/ui/FeedbackDialog.jsx");
-for (const token of ["rating", "postFeedback", "mz-feedback", "queueFeedback", "Feedback received", "Escape", "firstFieldRef"])
+for (const token of ["rating", "Feedback received", "Escape", "firstFieldRef"])
   assert.ok(feedback.includes(token), `feedback system missing ${token}`);
+const feedbackLib = read("src/lib/feedback.js");
+for (const token of ["postFeedback", "mz-feedback", "queueFeedback"])
+  assert.ok(feedbackLib.includes(token), `feedback service missing ${token}`);
 const html = read("index.html");
 assert.ok(html.includes('name="rating"'), "Netlify feedback detector form must declare the rating field");
 

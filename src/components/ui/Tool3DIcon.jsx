@@ -26,10 +26,12 @@ function family(id = "") {
 
 export default function Tool3DIcon({ tool, size = "md" }) {
   const [label, icon] = SPECIAL[tool?.id] || ["", tool?.icon];
+  const familyName = family(tool?.id);
   return (
-    <span className={`tool-3d-icon tool-3d-icon-${size} tool-3d-${family(tool?.id)}`}>
+    <span className={`tool-3d-icon tool-3d-icon-${size} tool-3d-${familyName}`} aria-hidden="true">
       <span className="tool-3d-icon-glow" />
       <span className="tool-3d-icon-face">
+        <span className="tool-3d-icon-shine" />
         <ToolIcon name={icon} className="h-6 w-6" />
         {label && <b>{label}</b>}
       </span>

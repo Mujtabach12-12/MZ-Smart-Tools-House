@@ -10,8 +10,8 @@ const feedback = read('src/components/ui/ToolSuccessFeedback.jsx');
 const toolPage = read('src/pages/ToolPage.jsx');
 const download = read('src/lib/download.js');
 const resultCard = read('src/components/tools/ResultCard.jsx');
-const scale = read('src/components/ui/ViewScaleControl.jsx');
 const header = read('src/components/layout/Header.jsx');
+const settings = read('src/pages/Settings.jsx');
 const css = read('src/index.css');
 const html = read('index.html');
 
@@ -43,12 +43,15 @@ assert.ok(feedback.includes('Optional'));
 assert.ok(html.includes('name="reaction"'));
 assert.ok(html.includes('name="tool"'));
 
-assert.ok(scale.includes('const MIN = 85'));
-assert.ok(scale.includes('const MAX = 125'));
-assert.ok(scale.includes('100%'));
-assert.ok(header.includes('ViewScaleControl'));
-assert.ok(header.includes('Page zoom'));
-assert.ok(css.includes('width:calc(100% / var(--mz-ui-scale))'));
+assert.ok(!header.includes('ViewScaleControl'), 'page zoom must not clutter the front header');
+assert.ok(!header.includes('Page zoom'), 'page zoom label must not appear in the mobile front menu');
+assert.ok(!settings.includes('ViewScaleControl'), 'custom app-level zoom must not be exposed; browser/app stay on native 100%');
+assert.ok(header.includes('mz-close-navigation'));
+assert.ok(header.includes('mz-mobile-menu-backdrop'));
+assert.ok(!css.includes('zoom:var(--mz-ui-scale)'), 'custom root zoom must not compound browser/device scaling');
+assert.ok(!css.includes('width:calc(100% / var(--mz-ui-scale))'));
+assert.ok(css.includes('font-size:16px'));
+assert.ok(css.includes('-webkit-text-size-adjust:100%'));
 assert.ok(css.includes('.mz-app-shell::before'));
 assert.ok(css.includes('.mz-success-feedback'));
 
