@@ -21,7 +21,7 @@ export async function getCompilerCapabilities({ signal } = {}) {
 
 export async function executeRemoteCode({ language, source, stdin = "", timeoutMs = 5000, signal } = {}) {
   if (!API_BASE) {
-    const error = new Error("Execution backend required for this language.");
+    const error = new Error("This language is coming soon. Thanks for your interest.");
     error.code = "COMPILER_BACKEND_REQUIRED";
     throw error;
   }

@@ -11,7 +11,7 @@ export function getAiConfigStatus() {
 
 export async function generateAi({ task, input, options = {} }) {
   if (!API_BASE) {
-    const error = new Error("This AI feature requires backend configuration. Set VITE_API_BASE_URL to your server API.");
+    const error = new Error("This AI feature is coming soon. Thanks for your interest.");
     error.code = "AI_NOT_CONFIGURED";
     throw error;
   }
@@ -22,7 +22,7 @@ export async function generateAi({ task, input, options = {} }) {
   });
   let payload = null;
   try { payload = await response.json(); } catch { /* non-JSON error */ }
-  if (!response.ok) throw new Error(payload?.detail || payload?.message || `AI service returned HTTP ${response.status}.`);
-  if (!payload?.text) throw new Error("The AI service returned no text result.");
+  if (!response.ok) throw new Error("This AI feature is coming soon. Thanks for your interest.");
+  if (!payload?.text) throw new Error("This AI feature is coming soon. Thanks for your interest.");
   return payload.text;
 }

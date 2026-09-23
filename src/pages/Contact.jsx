@@ -25,7 +25,7 @@ export default function Contact() {
     }
     if (["localhost", "127.0.0.1"].includes(window.location.hostname)) {
       setStatus("local");
-      setNotice("Local development mode does not send contact messages. Use the global Feedback button to save feedback locally, or test this form after a Netlify deployment.");
+      setNotice("Contact messaging is coming soon. Thanks for your interest. You can use the Feedback option for now.");
       return;
     }
     setStatus("sending");

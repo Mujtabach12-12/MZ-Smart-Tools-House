@@ -8,7 +8,7 @@ const sections = [
   { title:"Student Essentials", subtitle:"Write, look up words, calculate and plan without hunting through the full directory.", ids:["mz-online-word","mz-dictionary","gpa-calculator","attendance-calculator"] },
   { title:"PDF & Documents", subtitle:"Common document workflows with real browser processing where practical.", ids:["pdf-compressor","pdf-merger","pdf-splitter","smart-document-scanner"] },
   { title:"Image Tools", subtitle:"Fast local image processing for everyday tasks.", ids:["image-compressor","image-resizer","image-cropper","jpg-to-png"] },
-  { title:"Programming", subtitle:"A real browser JavaScript sandbox plus a secure backend contract for compiled languages.", ids:["programming-lab","json-formatter","regex-tester","base64-encoder"] },
+  { title:"Programming", subtitle:"A browser coding playground with more programming languages coming soon.", ids:["programming-lab","json-formatter","regex-tester","base64-encoder"] },
   { title:"AI Tools", subtitle:"Server-backed AI only—provider secrets never belong in the frontend.", ids:["ai-writing-assistant"] },
   { title:"Calculators", subtitle:"Focused formulas with validation and clear results.", ids:["percentage-calculator","age-calculator","discount-calculator","average-calculator"] },
   { title:"Business Tools", subtitle:"Finance and planning helpers for practical decisions.", ids:["budget-planner","loan-payment-calculator","profit-margin-calculator","salary-breakdown-calculator"] },
