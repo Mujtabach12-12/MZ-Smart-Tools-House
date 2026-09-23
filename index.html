@@ -4,6 +4,9 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content"/>
 <meta name="theme-color" content="#2563eb"/>
+<meta name="application-name" content="MZ Smart Tool House"/>
+<meta name="author" content="Muhammad Mujtaba"/>
+<meta name="referrer" content="strict-origin-when-cross-origin"/>
 <meta name="mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-title" content="MZ Smart Tool House"/>
@@ -25,9 +28,28 @@
 <meta name="twitter:title" content="MZ Smart Tool House — Smart tools for work, study & productivity"/>
 <meta name="twitter:description" content="Free online tools for work, study and everyday productivity."/>
 <meta name="twitter:image" content="https://mztoolshouse.com/assets/mz-smart-office-hero.webp"/>
+<meta name="twitter:image:alt" content="MZ Smart Tool House smart office productivity tools"/>
+<script id="mz-site-structured-data" type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {"@type":"Organization","@id":"https://mztoolshouse.com/#organization","name":"MZ Smart Tool House","url":"https://mztoolshouse.com/","logo":{"@type":"ImageObject","url":"https://mztoolshouse.com/icons/icon-512.png"}},
+    {"@type":"WebSite","@id":"https://mztoolshouse.com/#website","name":"MZ Smart Tool House","url":"https://mztoolshouse.com/","inLanguage":"en","publisher":{"@id":"https://mztoolshouse.com/#organization"},"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://mztoolshouse.com/tools?q={search_term_string}"},"query-input":"required name=search_term_string"}}
+  ]
+}
+</script>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
 <link rel="apple-touch-icon" href="/icons/icon-192.png"/>
 <link rel="preload" as="image" href="/assets/mz-smart-office-hero.webp" type="image/webp" />
+<!-- Google Analytics 4. Initial page_view is disabled here because React Router sends one page_view per SPA route. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1LKZ5FMH6R"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){window.dataLayer.push(arguments);}
+  window.gtag = window.gtag || gtag;
+  gtag('js', new Date());
+  gtag('config', 'G-1LKZ5FMH6R', { send_page_view: false });
+</script>
     <link rel="manifest" href="/manifest.webmanifest"/>
 <script>(function(){try{var s=localStorage.getItem("mz-theme"),d=window.matchMedia("(prefers-color-scheme: dark)").matches;if(s==="dark"||(s!=="light"&&d))document.documentElement.classList.add("dark");localStorage.removeItem("mz-ui-scale-settings-v2");localStorage.removeItem("mz-ui-scale");var standalone=window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true;if(!standalone&&sessionStorage.getItem("mz-web-startup-seen")==="1")document.documentElement.classList.add("mz-web-startup-seen")}catch(e){}})();</script>
 </head>

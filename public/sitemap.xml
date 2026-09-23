@@ -26,11 +26,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mztoolshouse.com/blog</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://mztoolshouse.com/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>

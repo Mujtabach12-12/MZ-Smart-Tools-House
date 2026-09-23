@@ -86,13 +86,15 @@ export default function MobileHome() {
               const tool = getToolById(id);
               if (!tool) return null;
               return (
-                <Link key={id} to={tool.route} className="mz-mobile-quick-card">
-                  <Tool3DIcon tool={tool} size="sm" />
+                <Link key={id} to={tool.route} className="mz-mobile-quick-card" aria-label={`${label} — ${helper}`}>
+                  <span className="mz-mobile-quick-top">
+                    <Tool3DIcon tool={tool} size="sm" />
+                    <ArrowRight className="mz-mobile-quick-arrow" aria-hidden="true" />
+                  </span>
                   <span className="mz-mobile-quick-copy">
                     <strong>{label}</strong>
                     <small>{helper}</small>
                   </span>
-                  <ArrowRight className="mz-mobile-quick-arrow" aria-hidden="true" />
                 </Link>
               );
             })}

@@ -5,6 +5,7 @@ const BASE_URL = String(import.meta.env.VITE_SITE_URL || "https://mztoolshouse.c
 const DEFAULT_DESCRIPTION =
   "Free online tools for work, study and everyday productivity, including calculators, PDF tools, image tools and developer utilities.";
 const DEFAULT_IMAGE = `${BASE_URL}/assets/mz-smart-office-hero.webp`;
+const DEFAULT_ROBOTS = "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1";
 
 function upsertMeta({ name, property, content }) {
   if (!content) return;
@@ -19,15 +20,19 @@ function upsertMeta({ name, property, content }) {
   el.setAttribute("content", content);
 }
 
-function upsertLink(rel, href, type) {
-  let el = document.head.querySelector(`link[rel="${rel}"]`);
+function upsertLink(rel, href, attributes = {}) {
+  const selector = Object.entries(attributes).reduce(
+    (value, [key, val]) => `${value}[${key}="${val}"]`,
+    `link[rel="${rel}"]`,
+  );
+  let el = document.head.querySelector(selector);
   if (!el) {
     el = document.createElement("link");
     el.rel = rel;
+    Object.entries(attributes).forEach(([key, value]) => el.setAttribute(key, value));
     document.head.appendChild(el);
   }
   el.href = href;
-  if (type) el.type = type;
 }
 
 function upsertJsonLd(id, data) {
@@ -61,11 +66,17 @@ export default function Seo({
       ? `${title} | ${SITE_NAME}`
       : `${SITE_NAME} — Smart tools for work, study & productivity`;
     const metaDescription = description || DEFAULT_DESCRIPTION;
+    const robotsValue = robots || DEFAULT_ROBOTS;
 
     document.title = fullTitle;
+    document.documentElement.lang = "en";
+
     upsertMeta({ name: "description", content: metaDescription });
-    upsertMeta({ name: "robots", content: robots || "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" });
-    upsertMeta({ name: "googlebot", content: robots || "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" });
+    upsertMeta({ name: "robots", content: robotsValue });
+    upsertMeta({ name: "googlebot", content: robotsValue });
+    upsertMeta({ name: "author", content: "Muhammad Mujtaba" });
+    upsertMeta({ name: "application-name", content: SITE_NAME });
+    upsertMeta({ name: "referrer", content: "strict-origin-when-cross-origin" });
     upsertMeta({ property: "og:locale", content: "en_US" });
     upsertMeta({ name: "theme-color", content: "#2563eb" });
 
@@ -76,48 +87,41 @@ export default function Seo({
     upsertMeta({ property: "og:url", content: canonicalUrl });
     upsertMeta({ property: "og:image", content: image });
     upsertMeta({ property: "og:image:alt", content: `${SITE_NAME} smart office productivity tools` });
+    upsertMeta({ property: "og:image:width", content: "1200" });
+    upsertMeta({ property: "og:image:height", content: "630" });
 
     upsertMeta({ name: "twitter:card", content: "summary_large_image" });
     upsertMeta({ name: "twitter:title", content: fullTitle });
     upsertMeta({ name: "twitter:description", content: metaDescription });
     upsertMeta({ name: "twitter:image", content: image });
+    upsertMeta({ name: "twitter:image:alt", content: `${SITE_NAME} smart office productivity tools` });
 
     upsertLink("canonical", canonicalUrl);
+    upsertLink("alternate", canonicalUrl, { hreflang: "en" });
+    upsertLink("alternate", canonicalUrl, { hreflang: "x-default" });
 
-    const defaultSchema = {
+    document.head.querySelector('script[data-prerender-schema="page"]')?.remove();
+
+    const pageSchema = schema || {
       "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "Organization",
-          "@id": `${BASE_URL}/#organization`,
-          name: SITE_NAME,
-          url: BASE_URL,
-          logo: `${BASE_URL}/icons/icon-512.png`,
-        },
-        {
-          "@type": "WebSite",
-          "@id": `${BASE_URL}/#website`,
-          name: SITE_NAME,
-          url: BASE_URL,
-          description: DEFAULT_DESCRIPTION,
-          publisher: { "@id": `${BASE_URL}/#organization` },
-          potentialAction: {
-            "@type": "SearchAction",
-            target: `${BASE_URL}/tools?q={search_term_string}`,
-            "query-input": "required name=search_term_string",
-          },
-        },
-      ],
+      "@type": "WebPage",
+      "@id": `${canonicalUrl}#webpage`,
+      url: canonicalUrl,
+      name: fullTitle,
+      description: metaDescription,
+      inLanguage: "en",
+      isPartOf: { "@id": `${BASE_URL}/#website` },
+      primaryImageOfPage: { "@type": "ImageObject", url: image },
     };
 
-    upsertJsonLd("page", schema || defaultSchema);
+    upsertJsonLd("page", pageSchema);
 
     return () => {
       removeJsonLd("page");
     };
-  }, [title, description, path, image, type, schema]);
+  }, [title, description, path, image, type, schema, robots]);
 
   return null;
 }
 
-export { BASE_URL, SITE_NAME };
+export { BASE_URL, SITE_NAME, DEFAULT_DESCRIPTION, DEFAULT_IMAGE };

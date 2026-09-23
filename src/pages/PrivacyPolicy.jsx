@@ -12,11 +12,17 @@ export default function PrivacyPolicy() {
           Wherever technically possible, MZ Smart Tool House processes files (PDFs, images, documents) directly in your
           browser using client-side JavaScript. These files are not uploaded to, or stored on, our servers.
         </p>
-        <h2>Analytics &amp; Advertising</h2>
+        <h2>Analytics</h2>
         <p>
-          As the platform grows, we may use privacy-conscious analytics and, in the future, display advertising
-          (such as Google AdSense) to keep every tool free. Any such service will have its own data practices, which
-          we will disclose here before it goes live.
+          MZ Smart Tool House uses Google Analytics 4 to understand aggregate website usage such as page visits,
+          navigation and device/browser information. Google Analytics is configured for the website using measurement
+          ID G-1LKZ5FMH6R. It is not used to upload the documents, images or PDFs you process in browser-based tools.
+          Google may process analytics data under its own privacy terms.
+        </p>
+        <h2>Advertising</h2>
+        <p>
+          If advertising is introduced in the future, this policy will be updated to describe the relevant service and
+          data practices before it is treated as part of the production experience.
         </p>
         <h2>Contact</h2>
         <p>Questions about this policy can be sent via the Contact page.</p>
