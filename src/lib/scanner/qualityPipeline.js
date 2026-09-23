@@ -141,8 +141,8 @@ function enhancementPreset(source, mode) {
     }
     const mean = count ? total / count : 160;
     const deviation = count ? Math.sqrt(Math.max(0, totalSq / count - mean * mean)) : 55;
-    presetBrightness = Math.max(-18, Math.min(18, (188 - mean) / 2.55));
-    presetContrast = deviation < 38 ? 26 : deviation < 55 ? 16 : 8;
+    presetBrightness = Math.max(-10, Math.min(10, (172 - mean) / 3.2));
+    presetContrast = deviation < 38 ? 16 : deviation < 55 ? 10 : 5;
   } else if (mode === "light") {
     presetBrightness = 12;
     presetContrast = 5;
@@ -168,8 +168,8 @@ function applyEnhancement(r, g, b, mode, brightnessOffset, contrastFactor) {
     return [r, g, b].map((v) => clamp255(((v / 255 - 0.5) * 1.45 + 0.5) * 255));
   }
   if (mode === "document") {
-    const paperLift = lum > 150 ? 20 : 8;
-    const docContrast = 1.2;
+    const paperLift = lum > 165 ? 10 : 4;
+    const docContrast = 1.12;
     r = clamp255((r - 128) * docContrast + 128 + paperLift);
     g = clamp255((g - 128) * docContrast + 128 + paperLift);
     b = clamp255((b - 128) * docContrast + 128 + paperLift);

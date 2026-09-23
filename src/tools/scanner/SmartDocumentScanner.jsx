@@ -79,6 +79,7 @@ export default function SmartDocumentScanner() {
   const dragIndexRef = useRef(null);
 
   const [camera, setCamera] = useState(false);
+  const [cameraReady, setCameraReady] = useState(false);
   const [facingMode, setFacingMode] = useState("environment");
   const [torchSupported, setTorchSupported] = useState(false);
   const [torchOn, setTorchOn] = useState(false);
@@ -88,7 +89,7 @@ export default function SmartDocumentScanner() {
   const [pages, setPages] = useState([]);
   const [selected, setSelected] = useState(0);
   const [workflowStep, setWorkflowStep] = useState("capture");
-  const [mode, setMode] = useState("auto");
+  const [mode, setMode] = useState("original");
   const [brightness, setBrightness] = useState(0);
   const [contrast, setContrast] = useState(0);
   const [sharpen, setSharpen] = useState(0);
@@ -115,6 +116,7 @@ export default function SmartDocumentScanner() {
     stream.current = null;
     setTorchOn(false);
     setTorchSupported(false);
+    setCameraReady(false);
     setCamera(false);
     if (cancelPendingReplacement) pendingReplaceRef.current = null;
   };
@@ -124,6 +126,24 @@ export default function SmartDocumentScanner() {
     stop();
     pagesRef.current.forEach(revokePageUrls);
   }, []);
+
+  useEffect(() => {
+    if (!camera || !video.current || !stream.current) return undefined;
+    const currentVideo = video.current;
+    const currentStream = stream.current;
+    currentVideo.srcObject = currentStream;
+    let cancelled = false;
+    const markReady = () => { if (!cancelled && currentVideo.videoWidth > 0) setCameraReady(true); };
+    currentVideo.addEventListener("loadedmetadata", markReady);
+    currentVideo.addEventListener("canplay", markReady);
+    currentVideo.play?.().then(markReady).catch(() => {});
+    return () => {
+      cancelled = true;
+      currentVideo.removeEventListener("loadedmetadata", markReady);
+      currentVideo.removeEventListener("canplay", markReady);
+      if (currentVideo.srcObject === currentStream) currentVideo.srcObject = null;
+    };
+  }, [camera, facingMode]);
 
   useEffect(() => {
     const page = pages[selected];
@@ -178,19 +198,28 @@ export default function SmartDocumentScanner() {
         throw Error("Camera access is not supported by this browser. Choose a photo from your device instead.");
       }
       stop(false);
+      setCameraReady(false);
       const nextStream = await navigator.mediaDevices.getUserMedia({
         video: {
           facingMode: { ideal: desiredFacing },
-          width: { ideal: 3840 },
-          height: { ideal: 2160 },
-          frameRate: { ideal: 30 },
+          // Keep the live preview smooth. ImageCapture.takePhoto() still asks the
+          // camera for a full-resolution still when the browser supports it.
+          width: { ideal: 1920, max: 2560 },
+          height: { ideal: 1080, max: 1440 },
+          frameRate: { ideal: 24, max: 30 },
         },
         audio: false,
       });
       stream.current = nextStream;
       setFacingMode(desiredFacing);
       const track = nextStream.getVideoTracks?.()[0];
+      if (track && "contentHint" in track) track.contentHint = "detail";
       const capabilities = track?.getCapabilities?.() || {};
+      // Prefer continuous focus when the device exposes it, but never force
+      // brightness/exposure filters. The captured master remains unfiltered.
+      if (Array.isArray(capabilities.focusMode) && capabilities.focusMode.includes("continuous")) {
+        try { await track.applyConstraints({ advanced: [{ focusMode: "continuous" }] }); } catch { /* optional camera capability */ }
+      }
       setTorchSupported(Boolean(capabilities.torch));
       try {
         const devices = await navigator.mediaDevices.enumerateDevices?.();
@@ -199,9 +228,6 @@ export default function SmartDocumentScanner() {
         setCanSwitchCamera(false);
       }
       setCamera(true);
-      requestAnimationFrame(() => {
-        if (video.current) video.current.srcObject = nextStream;
-      });
     } catch (e) {
       pendingReplaceRef.current = null;
       const msg =
@@ -257,7 +283,7 @@ export default function SmartDocumentScanner() {
         id: replacing ? pages[replaceIndex].id : crypto.randomUUID(), asset, data: sourceData, sourceData, outputBlob: null, outputUrl: null, thumbnailUrl: null,
         detectedCrop: analysis.normalized, detected: Boolean(analysis.detection?.corners),
         detectionConfidence: analysis.detection?.confidence || 0, cropApplied: false, filterApplied: false,
-        filterMode: "auto", brightness: 0, contrast: 0, sharpen: 0, rotation: 0, name,
+        filterMode: "original", brightness: 0, contrast: 0, sharpen: 0, rotation: 0, name,
         orientedWidth: analysis.oriented.width, orientedHeight: analysis.oriented.height,
         width: analysis.oriented.width, height: analysis.oriented.height, history: [], future: [],
       };
@@ -269,7 +295,7 @@ export default function SmartDocumentScanner() {
       }
       setSelected(nextIndex);
       setCrop(analysis.normalized);
-      setMode("auto"); setBrightness(0); setContrast(0); setSharpen(0); setOcrText("");
+      setMode("original"); setBrightness(0); setContrast(0); setSharpen(0); setOcrText("");
       setWorkflowStep("crop");
       setMessage(
         analysis.detection?.corners
@@ -740,13 +766,25 @@ export default function SmartDocumentScanner() {
           ) : (
             <div className="mz-scanner-camera-stage">
               <video ref={video} autoPlay playsInline muted />
-              <div className="mz-scanner-camera-guide" aria-hidden="true"><span>Keep the document inside the guide</span></div>
-              <div className="mz-scanner-camera-tools">
-                {canSwitchCamera ? <button type="button" onClick={switchCamera} aria-label="Switch camera" title="Switch camera"><SwitchCamera /></button> : null}
-                {torchSupported ? <button type="button" className={torchOn ? "is-active" : ""} onClick={toggleTorch} aria-label={torchOn ? "Turn flash off" : "Turn flash on"} title="Flash"><Zap /></button> : null}
+              <div className="mz-scanner-camera-scrim" aria-hidden="true" />
+              <div className="mz-scanner-camera-topbar">
+                <button type="button" onClick={() => stop(true)} className="mz-scanner-camera-round" aria-label="Close camera"><CameraOff /></button>
+                <div className="mz-scanner-camera-title"><strong>Document Camera</strong><span>{cameraReady ? "Ready · no filter applied" : "Starting camera…"}</span></div>
+                <div className="mz-scanner-camera-tools">
+                  {torchSupported ? <button type="button" className={torchOn ? "is-active" : ""} onClick={toggleTorch} aria-label={torchOn ? "Turn flash off" : "Turn flash on"} title="Flash"><Zap /></button> : <span className="mz-scanner-camera-tool-spacer" />}
+                  {canSwitchCamera ? <button type="button" onClick={switchCamera} aria-label="Switch camera" title="Switch camera"><SwitchCamera /></button> : null}
+                </div>
               </div>
-              <button onClick={capture} aria-label="Capture document" className="mz-scanner-shutter"><Camera /></button>
-              <button onClick={() => stop(true)} className="mz-scanner-camera-close"><CameraOff /> Close</button>
+              <div className="mz-scanner-camera-guide" aria-hidden="true">
+                <i className="tl" /><i className="tr" /><i className="br" /><i className="bl" />
+                <span>Align the page inside the corners</span>
+              </div>
+              {!cameraReady ? <div className="mz-scanner-camera-loading" role="status"><span /> Preparing camera…</div> : null}
+              <div className="mz-scanner-camera-dock">
+                <button type="button" className="mz-scanner-camera-side-action" onClick={() => input.current?.click()} aria-label="Choose image from files"><Upload /><span>Files</span></button>
+                <button onClick={capture} disabled={!cameraReady || busy} aria-label="Capture document" className="mz-scanner-shutter"><Camera /></button>
+                <div className="mz-scanner-camera-quality"><span>ORIGINAL</span><small>Filter later</small></div>
+              </div>
             </div>
           )}
 

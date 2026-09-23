@@ -45,7 +45,7 @@ export default function MzDictionary() {
     controllerRef.current?.abort();
     const controller = new AbortController(); controllerRef.current = controller;
     let timedOut = false;
-    const timeoutId = setTimeout(() => { timedOut = true; controller.abort(); }, 12000);
+    const timeoutId = setTimeout(() => { timedOut = true; controller.abort(); }, 11500);
     setStatus("loading"); setError(""); setEntries([]); setQuery(next);
     try {
       const result = await lookupWord(next, { signal: controller.signal });
@@ -60,7 +60,7 @@ export default function MzDictionary() {
     } catch (err) {
       if (err?.name === "AbortError" && !timedOut) return;
       setStatus("error");
-      setError(timedOut ? "The dictionary request took too long. Check your connection and try again." : (err?.message || "The dictionary lookup failed. Check your connection and try again."));
+      setError(timedOut ? "The dictionary sources did not respond in time. Please try again; MZ will automatically use its fallback source." : (err?.message || "The dictionary lookup failed. Please try again."));
     } finally {
       clearTimeout(timeoutId);
       if (controllerRef.current === controller) controllerRef.current = null;
