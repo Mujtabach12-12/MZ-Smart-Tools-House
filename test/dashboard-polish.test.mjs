@@ -13,7 +13,7 @@ const css = read('src/index.css');
 assert.ok(mobileHome.includes('Tool3DIcon'), 'mobile quick tools should use dimensional MZ tool visuals');
 assert.ok(mobileHome.includes('mz-mobile-category-visual'), 'mobile categories should use enhanced category visuals');
 assert.ok(mobileHome.includes('Compress PDF'), 'compress PDF label should remain explicit');
-assert.ok(css.includes('.mz-mobile-quick-copy strong{white-space:normal'), 'quick tool labels must not be forced into ellipsis');
+assert.match(css, /\.mz-mobile-quick-card strong\s*\{[^}]*white-space:normal[^}]*text-overflow:clip/s, 'quick tool labels must not be forced into ellipsis');
 assert.ok(css.includes('.tool-3d-icon-sm'), 'small dimensional icons must exist for compact dashboard cards');
 assert.ok(tool3d.includes('tool-3d-icon-shine'), 'tool icons should include a light/highlight layer');
 assert.ok(dashboard.includes('mz-dashboard-shell'), 'desktop dashboard should use the enhanced shell');

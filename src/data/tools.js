@@ -1,6 +1,7 @@
 import { getCategoryRoute } from "./categories.js";
 import { converterToolRecords } from "../tools/converters/conversionRegistry.js";
 import { formulaToolRecords } from "../tools/science/formulaRegistry.js";
+import { pdfToolMeta } from "./pdfToolMeta.js";
 
 /**
  * Central tool registry.
@@ -52,9 +53,9 @@ const tools = [
   // ---------------------------------------------------------------- PDF Tools
   { id: "pdf-merger", name: "Merge PDF", category: "pdf-tools", description: "Combine multiple PDF files into a single document, in your browser.", icon: "file-plus", keywords: ["merge pdf", "combine pdf"], status: "active", popular: true },
   { id: "pdf-splitter", name: "Split PDF", category: "pdf-tools", description: "Split a PDF into separate files by page range.", icon: "scissors", keywords: ["split pdf"], status: "active" },
-  { id: "pdf-compressor", name: "Compress PDF", category: "pdf-tools", description: "Reduce PDF file size while keeping it readable.", icon: "file-down", keywords: ["compress pdf", "reduce pdf size"], status: "active", popular: true },
+  { id: "pdf-compressor", name: "Compress PDF", category: "pdf-tools", description: "Reduce PDF size with measured results and clear quality modes; MZ never claims savings that were not achieved.", icon: "file-down", keywords: ["compress pdf", "reduce pdf size"], status: "active", popular: true },
   { id: "pdf-to-jpg", name: "PDF to JPG", category: "pdf-tools", description: "Convert PDF pages into JPG images.", icon: "image", keywords: ["pdf to jpg", "pdf to image"], status: "active" },
-  { id: "jpg-to-pdf", name: "JPG to PDF", category: "pdf-tools", description: "Convert one or more JPG images into a single PDF.", icon: "file-plus", keywords: ["jpg to pdf", "image to pdf"], status: "active", popular: true },
+  { id: "jpg-to-pdf", name: "JPG to PDF", category: "pdf-tools", description: "Arrange JPG/PNG images and create a validated PDF using the original image sources.", icon: "file-plus", keywords: ["jpg to pdf", "image to pdf"], status: "active", popular: true },
   { id: "pdf-to-png", name: "PDF to PNG", category: "pdf-tools", description: "Convert PDF pages into PNG images.", icon: "image", keywords: ["pdf to png"], status: "active" },
   { id: "pdf-rotator", name: "Rotate PDF", category: "pdf-tools", description: "Rotate one or more pages in a PDF file.", icon: "rotate-cw", keywords: ["rotate pdf"], status: "active" },
   { id: "pdf-delete-pages", name: "Delete PDF Pages", category: "pdf-tools", description: "Remove specific pages from a PDF.", icon: "file-x", keywords: ["delete pdf pages", "remove pages"], status: "active" },
@@ -142,12 +143,12 @@ const tools = [
   { id: "random-study-topic-generator", name: "Random Study Topic Generator", category: "productivity-tools", description: "Get a random topic suggestion from your subject list.", icon: "shuffle", keywords: ["random topic generator"], status: "active" },
 
 // ---------------------------------------------------------------- Phase 14-style expansion: browser-first utility suite
-  { id: "pdf-to-word", name: "PDF to Word", category: "pdf-tools", description: "Extract PDF text into a Word-compatible HTML .doc file in your browser.", icon: "file-text", keywords: ["pdf word", "convert pdf to doc"], status: "active" },
-  { id: "pdf-to-excel", name: "PDF to Excel", category: "pdf-tools", description: "Extract PDF text into a real XLSX workbook for Excel-compatible viewing.", icon: "file-text", keywords: ["pdf excel", "pdf csv"], status: "active" },
-  { id: "pdf-to-powerpoint", name: "PDF to PowerPoint", category: "pdf-tools", description: "Extract PDF text into a real PPTX outline with generated presentation slides.", icon: "file-text", keywords: ["pdf ppt", "pdf presentation"], status: "active" },
+  { id: "pdf-to-word", name: "PDF to Word", category: "pdf-tools", description: "Create a real DOCX from selectable PDF text with an honest text-focused conversion workflow.", icon: "file-text", keywords: ["pdf word", "convert pdf to doc"], status: "active" },
+  { id: "pdf-to-excel", name: "PDF to Excel", category: "pdf-tools", description: "Extract selectable PDF text into a real XLSX workbook with page, line and text columns.", icon: "file-text", keywords: ["pdf excel", "pdf csv"], status: "active" },
+  { id: "pdf-to-powerpoint", name: "PDF to PowerPoint", category: "pdf-tools", description: "Create a real PPTX as high-quality page slides or a simplified editable text outline.", icon: "file-text", keywords: ["pdf ppt", "pdf presentation"], status: "active" },
   { id: "pdf-to-text", name: "PDF to Text", category: "pdf-tools", description: "Extract selectable text from a PDF locally in your browser.", icon: "file-text", keywords: ["pdf text extraction"], status: "active" },
   { id: "pdf-ocr", name: "PDF OCR", category: "pdf-tools", description: "Render PDF pages and run real local OCR with Tesseract.js to extract text.", icon: "scan-line", keywords: ["ocr pdf", "extract pdf text"], status: "active" },
-  { id: "scanned-pdf-to-searchable-pdf", name: "Scanned PDF to Searchable PDF", category: "pdf-tools", description: "Inspect scanned PDFs and extract any selectable text available in the document.", icon: "scan-line", keywords: ["searchable pdf", "ocr"], status: "active" },
+  { id: "scanned-pdf-to-searchable-pdf", name: "Scanned PDF to Searchable PDF", category: "pdf-tools", description: "OCR image-only PDF pages and add an invisible selectable text layer while preserving the original page appearance.", icon: "scan-line", keywords: ["searchable pdf", "ocr"], status: "active" },
   { id: "text-to-pdf", name: "Text to PDF", category: "document-tools", description: "Create a clean PDF from plain text in your browser.", icon: "file-text", keywords: ["txt pdf"], status: "active" },
   { id: "markdown-to-pdf", name: "Markdown to PDF", category: "document-tools", description: "Render Markdown-like text into a simple PDF document.", icon: "file-text", keywords: ["markdown pdf"], status: "active" },
   { id: "docx-viewer", name: "DOCX Viewer", category: "document-tools", description: "Inspect a DOCX package and download its document text where available.", icon: "file-text", keywords: ["docx viewer", "word viewer"], status: "active" },
@@ -281,7 +282,8 @@ const allTools = [...tools, ...converterToolRecords.filter((tool) => !existingTo
 const registry = allTools.map((originalTool) => {
   const converterMeta = converterMetaByToolId.get(originalTool.id);
   const formulaMeta = formulaMetaByToolId.get(originalTool.id);
-  const extraMeta = converterMeta || formulaMeta;
+  const categoryMeta = pdfToolMeta[originalTool.id];
+  const extraMeta = converterMeta || formulaMeta || categoryMeta;
   const tool = extraMeta ? {
     ...originalTool,
     ...extraMeta,

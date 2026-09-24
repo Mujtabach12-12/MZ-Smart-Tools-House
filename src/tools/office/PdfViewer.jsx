@@ -205,6 +205,19 @@ export default function PdfViewer() {
     return () => document.removeEventListener("fullscreenchange", onFullscreenChange);
   }, []);
 
+  useEffect(() => {
+    if (!doc) return undefined;
+    document.documentElement.classList.add("mz-pdf-reader-active");
+    return () => document.documentElement.classList.remove("mz-pdf-reader-active");
+  }, [doc]);
+
+  useEffect(() => {
+    if (!doc || !(viewMode === "width" || viewMode === "page")) return;
+    // Fullscreen/orientation changes alter the real available viewport. Refit
+    // from the PDF source instead of stretching the old canvas.
+    requestAnimationFrame(() => fitView(viewMode));
+  }, [isFullscreen, doc, fitView, viewMode]);
+
   async function open(next) {
     if (!next) return;
     setError("");
@@ -258,9 +271,12 @@ export default function PdfViewer() {
           horizontalPadding: window.innerWidth < 768 ? 18 : 42,
           verticalPadding: 28,
         });
-        if (widthScale < 1) {
+        if (window.innerWidth < 768 || widthScale < 1) {
+          // Mobile reader always starts in true Fit Width. Desktop keeps
+          // actual-size pages when they already fit comfortably.
           setViewMode("width");
           setZoom(widthScale);
+          viewer.scrollLeft = 0;
         }
       });
     } catch (openError) {

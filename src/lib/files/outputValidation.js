@@ -7,6 +7,10 @@ const MIME_EXTENSIONS = {
   "image/webp": new Set(["webp"]),
   "image/gif": new Set(["gif"]),
   "image/bmp": new Set(["bmp"]),
+  "text/plain": new Set(["txt"]),
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document": new Set(["docx"]),
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": new Set(["xlsx"]),
+  "application/vnd.openxmlformats-officedocument.presentationml.presentation": new Set(["pptx"]),
 };
 
 function extensionOf(filename = "") {
@@ -86,6 +90,31 @@ export async function validatePdfOutput(bytesOrBlob, { expectedPageCount } = {})
     throw new Error(`PDF page count changed unexpectedly: expected ${expectedPageCount}, got ${pageCount}.`);
   }
   return { valid: true, pageCount, size: blob.size, mime: "application/pdf" };
+}
+
+
+const OOXML_REQUIRED_ENTRIES = {
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document": ["[Content_Types].xml", "word/document.xml"],
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": ["[Content_Types].xml", "xl/workbook.xml"],
+  "application/vnd.openxmlformats-officedocument.presentationml.presentation": ["[Content_Types].xml", "ppt/presentation.xml"],
+};
+
+export async function validateOoxmlOutput(value, expectedMime) {
+  const size = assertNonEmptyOutput(value, "Office output");
+  const required = OOXML_REQUIRED_ENTRIES[expectedMime];
+  if (!required) throw new Error(`Unsupported Office output MIME type: ${expectedMime || "unknown"}.`);
+  const bytes = value instanceof Blob ? new Uint8Array(await value.arrayBuffer()) : value instanceof Uint8Array ? value : new Uint8Array(value);
+  if (bytes.length < 4 || bytes[0] !== 0x50 || bytes[1] !== 0x4b) {
+    throw new Error("Generated Office output is not a valid ZIP/OOXML container.");
+  }
+  const JSZip = (await import("jszip")).default;
+  let zip;
+  try { zip = await JSZip.loadAsync(bytes); }
+  catch { throw new Error("Generated Office output could not be opened as an OOXML document."); }
+  for (const entry of required) {
+    if (!zip.file(entry)) throw new Error(`Generated Office output is missing required entry: ${entry}.`);
+  }
+  return { valid: true, size, mime: expectedMime };
 }
 
 export function createOutputArtifact({ data, filename, mimeType, width = null, height = null, pageCount = null, metadata = {} }) {

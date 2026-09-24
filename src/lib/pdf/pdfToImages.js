@@ -17,6 +17,7 @@ export async function renderPdfPagesToImages(bytes, {
   scale,
   maxPixelsPerPage = 40_000_000,
   onProgress,
+  pageNumbers = null,
 } = {}) {
   let pdf;
   try {
@@ -26,9 +27,18 @@ export async function renderPdfPagesToImages(bytes, {
   }
 
   const renderScale = Number.isFinite(scale) ? scale : scaleForDpi(dpi);
+  const requestedPages = pageNumbers == null
+    ? Array.from({ length: pdf.numPages }, (_, index) => index + 1)
+    : [...new Set(pageNumbers.map(Number))].filter((pageNumber) => Number.isInteger(pageNumber) && pageNumber >= 1 && pageNumber <= pdf.numPages);
+  if (!requestedPages.length) {
+    try { await pdf.destroy?.(); } catch { /* best-effort cleanup */ }
+    throw new Error("Select at least one valid PDF page to convert.");
+  }
+
   const results = [];
   try {
-    for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+    for (let requestIndex = 0; requestIndex < requestedPages.length; requestIndex += 1) {
+      const pageNumber = requestedPages[requestIndex];
       const page = await pdf.getPage(pageNumber);
       const viewport = page.getViewport({ scale: renderScale });
       const pixels = viewport.width * viewport.height;
@@ -51,7 +61,7 @@ export async function renderPdfPagesToImages(bytes, {
       if (!blob) throw new Error(`Could not render page ${pageNumber} to an image.`);
 
       results.push({ pageNumber, blob, width: canvas.width, height: canvas.height, dpi: Number.isFinite(scale) ? Math.round(scale * 72) : dpi });
-      onProgress?.(pageNumber, pdf.numPages);
+      onProgress?.(requestIndex + 1, requestedPages.length, pageNumber);
       page.cleanup?.();
     }
   } finally {

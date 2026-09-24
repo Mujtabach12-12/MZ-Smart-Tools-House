@@ -21,13 +21,12 @@ for (const token of ["contentEditable","localStorage","Packer.toBlob","PDFDocume
 assert.doesNotMatch(word, /\.doc\"|Word-compatible \.doc/i, "Word editor must not disguise HTML as DOC");
 
 const lab = fs.readFileSync("src/tools/programming/ProgrammingLab.jsx","utf8");
-for (const token of ["new Worker","Network disabled in browser runner","coming soon 🚀","sandbox=\"allow-scripts\"","signal?.addEventListener(\"abort\"","Run"]) assert.ok(lab.includes(token), `Programming Lab missing ${token}`);
+for (const token of ["new Worker","Network disabled in browser runner","Thanks for your interest","sandbox=\"allow-scripts\"","signal?.addEventListener(\"abort\"","Run"]) assert.ok(lab.includes(token), `Programming Lab missing ${token}`);
 assert.ok(COMPILER_LANGUAGES.some((l)=>l.id==="cpp"&&!l.browser), "C++ must not be labeled browser-supported");
 assert.equal(getCompilerConfig().configured, false, "compiler backend must remain unconfigured unless VITE_COMPILER_API_URL is supplied");
 
 const ai = fs.readFileSync("src/tools/ai/AiWritingAssistant.jsx","utf8");
-assert.ok(ai.includes("generateAi"), "AI UI must call the real backend service");
-assert.ok(ai.includes("no API secret is stored in the browser"), "AI UI must explain secret handling");
+assert.ok(ai.includes("Coming soon") && ai.includes("Thanks for your interest"), "AI UI must show the approved simple coming-soon state while its backend capability is unavailable");
 
 const app = fs.readFileSync("src/App.jsx","utf8");
 assert.ok(app.includes("v7_startTransition") && app.includes("v7_relativeSplatPath"), "React Router 6.26 future flags must be enabled");

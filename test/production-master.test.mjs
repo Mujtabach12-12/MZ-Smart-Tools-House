@@ -45,8 +45,8 @@ assert.ok(toolPage.includes("APP_WORKSPACES") && toolPage.includes("mz-app-works
 for (const id of ["mz-online-word", "mz-online-excel", "mz-online-powerpoint", "mz-pdf-editor", "mz-pdf-viewer", "mz-powerpoint-viewer", "smart-document-scanner", "programming-lab"]) assert.ok(toolPage.includes(`"${id}"`), `application workspace set missing ${id}`);
 assert.ok(toolPage.includes("url: BASE_URL") && !toolPage.includes('url: "https://www.mzsolutions.app"'), "tool schema must use the configured site URL");
 
-const dictionary = read("src/tools/reference/MzDictionary.jsx");
-assert.ok(dictionary.includes("12000") && dictionary.includes("request took too long"), "dictionary must have a bounded network timeout and actionable error");
+const dictionary = read("src/services/dictionary.js");
+assert.ok(dictionary.includes("REQUEST_TIMEOUT_MS = 3500") && dictionary.includes("temporarily unavailable") && dictionary.includes("responding slowly"), "dictionary must have bounded per-source timeouts and actionable errors");
 
 const pwa = read("src/components/pwa/PwaManager.jsx");
 assert.ok(pwa.includes("App installed successfully") && pwa.includes("notify("), "PWA install/update flow must provide user feedback");

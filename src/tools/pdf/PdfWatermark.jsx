@@ -1,96 +1,19 @@
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { addWatermark } from "../../lib/pdf/watermark";
-import { fileToUint8Array, downloadBytes } from "../../lib/download";
+import { inspectPdfFile, buildValidatedPdfArtifact } from "../../lib/pdf/toolkit.js";
+import { formatBytes } from "../../lib/pdf/core.js";
 import FileDropzone from "../../components/tools/FileDropzone";
-import FileListItem from "../../components/tools/FileListItem";
 import ErrorMessage from "../../components/tools/ErrorMessage";
-import ToolExtras from "../../components/tools/ToolExtras";
+import PdfFileSummary from "../../components/tools/pdf/PdfFileSummary.jsx";
+import PdfStepIndicator from "../../components/tools/pdf/PdfStepIndicator.jsx";
+import PdfResultPanel from "../../components/tools/pdf/PdfResultPanel.jsx";
 
-export default function PdfWatermark() {
-  const [file, setFile] = useState(null);
-  const [text, setText] = useState("CONFIDENTIAL");
-  const [opacity, setOpacity] = useState(30);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [error, setError] = useState("");
-  const [done, setDone] = useState(false);
-
-  function handleFiles([selected]) {
-    setError(""); setDone(false);
-    if (selected.type !== "application/pdf") {
-      setError(`"${selected.name}" is not a PDF file.`);
-      return;
-    }
-    setFile(selected);
-  }
-
-  async function handleApply() {
-    if (!file) return;
-    setIsProcessing(true);
-    setError("");
-    setDone(false);
-    try {
-      const bytes = await fileToUint8Array(file);
-      const outBytes = await addWatermark(bytes, text, { opacity: opacity / 100 });
-      downloadBytes(outBytes, `watermarked-${file.name}`, "application/pdf");
-      setDone(true);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setIsProcessing(false);
-    }
-  }
-
-  function handleReset() {
-    setFile(null); setText("CONFIDENTIAL"); setOpacity(30); setError(""); setDone(false);
-  }
-
-  return (
-    <div className="mz-card p-6">
-      {!file ? (
-        <FileDropzone accept="application/pdf" onFiles={handleFiles} label="Drop a PDF file here to watermark" />
-      ) : (
-        <div className="space-y-4">
-          <FileListItem name={file.name} size={file.size} onRemove={handleReset} />
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label className="mb-1 block text-sm font-medium text-navy-700 dark:text-navy-200">Watermark Text</label>
-              <input type="text" value={text} onChange={(e) => setText(e.target.value)} className="mz-input" placeholder="e.g. CONFIDENTIAL" />
-            </div>
-            <div>
-              <label className="mb-1 block text-sm font-medium text-navy-700 dark:text-navy-200">Opacity: {opacity}%</label>
-              <input type="range" min="10" max="80" value={opacity} onChange={(e) => setOpacity(Number(e.target.value))} className="w-full accent-brand-600" />
-            </div>
-          </div>
-        </div>
-      )}
-
-      <div className="mt-6 flex flex-wrap gap-3">
-        <button type="button" onClick={handleApply} disabled={!file || isProcessing || !text.trim()} className="mz-btn-primary">
-          {isProcessing ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-          {isProcessing ? "Applying..." : "Add Watermark & Download"}
-        </button>
-        <button type="button" onClick={handleReset} className="mz-btn-secondary">Reset</button>
-      </div>
-
-      <div className="mt-6 space-y-3">
-        <ErrorMessage message={error} />
-        {done && !error && <p className="text-sm font-medium text-green-600">Your watermarked PDF has been downloaded.</p>}
-      </div>
-
-      <ToolExtras
-        toolId="pdf-watermark"
-        category="pdf-tools"
-        showPrivacyNote
-        howTo={[
-          "Upload a PDF file.",
-          "Type the watermark text and adjust its opacity.",
-          "Click \"Add Watermark & Download\" — every page gets a diagonal watermark.",
-        ]}
-        faq={[
-          { q: "Can I change the watermark's position?", a: "The current version centers a diagonal watermark on every page. Custom positioning may be added in a future update." },
-        ]}
-      />
-    </div>
-  );
+export default function PdfWatermark(){
+ const [source,setSource]=useState(null),[text,setText]=useState("CONFIDENTIAL"),[opacity,setOpacity]=useState(28),[fontSize,setFontSize]=useState(48),[rotation,setRotation]=useState(45),[position,setPosition]=useState("center"),[color,setColor]=useState("#64748b"),[pages,setPages]=useState("all"),[busy,setBusy]=useState(false),[error,setError]=useState(""),[artifact,setArtifact]=useState(null);
+ async function handleFiles([file]){setError("");setArtifact(null);if(!file)return;try{setSource(await inspectPdfFile(file))}catch(e){setSource(null);setError(e.message||"Could not open this PDF.")}}
+ function reset(){setSource(null);setText("CONFIDENTIAL");setOpacity(28);setFontSize(48);setRotation(45);setPosition("center");setColor("#64748b");setPages("all");setArtifact(null);setError("")}
+ async function run(){if(!source)return;setBusy(true);setError("");setArtifact(null);try{const bytes=await addWatermark(source.bytes,text,{opacity:opacity/100,fontSize,rotation,position,color,pagesInput:pages});setArtifact(await buildValidatedPdfArtifact(bytes,{sourceName:source.name,suffix:"watermarked",expectedPageCount:source.pageCount,metadata:{structural:true,text,opacity,fontSize,rotation,position,pages}}))}catch(e){setError(e.message||"The watermark could not be applied.")}finally{setBusy(false)}}
+ const step=artifact?4:busy?3:source?2:1;
+ return <div className="mz-card p-4 sm:p-6"><PdfStepIndicator current={step} steps={["Select","Design","Apply","Download"]}/>{!source?<FileDropzone accept="application/pdf" onFiles={handleFiles} label="Choose a PDF to watermark"/>:<PdfFileSummary name={source.name} size={source.size} pageCount={source.pageCount} onRemove={reset}/>} {source?<div className="mt-5 grid gap-5 lg:grid-cols-[1fr_280px]"><div className="grid gap-4 sm:grid-cols-2"><label className="text-sm font-semibold sm:col-span-2">Watermark text<input className="mz-input mt-2" value={text} onChange={(e)=>{setText(e.target.value);setArtifact(null)}} maxLength={120}/></label><label className="text-sm font-semibold">Font size<input type="number" min="8" max="180" className="mz-input mt-2" value={fontSize} onChange={(e)=>{setFontSize(Number(e.target.value));setArtifact(null)}}/></label><label className="text-sm font-semibold">Opacity · {opacity}%<input type="range" min="5" max="90" value={opacity} onChange={(e)=>{setOpacity(Number(e.target.value));setArtifact(null)}} className="mt-3 w-full accent-brand-600"/></label><label className="text-sm font-semibold">Rotation<input type="number" min="-180" max="180" className="mz-input mt-2" value={rotation} onChange={(e)=>{setRotation(Number(e.target.value));setArtifact(null)}}/></label><label className="text-sm font-semibold">Position<select className="mz-input mt-2" value={position} onChange={(e)=>{setPosition(e.target.value);setArtifact(null)}}><option value="center">Center</option><option value="top">Top</option><option value="bottom">Bottom</option></select></label><label className="text-sm font-semibold">Color<input type="color" className="mt-2 h-11 w-full rounded-xl border border-navy-200 bg-white p-1" value={color} onChange={(e)=>{setColor(e.target.value);setArtifact(null)}}/></label><label className="text-sm font-semibold">Pages<input className="mz-input mt-2" value={pages} onChange={(e)=>{setPages(e.target.value);setArtifact(null)}} placeholder="all or 1-3,5"/><span className="mt-1 block text-xs font-normal text-navy-500">Use “all” or a range such as 1-3,5.</span></label></div><div><p className="mb-2 text-xs font-bold uppercase tracking-wide text-navy-500">Live style preview</p><div className="relative aspect-[3/4] overflow-hidden rounded-xl border border-navy-200 bg-white shadow-inner"><div className="absolute inset-x-4 top-5 space-y-2 opacity-25"><i className="block h-2 rounded bg-slate-400"/><i className="block h-2 rounded bg-slate-300"/><i className="block h-2 w-4/5 rounded bg-slate-300"/></div><span className={`absolute left-1/2 whitespace-nowrap font-bold ${position==="top"?"top-[18%]":position==="bottom"?"top-[82%]":"top-1/2"}`} style={{color,opacity:opacity/100,fontSize:`${Math.max(12,Math.min(32,fontSize/2))}px`,transform:`translate(-50%,-50%) rotate(${rotation}deg)`}}>{text||"Watermark"}</span></div><p className="mt-2 text-xs text-navy-500">Style preview only. Final watermark is drawn directly into the original PDF pages.</p></div></div>:null}<div className="mt-5 flex flex-wrap gap-3"><button type="button" className="mz-btn-primary" onClick={run} disabled={!source||busy||!text.trim()}>{busy?<Loader2 className="h-4 w-4 animate-spin"/>:null}{busy?"Applying watermark…":"Apply watermark"}</button>{source?<button type="button" className="mz-btn-secondary" onClick={reset}>Reset</button>:null}</div><div className="mt-4"><ErrorMessage message={error}/></div><PdfResultPanel artifact={artifact} title="Watermarked PDF ready" stats={artifact?[["Output",artifact.filename],["Pages",String(artifact.pageCount)],["Size",formatBytes(artifact.data.byteLength)],["Opacity",`${opacity}%`]]:[]} onReset={reset} note="Existing page graphics remain in the PDF; the watermark is added as PDF content rather than by screenshotting pages."/></div>
 }

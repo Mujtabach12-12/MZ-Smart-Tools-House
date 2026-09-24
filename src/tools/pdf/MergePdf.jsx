@@ -1,123 +1,139 @@
 import { useState } from "react";
-import { ArrowDown, ArrowUp, FileText, Loader2, X } from "lucide-react";
+import { ArrowDown, ArrowUp, GripVertical, Loader2, Plus, X } from "lucide-react";
 import { mergePdfs } from "../../lib/pdf/merge";
 import { formatBytes } from "../../lib/pdf/core";
-import { fileToUint8Array, downloadBytes } from "../../lib/download";
+import { inspectPdfFile, buildValidatedPdfArtifact } from "../../lib/pdf/toolkit.js";
 import FileDropzone from "../../components/tools/FileDropzone";
 import ErrorMessage from "../../components/tools/ErrorMessage";
-import ToolExtras from "../../components/tools/ToolExtras";
+import PdfStepIndicator from "../../components/tools/pdf/PdfStepIndicator.jsx";
+import PdfFirstPageThumb from "../../components/tools/pdf/PdfFirstPageThumb.jsx";
+import PdfResultPanel from "../../components/tools/pdf/PdfResultPanel.jsx";
 
 export default function MergePdf() {
-  const [files, setFiles] = useState([]); // [{id, file}]
+  const [files, setFiles] = useState([]);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
   const [error, setError] = useState("");
-  const [done, setDone] = useState(false);
+  const [artifact, setArtifact] = useState(null);
+  const [dragIndex, setDragIndex] = useState(null);
 
-  function handleFiles(newFiles) {
+  async function handleFiles(newFiles) {
     setError("");
-    setDone(false);
-    const invalid = newFiles.find((f) => f.type !== "application/pdf");
-    if (invalid) {
-      setError(`"${invalid.name}" is not a PDF file.`);
-      return;
+    setArtifact(null);
+    if (!newFiles?.length) return;
+    setIsAdding(true);
+    try {
+      const inspected = [];
+      for (const file of newFiles) {
+        const info = await inspectPdfFile(file);
+        inspected.push({ id: crypto.randomUUID(), ...info });
+      }
+      setFiles((prev) => [...prev, ...inspected]);
+    } catch (e) {
+      setError(e.message || "One of the selected PDFs could not be opened.");
+    } finally {
+      setIsAdding(false);
     }
-    setFiles((prev) => [...prev, ...newFiles.map((file) => ({ id: crypto.randomUUID(), file }))]);
   }
 
   function removeFile(id) {
-    setFiles((prev) => prev.filter((f) => f.id !== id));
-    setDone(false);
+    setFiles((prev) => prev.filter((item) => item.id !== id));
+    setArtifact(null);
   }
 
-  function moveFile(index, direction) {
+  function moveFile(from, to) {
+    if (to < 0 || to >= files.length || from === to) return;
     setFiles((prev) => {
       const next = [...prev];
-      const target = index + direction;
-      if (target < 0 || target >= next.length) return prev;
-      [next[index], next[target]] = [next[target], next[index]];
+      const [item] = next.splice(from, 1);
+      next.splice(to, 0, item);
       return next;
     });
+    setArtifact(null);
   }
 
   async function handleMerge() {
-    if (files.length < 2) {
-      setError("Add at least two PDF files to merge.");
-      return;
-    }
+    if (files.length < 2) return setError("Add at least two PDF files to merge.");
     setIsProcessing(true);
     setError("");
-    setDone(false);
+    setArtifact(null);
     try {
-      const byteArrays = await Promise.all(files.map((f) => fileToUint8Array(f.file)));
-      const mergedBytes = await mergePdfs(byteArrays);
-      downloadBytes(mergedBytes, "merged.pdf", "application/pdf");
-      setDone(true);
-    } catch (err) {
-      setError(err.message);
+      const totalPages = files.reduce((sum, item) => sum + item.pageCount, 0);
+      const mergedBytes = await mergePdfs(files.map((item) => item.bytes));
+      const output = await buildValidatedPdfArtifact(mergedBytes, {
+        sourceName: files[0].name,
+        suffix: "merged",
+        expectedPageCount: totalPages,
+        metadata: { sourceFiles: files.length, structural: true, rasterized: false },
+      });
+      setArtifact(output);
+    } catch (e) {
+      setError(e.message || "The PDFs could not be merged.");
     } finally {
       setIsProcessing(false);
     }
   }
 
-  function handleReset() {
+  function reset() {
     setFiles([]);
+    setArtifact(null);
     setError("");
-    setDone(false);
+    setDragIndex(null);
   }
 
+  const step = artifact ? 4 : isProcessing ? 3 : files.length >= 2 ? 2 : 1;
+  const totalPages = files.reduce((sum, item) => sum + item.pageCount, 0);
+
   return (
-    <div className="mz-card p-6">
-      <FileDropzone accept="application/pdf" multiple onFiles={handleFiles} label="Drop PDF files here to merge" />
+    <div className="mz-card p-4 sm:p-6">
+      <PdfStepIndicator current={step} steps={["Select", "Arrange", "Merge", "Download"]} />
+      <FileDropzone accept="application/pdf" multiple onFiles={handleFiles} label={files.length ? "Add more PDF files" : "Choose two or more PDF files"} />
+      {isAdding ? <p className="mt-3 text-sm text-navy-500" role="status">Validating selected PDFs…</p> : null}
 
-      {files.length > 0 && (
-        <div className="mt-4 space-y-2">
-          {files.map((f, i) => (
-            <div key={f.id} className="flex items-center gap-2 rounded-xl border border-navy-100 bg-white px-3 py-2 dark:border-navy-800 dark:bg-navy-900">
-              <FileText className="h-4 w-4 shrink-0 text-brand-600 dark:text-brand-300" />
-              <span className="flex-1 truncate text-sm text-navy-700 dark:text-navy-200">{i + 1}. {f.file.name}</span>
-              <span className="shrink-0 text-xs text-navy-400">{formatBytes(f.file.size)}</span>
-              <button type="button" onClick={() => moveFile(i, -1)} disabled={i === 0} aria-label="Move up" className="text-navy-400 hover:text-brand-700 disabled:opacity-30">
-                <ArrowUp className="h-4 w-4" />
-              </button>
-              <button type="button" onClick={() => moveFile(i, 1)} disabled={i === files.length - 1} aria-label="Move down" className="text-navy-400 hover:text-brand-700 disabled:opacity-30">
-                <ArrowDown className="h-4 w-4" />
-              </button>
-              <button type="button" onClick={() => removeFile(f.id)} aria-label="Remove file" className="text-navy-400 hover:text-red-600">
-                <X className="h-4 w-4" />
-              </button>
+      {files.length > 0 ? <div className="mt-5 space-y-3" aria-label="PDF merge order">
+        {files.map((item, index) => (
+          <div
+            key={item.id}
+            draggable
+            onDragStart={() => setDragIndex(index)}
+            onDragOver={(event) => event.preventDefault()}
+            onDrop={() => { if (dragIndex != null) moveFile(dragIndex, index); setDragIndex(null); }}
+            className="flex items-center gap-3 rounded-2xl border border-navy-100 bg-white p-3 dark:border-navy-800 dark:bg-navy-900"
+          >
+            <span className="hidden cursor-grab text-navy-300 sm:block" aria-hidden="true"><GripVertical className="h-5 w-5" /></span>
+            <PdfFirstPageThumb file={item.file} />
+            <div className="min-w-0 flex-1">
+              <strong className="block truncate text-sm text-navy-900 dark:text-white">{index + 1}. {item.name}</strong>
+              <span className="mt-1 block text-xs text-navy-500">{item.pageCount} page{item.pageCount === 1 ? "" : "s"} · {formatBytes(item.size)}</span>
             </div>
-          ))}
+            <div className="flex items-center gap-1">
+              <button type="button" className="mz-pdf-toolbar-button" onClick={() => moveFile(index, index - 1)} disabled={index === 0} aria-label={`Move ${item.name} earlier`}><ArrowUp /></button>
+              <button type="button" className="mz-pdf-toolbar-button" onClick={() => moveFile(index, index + 1)} disabled={index === files.length - 1} aria-label={`Move ${item.name} later`}><ArrowDown /></button>
+              <button type="button" className="mz-pdf-toolbar-button" onClick={() => removeFile(item.id)} aria-label={`Remove ${item.name}`}><X /></button>
+            </div>
+          </div>
+        ))}
+        <div className="flex items-center justify-between rounded-xl bg-brand-50 px-4 py-3 text-sm dark:bg-brand-950/30">
+          <span className="font-semibold text-navy-700 dark:text-navy-200">{files.length} PDFs in merge order</span>
+          <span className="text-navy-500">{totalPages} total pages</span>
         </div>
-      )}
+      </div> : null}
 
-      <div className="mt-6 flex flex-wrap gap-3">
-        <button type="button" onClick={handleMerge} disabled={isProcessing || files.length < 2} className="mz-btn-primary">
-          {isProcessing ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-          {isProcessing ? "Merging..." : "Merge & Download"}
+      <div className="mt-5 flex flex-wrap gap-3">
+        <button type="button" onClick={handleMerge} disabled={files.length < 2 || isProcessing || isAdding} className="mz-btn-primary">
+          {isProcessing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
+          {isProcessing ? "Merging PDFs…" : "Merge PDFs"}
         </button>
-        <button type="button" onClick={handleReset} className="mz-btn-secondary">Reset</button>
+        {files.length ? <button type="button" onClick={reset} className="mz-btn-secondary">Clear</button> : null}
       </div>
 
-      <div className="mt-6 space-y-3">
-        <ErrorMessage message={error} />
-        {done && !error && (
-          <p className="text-sm font-medium text-green-600">Your merged PDF has been downloaded.</p>
-        )}
-      </div>
-
-      <ToolExtras
-        toolId="pdf-merger"
-        category="pdf-tools"
-        showPrivacyNote
-        howTo={[
-          "Drag and drop two or more PDF files, or click to browse.",
-          "Reorder files using the up/down arrows — they'll be merged in this order.",
-          "Click \"Merge & Download\" to get your combined PDF.",
-        ]}
-        faq={[
-          { q: "Is there a limit on how many PDFs I can merge?", a: "No hard limit, but very large files may be slower since everything is processed in your browser's memory." },
-          { q: "Are my files uploaded anywhere?", a: "No — merging happens entirely in your browser using JavaScript. Your files never leave your device." },
-        ]}
+      <div className="mt-4"><ErrorMessage message={error} /></div>
+      <PdfResultPanel
+        artifact={artifact}
+        title="Merged PDF ready"
+        stats={artifact ? [["Output", artifact.filename], ["Files merged", String(files.length)], ["Pages", String(artifact.pageCount)], ["Size", formatBytes(artifact.data.byteLength)]] : []}
+        onReset={reset}
+        note="Pages were copied structurally into the output PDF; they were not converted to screenshots."
       />
     </div>
   );

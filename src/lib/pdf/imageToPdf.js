@@ -19,7 +19,7 @@ export const PAGE_SIZES = {
 export function computePageLayout(
   imageWidth,
   imageHeight,
-  { pageSize = "auto", orientation = "auto", margin = 0 } = {}
+  { pageSize = "auto", orientation = "auto", margin = 0, fit = "contain" } = {}
 ) {
   if (!(imageWidth > 0) || !(imageHeight > 0)) {
     throw new Error("Image dimensions could not be read — the file may be corrupted.");
@@ -54,7 +54,10 @@ export function computePageLayout(
   const boxWidth = pageWidth - safeMargin * 2;
   const boxHeight = pageHeight - safeMargin * 2;
 
-  const scale = Math.min(boxWidth / imageWidth, boxHeight / imageHeight);
+  if (!["contain", "fill"].includes(fit)) throw new Error("Image fit must be contain or fill.");
+  const scale = fit === "fill"
+    ? Math.max(boxWidth / imageWidth, boxHeight / imageHeight)
+    : Math.min(boxWidth / imageWidth, boxHeight / imageHeight);
   const width = imageWidth * scale;
   const height = imageHeight * scale;
 
