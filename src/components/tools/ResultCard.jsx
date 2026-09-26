@@ -21,7 +21,7 @@ export function ResultRow({ label, value, highlight = false, copyText }) {
 export default function ResultCard({ children, title = "Result" }) {
   useEffect(() => { announceToolSuccess({ source: "result" }); }, []);
   return (
-    <div className="mz-card p-5">
+    <div className="mz-card p-5" aria-live="polite">
       <h3 className="mb-3 text-sm font-semibold text-navy-900 dark:text-navy-50">{title}</h3>
       <div className="space-y-2">{children}</div>
     </div>

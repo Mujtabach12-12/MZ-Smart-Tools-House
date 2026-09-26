@@ -4,7 +4,7 @@ function meta({ input = ["application/pdf"], output, relatedTools, title, descri
     output,
     relatedTools,
     keywords,
-    seoTitle: `${title} | MZ Smart Tool House`,
+    seoTitle: title,
     seoDescription: description,
     implementation: "browser",
     processingType: "browser",

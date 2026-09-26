@@ -1,3 +1,6 @@
+import financeToolSeo from './financeToolSeo.js';
+import developerToolSeo from './developerToolSeo.js';
+import studentDocumentSeo from './studentDocumentSeo.js';
 const featured = {
   "bmi-calculator": {
     title: "BMI Calculator – Free Online BMI Calculator",
@@ -38,31 +41,113 @@ const featured = {
     related: ["bmr-calculator", "calorie-calculator", "calorie-deficit-calculator", "calorie-surplus-calculator"],
   },
   "gpa-calculator": {
-    title: "GPA Calculator – Free Grade Point Average Calculator",
-    description: "Calculate semester GPA from course grades and credit hours with a fast online GPA calculator.",
-    intro: "Enter your course grades and credit hours to calculate a weighted semester GPA.",
+    title: "GPA Calculator – Credit-Weighted GPA",
+    description: "Calculate credit-weighted GPA with an explicitly verified university policy when available or a clearly labeled custom grading scale.",
+    intro: "Calculate semester GPA from course grades and credit hours without silently substituting an unverified university grading policy.",
     formula: "GPA = total grade points earned ÷ total credit hours counted in GPA.",
     example: "A 3-credit course at 4.0 contributes 12 quality points to the GPA total.",
     faq: [["How is GPA calculated?", "Each course grade point is multiplied by its credit hours, then the total quality points are divided by counted credit hours."]],
     related: ["cgpa-calculator", "grade-calculator", "percentage-calculator", "attendance-calculator"],
   },
   "cgpa-calculator": {
-    title: "CGPA Calculator – Cumulative GPA Calculator",
-    description: "Calculate cumulative GPA across semesters using semester GPAs and credit hours.",
-    intro: "Combine semester GPA results using the credit-weighted method to estimate cumulative GPA.",
+    title: "CGPA Calculator – Credit-Weighted CGPA",
+    description: "Calculate credit-weighted CGPA from semester GPA and credit hours using a verified policy when available or a clearly labeled custom scale.",
+    intro: "Combine semester GPA results using credit hours while keeping university-policy claims explicit and verifiable.",
     formula: "CGPA = total quality points across counted semesters ÷ total counted credit hours.",
     example: "Two semesters with different credit loads should be weighted by their respective credit hours.",
     faq: [["What is the difference between GPA and CGPA?", "GPA usually describes a single term or semester, while CGPA combines multiple terms using the institution's rules."]],
     related: ["gpa-calculator", "grade-calculator", "percentage-calculator", "marks-calculator"],
   },
+  "marks-calculator": {
+    title: "Marks Calculator – Total, Average & Percentage",
+    description: "Calculate total obtained marks, total maximum marks, average marks and overall percentage across multiple subjects.",
+    intro: "Enter obtained and maximum marks for each subject to calculate totals, per-subject average marks and overall percentage from real inputs.",
+    formula: "Overall percentage = total obtained marks ÷ total maximum marks × 100. Average marks = total obtained marks ÷ number of subjects.",
+    example: "For marks 85, 78, 92, 67 and 88 out of 100 each, total is 410, average is 82 and overall percentage is 82%.",
+    faq: [["Can subjects have different maximum marks?", "Yes. Overall percentage uses summed obtained marks divided by summed maximum marks."], ["Is average the same as percentage?", "Not always. Average is obtained marks per subject; percentage uses the combined maximum marks."]],
+    related: ["grade-calculator", "gpa-calculator", "attendance-calculator", "study-hours-calculator"],
+  },
+  "grade-calculator": {
+    title: "Grade Calculator – Custom or Verified Scale",
+    description: "Convert a percentage to a letter grade only after selecting a verified university policy or a clearly labeled custom manual grading scale.",
+    intro: "University grade boundaries differ. This calculator never silently treats one generic table as an official policy.",
+    formula: "The entered percentage is matched against the selected policy or custom percentage band.",
+    example: "If your selected scale defines 90–100 as A, 90 falls in that band. Different scales may produce a different letter grade.",
+    faq: [["Does MZ use one universal grading table?", "No. Official-university conversion is enabled only for explicitly verified policies; custom mode is user-defined."], ["Can I use my own grading scale?", "Yes. Select the custom manual scale and edit the percentage bands to match the policy you have verified."]],
+    related: ["gpa-calculator", "cgpa-calculator", "marks-calculator", "attendance-calculator"],
+  },
+  "attendance-calculator": {
+    title: "Attendance Calculator – Percentage & Classes Needed",
+    description: "Calculate current attendance, future classes you can miss, or consecutive classes needed to reach a required attendance percentage.",
+    intro: "Use actual attended and total class counts to calculate attendance and solve future attendance scenarios mathematically.",
+    formula: "Attendance % = attended ÷ total × 100. Future-class results solve the same ratio against your required threshold.",
+    example: "80 attended out of 100 total is 80%. At a 75% requirement, you can miss a limited number of future classes while staying at or above 75%.",
+    faq: [["What happens if total classes is 0?", "The calculator stops with validation because attendance percentage would be undefined."], ["Can it tell me how many classes I need to attend?", "Yes. When below the target, it solves for consecutive future classes attended without another absence."]],
+    related: ["gpa-calculator", "marks-calculator", "study-hours-calculator", "grade-calculator"],
+  },
+  "study-hours-calculator": {
+    title: "Study Hours Calculator – Hours Per Day",
+    description: "Divide a study workload across available days and optionally compare the required hours per day with your actual daily availability.",
+    intro: "Plan study time from real workload and days available. Optional daily availability adds a feasibility check without changing the core calculation.",
+    formula: "Required hours per day = total study workload ÷ days available.",
+    example: "40 study hours across 5 days requires 8 hours per day. 25.5 hours across 5 days requires 5.1 hours per day.",
+    faq: [["Can total workload be 0?", "Yes. The result is 0 hours per day as long as days available is greater than 0."], ["Why is daily availability optional?", "It is only needed when you want the tool to compare your plan with how many hours you can realistically study each day."]],
+    related: ["attendance-calculator", "gpa-calculator", "marks-calculator", "pomodoro-timer"],
+  },
+
   "percentage-calculator": {
     title: "Percentage Calculator – Percent, Increase & Decrease",
-    description: "Calculate percentages, percentage change and common percentage values quickly online.",
-    intro: "Use the calculator for common percentage calculations without manual arithmetic.",
-    formula: "Percentage = part ÷ whole × 100.",
-    example: "25 out of 200 is 12.5%.",
-    faq: [["How do I calculate a percentage?", "Divide the part by the whole and multiply by 100."]],
-    related: ["percentage-change-calculator", "marks-required-calculator", "discount-calculator", "grade-calculator"],
+    description: "Calculate X% of a value, what percentage one value is of another, and percentage increase or decrease with clear zero-baseline validation.",
+    intro: "Use three explicit percentage modes so the denominator and comparison direction stay clear.",
+    formula: "X is what % of Y: X ÷ Y × 100. X% of Y: X ÷ 100 × Y. Percentage change: (new − old) ÷ old × 100.",
+    example: "20% of 150 = 30. Moving from 100 to 120 is a 20% increase.",
+    faq: [["Why is percentage change from zero rejected?", "Percentage change divides by the old value, so an old value of zero makes the calculation mathematically undefined."], ["Can I enter decimals or negative values?", "Yes. Decimal and negative values are supported where the mathematics is defined."]],
+    related: ["discount-calculator", "percentage-change-calculator", "average-calculator", "ratio-calculator"],
+  },
+  "age-calculator": {
+    title: "Age Calculator – Years, Months & Days",
+    description: "Calculate calendar age in years, months and days between a date of birth and a selected reference date with timezone-safe date-only logic.",
+    intro: "Calculate age from real calendar dates rather than approximating months as 30 days or years as 365 days.",
+    formula: "The calculator finds whole calendar months from the birth date, then reports remaining calendar days. Total days use date-only UTC arithmetic to avoid timezone shifts.",
+    example: "2000-01-01 to 2020-01-01 is exactly 20 years, 0 months and 0 days.",
+    faq: [["Does the calculator handle leap years?", "Yes. It uses real Gregorian calendar dates, including February 29 where valid."], ["Can I use a custom reference date?", "Yes. Change the reference date to calculate age on any date that is not before the date of birth."]],
+    related: ["date-difference-calculator", "days-between-dates", "time-calculator", "years-between-dates"],
+  },
+  "discount-calculator": {
+    title: "Discount Calculator – Final Price & Savings",
+    description: "Calculate a discount amount and final price, or work backwards from original and final prices to find the discount percentage.",
+    intro: "Use the forward mode for sale-price calculations or reverse mode when the original and final prices are known.",
+    formula: "Discount amount = original price × discount % ÷ 100. Final price = original price − discount amount.",
+    example: "A 20% discount on 1,000 saves 200 and gives a final price of 800.",
+    faq: [["Can a discount exceed 100%?", "No. This calculator treats discounts as a reduction from 0% to 100%, so values above 100% are rejected."], ["Can I calculate the discount percentage from two prices?", "Yes. Use the reverse mode and enter the original and final price."]],
+    related: ["percentage-calculator", "percentage-change-calculator", "profit-margin-calculator", "average-calculator"],
+  },
+  "average-calculator": {
+    title: "Average Calculator – Mean, Sum, Count, Min & Max",
+    description: "Calculate the arithmetic mean, sum, count, minimum and maximum from a list of numbers with invalid-token validation.",
+    intro: "Paste a short list or a large column of values. Invalid entries are reported instead of being silently ignored.",
+    formula: "Arithmetic mean = sum of all values ÷ number of values.",
+    example: "10, 20 and 30 have a sum of 60 and an average of 20.",
+    faq: [["How can I separate values?", "Use commas, spaces or line breaks."], ["Are negative and decimal values supported?", "Yes. Both are valid inputs for an arithmetic mean."]],
+    related: ["percentage-calculator", "ratio-calculator", "marks-calculator", "statistics-calculator"],
+  },
+  "ratio-calculator": {
+    title: "Ratio Calculator – Simplify Ratios & Solve Proportions",
+    description: "Simplify positive two-part ratios or solve one missing value in A:B = C:D using real cross-multiplication.",
+    intro: "Reduce a two-part ratio to lowest terms or solve a proportion with exactly one missing value.",
+    formula: "For A:B = C:D, cross multiplication gives A × D = B × C.",
+    example: "8:12 simplifies to 2:3. For 2:3 = 8:X, X = 12.",
+    faq: [["Does the ratio simplifier support decimals?", "Yes, practical decimal ratios are scaled to integers before reduction."], ["Why are zero and negative values rejected?", "This calculator intentionally models positive ratios and positive proportions to avoid undefined denominator cases."]],
+    related: ["percentage-calculator", "average-calculator", "proportion-calculator", "fraction-calculator"],
+  },
+  "time-calculator": {
+    title: "Time Calculator – Add & Subtract Durations",
+    description: "Add or subtract hour-minute-second durations and calculate the elapsed time between two 24-hour clock times, including overnight spans.",
+    intro: "Keep duration arithmetic separate from clock-time differences so 20 hours + 8 hours stays 28 hours instead of wrapping to 4.",
+    formula: "Durations are converted to total seconds for arithmetic, then normalized back to hours, minutes and seconds.",
+    example: "1h 30m + 2h 45m = 4h 15m. 22:00 to 02:00 is a 4-hour overnight span.",
+    faq: [["Can a duration exceed 24 hours?", "Yes. Duration mode does not wrap at 24 hours."], ["What happens if subtraction would be negative?", "The interface reports a clear validation message instead of silently converting the negative duration to a positive one."]],
+    related: ["world-clock", "time-zone-converter", "date-difference-calculator", "age-calculator"],
   },
   "emi-calculator": {
     title: "EMI Calculator – Monthly Loan Payment Calculator",
@@ -139,9 +224,15 @@ const featured = {
   }
 };
 
+Object.assign(featured, financeToolSeo, developerToolSeo, studentDocumentSeo);
+
 function fallbackTitle(tool) { return `${tool.name} – Free Online Tool`; }
 function fallbackDescription(tool) { return `${tool.description} Use this free online tool from MZ Smart Tool House on mobile or desktop.`; }
 export function getToolSeo(tool) {
   const item = featured[tool.id] || {};
-  return { title: item.title || fallbackTitle(tool), description: item.description || fallbackDescription(tool), ...item };
+  return {
+    title: item.title || tool.seoTitle || fallbackTitle(tool),
+    description: item.description || tool.seoDescription || fallbackDescription(tool),
+    ...item,
+  };
 }

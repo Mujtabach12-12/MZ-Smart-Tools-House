@@ -6,6 +6,8 @@ const compressLib = read("src/lib/pdf/compress.js");
 const compressUi = read("src/tools/pdf/CompressPdf.jsx");
 const scanner = read("src/tools/scanner/SmartDocumentScanner.jsx");
 const expanded = read("src/tools/expanded/ExpandedTool.jsx");
+const studentDocs = read("src/tools/student-documents/StudentDocumentTool.jsx");
+const studentDocToolkit = read("src/lib/studentDocuments/toolkit.js");
 
 assert.match(compressLib, /candidateSize > 0 && candidateSize < originalSize/, "PDF compression must compare real byte sizes");
 assert.match(compressLib, /strategy: compressed \? strategy : "original-retained"/, "larger PDF candidates must not be reported as compressed");
@@ -18,13 +20,15 @@ assert.match(scanner, /validateDocumentCorners/, "manual crop must validate its 
 assert.match(scanner, /touch-none/, "scanner crop handles must be touch-friendly");
 
 assert.match(expanded, /const \{PDFDocument\}=await import\("pdf-lib"\)/, "expanded PDF tools must load pdf-lib before use");
-assert.match(expanded, /function escapeHtml\(/, "document conversion must define HTML escaping");
-assert.match(expanded, /text-document\.docx/, "TXT conversion must generate a DOCX filename");
-assert.match(expanded, /application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document/, "DOCX output must use the DOCX MIME type");
-assert.match(expanded, /Choose a DOCX file/, "Word-to-PDF must accept a real DOCX input path");
-assert.doesNotMatch(expanded, /Word-compatible \.doc created/, "HTML disguised as .doc must not remain");
+assert.match(studentDocToolkit, /function escapeHtml\(/, "document conversion must define HTML escaping");
+assert.match(studentDocs, /text-document\.docx/, "TXT conversion must generate a DOCX filename");
+assert.match(studentDocs, /application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document/, "DOCX output must use the DOCX MIME type");
+assert.match(studentDocs, /Choose a DOCX file/, "Word-to-PDF must accept a real DOCX input path");
+assert.match(studentDocs, /validateGeneratedDocx/, "DOCX outputs must be validated before download");
+assert.match(studentDocs, /validateGeneratedPdf/, "PDF outputs must be validated before download");
+assert.doesNotMatch(studentDocs, /Word-compatible \.doc created/, "HTML disguised as .doc must not remain");
 
-for (const source of [expanded, read("src/tools/UtilityTool.jsx")]) {
+for (const source of [expanded, studentDocs, read("src/tools/UtilityTool.jsx")]) {
   assert.doesNotMatch(source, /This .*tool is not configured yet/i, "production placeholder text must not be shown as a working tool");
 }
 

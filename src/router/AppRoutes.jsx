@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from "../components/layout/Layout";
 import Home from "../pages/Home";
 import AllTools from "../pages/AllTools";
@@ -34,6 +34,7 @@ export default function AppRoutes() {
   return <Routes><Route element={<Layout />}>
     <Route index element={<Home />} />
     <Route path="tools" element={<AllTools />} />
+    <Route path="tools/unix-timestamp-converter-pro" element={<Navigate to="/tools/unix-timestamp-converter-plus" replace />} />
     <Route path="tools/:toolId" element={<ToolPage />} />
     <Route path="convert" element={<ConversionHub />} />
     <Route path="convert/:converterSlug" element={<ConversionPage />} />
@@ -41,6 +42,7 @@ export default function AppRoutes() {
     <Route path="student-hub" element={<StudentHub />} />
     <Route path="gpa-calculator/:university" element={<UniversityGpaPage />} />
     <Route path="categories" element={<CategoriesIndex />} />
+    <Route path="categories/business-finance" element={<Navigate to="/business-tools" replace />} />
     <Route path="categories/:slug" element={<CategoryPage />} />
     {CATEGORY_ALIASES.map(([path,slug])=><Route key={path} path={path} element={<CategoryPage slugOverride={slug} />} />)}
     <Route path="blog" element={<Blog />} />

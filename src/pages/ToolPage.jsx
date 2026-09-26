@@ -6,6 +6,7 @@ import ToolExtras from "../components/tools/ToolExtras";
 import ToolPageLayout from "../components/tools/premium/ToolPageLayout";
 import ToolWorkspace from "../components/tools/premium/ToolWorkspace";
 import { getToolBySlug } from "../data/tools";
+import { getCategoryBySlug } from "../data/categories";
 import toolComponents from "../tools";
 import NotFound from "./NotFound";
 import { addRecentTool } from "../lib/localPreferences";
@@ -25,6 +26,8 @@ export default function ToolPage() {
  const ActiveComponent=tool.status==="active"?toolComponents[tool.id]:null;
  const missingImplementation = tool.status === "active" && !ActiveComponent;
  const seo = getToolSeo(tool);
+ const category = getCategoryBySlug(tool.category);
+ const categoryRoute = category?.route || tool.categoryRoute || `/categories/${tool.category}`;
  const faq = (seo.faq || []).map(([q,a]) => ({q,a}));
  const schema = {
    "@context": "https://schema.org",
@@ -50,7 +53,7 @@ export default function ToolPage() {
        "@type": "BreadcrumbList",
        itemListElement: [
          { "@type": "ListItem", position: 1, name: "Home", item: `${BASE_URL}/` },
-         { "@type": "ListItem", position: 2, name: tool.category.replace(/-/g, " "), item: `${BASE_URL}${tool.categoryRoute || `/categories/${tool.category}`}` },
+         { "@type": "ListItem", position: 2, name: category?.name || tool.category.replace(/-/g, " "), item: `${BASE_URL}${categoryRoute}` },
          { "@type": "ListItem", position: 3, name: tool.name, item: `${BASE_URL}${tool.route}` },
        ],
      },
@@ -65,7 +68,7 @@ export default function ToolPage() {
    ],
  };
  return <>
-   <Seo path={tool.route} title={seo.title} description={seo.description} type="article" schema={schema}/>
+   <Seo path={tool.route} title={seo.title} description={seo.description} type="website" schema={schema} robots={tool.seoIndexable === false ? "noindex,follow" : undefined}/>
    <ToolPageLayout tool={tool}>
     {ActiveComponent ? <ToolWorkspace className={APP_WORKSPACES.has(tool.id) ? "mz-app-workspace" : ""}><Suspense fallback={<div className="mz-tool-loading" role="status">Loading tool workspace…</div>}><ActiveComponent id={tool.id} tool={tool}/></Suspense></ToolWorkspace> :
       <ToolWorkspace className="min-h-[360px] flex flex-col items-center justify-center text-center">

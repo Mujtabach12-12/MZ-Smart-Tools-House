@@ -1,5 +1,5 @@
 /* MZ Smart Tool House service worker. Generated cache version is replaced before build. */
-const CACHE_VERSION = '0.1.0-f17fe4a6a7';
+const CACHE_VERSION = '0.1.0-395d525370';
 const SHELL_CACHE = `mz-tools-shell-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `mz-tools-runtime-${CACHE_VERSION}`;
 const SHELL = ['/', '/index.html', '/manifest.webmanifest', '/favicon.svg', '/icons/icon-192.png', '/icons/icon-512.png', '/icons/icon-maskable.png'];
@@ -28,13 +28,10 @@ self.addEventListener('fetch', (event) => {
 
   // Navigation: prefer the network so new Netlify deployments are never pinned by the SW.
   if (request.mode === 'navigate') {
-    event.respondWith(
-      fetch(request).then((response) => {
-        const copy = response.clone();
-        caches.open(SHELL_CACHE).then((cache) => cache.put('/index.html', copy));
-        return response;
-      }).catch(() => caches.match('/index.html'))
-    );
+    // Keep route responses network-first, but never overwrite the cached app
+    // shell with a route-specific page (or a 404 response). The install step
+    // already stores /index.html for the intentional offline shell fallback.
+    event.respondWith(fetch(request).catch(() => caches.match('/index.html')));
     return;
   }
 

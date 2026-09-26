@@ -205,6 +205,34 @@ if (riphah) {
   };
 }
 
+// A source URL or an old verification date is not, by itself, proof that a
+// policy is current and verified. Only records explicitly promoted with
+// `verified: true` after checking the official policy may be used as an
+// official university calculation mode. This prevents silent trust of stale
+// or previously imported policy data.
+for (const policy of universityPolicies) {
+  if (policy.verified !== true) {
+    policy.verified = false;
+    policy.policyStatus ||= policy.sourceUrl ? "source-configured-unverified" : "verification-required";
+  }
+}
+
+export const isUniversityPolicyVerified = (policy) => Boolean(
+  policy?.verified === true &&
+  policy?.sourceUrl &&
+  policy?.lastVerified &&
+  policy?.grades?.length &&
+  Number.isFinite(Number(policy?.maxGPA))
+);
+
 export const getUniversityPolicy = (id) => universityPolicies.find((p) => p.id === id);
-export const verifiedUniversities = universityPolicies.filter((p) => p.verified !== false && p.grades?.length);
-export const allUniversities = universityPolicies.map(({ id,name,shortName,city,verified,sourceUrl }) => ({ id,name,shortName,city,verified: verified !== false && Boolean(sourceUrl), source: sourceUrl }));
+export const verifiedUniversities = universityPolicies.filter(isUniversityPolicyVerified);
+export const allUniversities = universityPolicies.map((policy) => ({
+  id: policy.id,
+  name: policy.name,
+  shortName: policy.shortName,
+  city: policy.city,
+  verified: isUniversityPolicyVerified(policy),
+  source: policy.sourceUrl,
+  policyStatus: policy.policyStatus,
+}));

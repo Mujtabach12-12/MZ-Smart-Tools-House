@@ -9,7 +9,7 @@ export const categories = [
   { slug: "image-tools", name: "Images", route: "/image-tools", accent: "purple", description: "Compress, resize, crop and convert images without unnecessary uploads.", icon: "image" },
   { slug: "student-tools", name: "Student", route: "/student-tools", accent: "emerald", description: "Study, writing, dictionary, marks, attendance, planning and student productivity tools.", icon: "graduation-cap" },
   { slug: "programming-tools", name: "Programming", route: "/programming-tools", accent: "indigo", description: "Browser playgrounds and secure compiler frontends for learning and coding practice.", icon: "code" },
-  { slug: "ai-tools", name: "AI", route: "/ai-tools", accent: "violet", description: "AI-powered writing and productivity tools being prepared for MZ Smart Tool House.", icon: "sparkles" },
+  { slug: "ai-tools", name: "AI", route: "/ai-tools", accent: "violet", description: "AI-powered writing and productivity tools being prepared for MZ Smart Tool House.", icon: "sparkles", seoIndexable: false },
   { slug: "finance-tools", name: "Business & Finance", route: "/business-tools", accent: "slate", description: "Interest, EMI, savings, budgets and personal finance estimates.", icon: "briefcase-business" },
   { slug: "calculators", name: "Calculators", route: "/calculators", accent: "amber", description: "GPA, CGPA, attendance, marks and everyday student calculators.", icon: "calculator" },
   { slug: "utility-tools", name: "Utilities", route: "/utilities", accent: "cyan", description: "General-purpose browser utilities and everyday helpers.", icon: "sparkles" },

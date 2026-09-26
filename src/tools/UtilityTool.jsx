@@ -6,16 +6,8 @@ const TEXT_TOOLS = new Set([
   "word-counter","character-counter","sentence-counter","case-converter","remove-extra-spaces",
   "remove-duplicate-lines","text-cleaner","text-sorter","text-reverser","text-to-slug","reading-time-calculator","line-counter"
 ]);
-const CODE_TOOLS = new Set([
-  "json-viewer","json-formatter","json-validator","json-minifier","base64-encoder","base64-decoder","url-encoder","url-decoder",
-  "html-formatter","css-formatter","javascript-formatter","regex-tester","binary-converter","decimal-converter",
-  "hex-converter","unix-timestamp-converter","uuid-generator","password-generator"
-]);
 const TIMER_TOOLS = new Set(["pomodoro-timer","stopwatch","countdown-timer","study-timer"]);
-const DOCUMENT_TOOLS = new Set([
-  "assignment-cover-page-generator","student-cv-builder","resume-builder","cover-letter-generator","application-generator",
-  "study-timetable-generator","project-report-cover-generator","internship-application","leave-application","scholarship-application"
-]);
+
 const UNIVERSITY_TOOLS = new Set(["university-aggregate-calculator","merit-calculator","semester-calculator","credit-hour-calculator","scholarship-percentage-calculator"]);
 
 function safeFilename(value) {
@@ -38,27 +30,6 @@ function countText(text) {
   return { words, chars: text.length, charsNoSpaces: text.replace(/\s/g, "").length, sentences, paragraphs, lines, nonEmptyLines, uniqueLines };
 }
 function slugify(text) { return text.toLowerCase().trim().replace(/[^\p{L}\p{N}\s-]/gu, "").replace(/[\s_-]+/g, "-").replace(/^-+|-+$/g, ""); }
-function securePassword(length, symbols=true) {
-  const safeLength = Math.max(8, Math.min(128, Math.round(Number(length) || 18)));
-  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789" + (symbols ? "!@#$%^&*_-+=?" : "");
-  const out = [];
-  const limit = Math.floor(0x100000000 / chars.length) * chars.length;
-  while (out.length < safeLength) {
-    const arr = new Uint32Array(Math.max(16, safeLength));
-    crypto.getRandomValues(arr);
-    for (const n of arr) if (n < limit) { out.push(chars[n % chars.length]); if (out.length === safeLength) break; }
-  }
-  return out.join("");
-}
-function strictInteger(input, base, label) {
-  const raw = String(input).trim();
-  const pattern = base === 2 ? /^[01]+$/ : base === 16 ? /^(?:0x)?[0-9a-f]+$/i : /^[+-]?\d+$/;
-  if (!pattern.test(raw)) throw new Error(`Enter a valid ${label}.`);
-  const value = Number.parseInt(raw, base);
-  if (!Number.isSafeInteger(value)) throw new Error("That number is outside the safe integer range.");
-  return value;
-}
-
 function TextTool({ id }) {
   const [text, setText] = useState(""); const [copied, setCopied] = useState(false); const [caseMode, setCaseMode] = useState("upper");
   const counts = useMemo(() => countText(text), [text]);
@@ -90,33 +61,6 @@ function TextTool({ id }) {
   </div>;
 }
 
-function CodeTool({ id }) {
-  const [input,setInput]=useState(""); const [output,setOutput]=useState(""); const [error,setError]=useState(""); const [length,setLength]=useState(18); const [symbols,setSymbols]=useState(true); const [pattern,setPattern]=useState("\\b[A-Z][a-z]+\\b"); const [flags,setFlags]=useState("g");
-  const run=()=>{ setError(""); try {
-    let out="";
-    if(id.startsWith("json-")){ const obj=JSON.parse(input); out=id==="json-minifier"?JSON.stringify(obj):JSON.stringify(obj,null,2); if(id==="json-validator") out="Valid JSON ✓"; }
-    else if(id==="base64-encoder") out=btoa(unescape(encodeURIComponent(input)));
-    else if(id==="base64-decoder") out=decodeURIComponent(escape(atob(input)));
-    else if(id==="url-encoder") out=encodeURIComponent(input);
-    else if(id==="url-decoder") out=decodeURIComponent(input);
-    else if(["html-formatter","css-formatter","javascript-formatter"].includes(id)) out=input.replace(/>\s*</g,">\n<").replace(/;\s*/g,";\n").split("\n").map(x=>x.trim()).filter(Boolean).join("\n  ");
-    else if(id==="regex-tester") { const safeFlags = flags.includes("g") ? flags : `${flags}g`; const re=new RegExp(pattern,safeFlags); out=Array.from(input.matchAll(re),m=>`${m[0]}${m.index!=null?` @ ${m.index}`:""}`).join("\n") || "No matches."; }
-    else if(["binary-converter","decimal-converter","hex-converter"].includes(id)){ const base=id==="binary-converter"?2:id==="hex-converter"?16:10; const n=strictInteger(input,base, id.replace("-converter", " number")); out=`Decimal: ${n}\nBinary: ${n.toString(2)}\nHex: ${n.toString(16).toUpperCase()}`; }
-    else if(id==="unix-timestamp-converter"){ const raw=input.trim(); if(!raw) throw new Error("Enter a Unix timestamp in seconds or milliseconds."); const n=Number(raw); if(!Number.isFinite(n)) throw new Error("Enter a valid Unix timestamp."); const d=new Date(Math.abs(n)<1e12?n*1000:n); if(Number.isNaN(d.getTime())) throw new Error("That timestamp is outside the supported date range."); out=`UTC: ${d.toISOString()}\nTimestamp (seconds): ${Math.floor(d.getTime()/1000)}`; }
-    else if(id==="uuid-generator") out=crypto.randomUUID();
-    else if(id==="password-generator") out=securePassword(length,symbols);
-    setOutput(out);
-  } catch(e){ setOutput(""); setError(e.message||"Unable to process input."); }};
-  const isPassword=id==="password-generator", isRegex=id==="regex-tester";
-  return <div className="space-y-5">
-    {isPassword ? <div className="grid gap-4 sm:grid-cols-2"><label className="text-sm font-semibold">Length<input type="number" min="8" max="128" className="mz-input mt-2" value={length} onChange={e=>setLength(Number(e.target.value))}/></label><label className="flex items-center gap-2 pt-7 text-sm"><input type="checkbox" checked={symbols} onChange={e=>setSymbols(e.target.checked)}/> Include symbols</label></div> : isRegex ? <div className="grid gap-4 sm:grid-cols-[1fr_auto]"><label className="text-sm font-semibold">Pattern<input className="mz-input mt-2" value={pattern} onChange={e=>setPattern(e.target.value)}/></label><label className="text-sm font-semibold">Flags<input className="mz-input mt-2 w-28" value={flags} onChange={e=>setFlags(e.target.value)}/></label></div> : <textarea className="mz-input min-h-[250px]" value={input} onChange={e=>setInput(e.target.value)} placeholder="Paste or type input here..." aria-label="Developer tool input" />}
-    {isRegex && <textarea className="mz-input min-h-[180px]" value={input} onChange={e=>setInput(e.target.value)} placeholder="Text to test against the expression..." aria-label="Regex test text"/>}
-    {error && <div role="alert" className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700 dark:border-red-900/60 dark:bg-red-950/30 dark:text-red-300">{error}</div>}
-    {output && <pre className="max-h-80 overflow-auto whitespace-pre-wrap rounded-2xl border border-navy-100 bg-navy-950 p-4 text-sm text-slate-100 dark:border-navy-800">{output}</pre>}
-    <div className="flex flex-wrap gap-2"><button className="mz-btn-primary" onClick={run}>{isPassword||id==="uuid-generator"?"Generate":"Run"}</button>{output&&<><button className="mz-btn-secondary" onClick={()=>copyText(output)}><Copy className="h-4 w-4"/>Copy</button><button className="mz-btn-secondary" onClick={()=>downloadText("mz-result.txt",output)}><Download className="h-4 w-4"/>Download</button></>}<button className="mz-btn-ghost" onClick={()=>{setInput("");setOutput("");setError("")}}><RotateCcw className="h-4 w-4"/>Reset</button></div>
-  </div>;
-}
-
 function TimerTool({id}) {
   const defaults={"pomodoro-timer":25*60,"study-timer":50*60,"countdown-timer":10*60};
   if(id==="stopwatch") return <Stopwatch/>;
@@ -137,19 +81,14 @@ function Planner(){const key="mz-daily-planner"; const [data,setData]=useState((
 
 function UniversityTool({id}){const [a,setA]=useState(""),[b,setB]=useState(""),[c,setC]=useState(""),[w1,setW1]=useState("30"),[w2,setW2]=useState("70"),[w3,setW3]=useState("0");const n=x=>Number(x);let result="";let hint="";if(id==="university-aggregate-calculator"){const total=n(w1)+n(w2);result=Number.isFinite(n(a))&&Number.isFinite(n(b))&&total>0?`Weighted aggregate: ${((n(a)*n(w1)+n(b)*n(w2))/total).toFixed(2)}%`:"Enter scores and weights.";hint="Weights are configurable; different institutions use different admission formulas."}if(id==="merit-calculator"){const total=n(w1)+n(w2)+n(w3);result=total>0?`Weighted merit score: ${((n(a)*n(w1)+n(b)*n(w2)+n(c)*n(w3))/total).toFixed(2)}%`:"Enter weights that add up to more than zero.";hint="Use the exact weightings published by your institution."}if(id==="semester-calculator"){const vals=[a,b,c].map(Number).filter(Number.isFinite);result=vals.length?`Semester average: ${(vals.reduce((x,y)=>x+y,0)/vals.length).toFixed(2)}`:"Enter at least one value.";hint="This is a simple arithmetic average; it is not a GPA conversion."}if(id==="credit-hour-calculator"){result=`Total credit hours: ${(Number(a)||0)+(Number(b)||0)+(Number(c)||0)}`;hint="Enter credit hours for up to three courses."}if(id==="scholarship-percentage-calculator"){const pct=n(a);result=Number.isFinite(pct)?`Scholarship percentage: ${Math.min(100,Math.max(0,pct)).toFixed(2)}%`:"Enter a percentage.";hint="This reports the percentage you enter; eligibility rules vary by institution."}return <div className="space-y-4"><div className="grid gap-3 sm:grid-cols-3">{[setA,setB,setC].map((set,i)=><label key={i} className="text-sm font-semibold">{["Score / Input A","Score / Input B","Score / Input C"][i]}<input className="mz-input mt-2" type="number" value={[a,b,c][i]} onChange={e=>set(e.target.value)}/></label>)}</div>{["university-aggregate-calculator","merit-calculator"].includes(id)&&<div className="grid gap-3 sm:grid-cols-3"><label className="text-sm font-semibold">Weight A (%)<input className="mz-input mt-2" type="number" min="0" value={w1} onChange={e=>setW1(e.target.value)}/></label><label className="text-sm font-semibold">Weight B (%)<input className="mz-input mt-2" type="number" min="0" value={w2} onChange={e=>setW2(e.target.value)}/></label>{id==="merit-calculator"&&<label className="text-sm font-semibold">Weight C (%)<input className="mz-input mt-2" type="number" min="0" value={w3} onChange={e=>setW3(e.target.value)}/></label>}</div>}<div className="rounded-2xl bg-brand-50 p-5 text-center text-lg font-bold text-brand-800 dark:bg-brand-950/30 dark:text-brand-200">{result}</div><p className="text-xs text-navy-400">{hint}</p></div>}
 
-function escapeHtml(value) { return String(value || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;"); }
-function DocumentTool({id}){const [name,setName]=useState(""),[email,setEmail]=useState(""),[role,setRole]=useState(""),[details,setDetails]=useState("");const labels={"assignment-cover-page-generator":"Assignment Cover Page","student-cv-builder":"Student CV","resume-builder":"Resume","cover-letter-generator":"Cover Letter","application-generator":"Application","study-timetable-generator":"Study Timetable","project-report-cover-generator":"Project Report Cover","internship-application":"Internship Application","leave-application":"Leave Application","scholarship-application":"Scholarship Application"};const title=labels[id];const safe={title:escapeHtml(title),name:escapeHtml(name),email:escapeHtml(email),role:escapeHtml(role),details:escapeHtml(details).replace(/\n/g,"<br>")};const generate=()=>{const text=`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${safe.title}</title><style>body{font-family:Arial,sans-serif;max-width:760px;margin:48px auto;padding:24px;line-height:1.6;color:#172033}h1{color:#2563eb}hr{border:0;border-top:1px solid #ddd}</style></head><body><h1>${safe.title}</h1><hr><p><strong>Name:</strong> ${safe.name}</p><p><strong>Email:</strong> ${safe.email}</p><p><strong>Course / Role:</strong> ${safe.role}</p><div>${safe.details}</div></body></html>`;downloadText(`${slugify(title)}.html`,text,"text/html")};return <div className="space-y-4"><div className="grid gap-4 sm:grid-cols-2"><label className="text-sm font-semibold">Name<input className="mz-input mt-2" value={name} onChange={e=>setName(e.target.value)}/></label><label className="text-sm font-semibold">Email<input className="mz-input mt-2" type="email" value={email} onChange={e=>setEmail(e.target.value)}/></label><label className="text-sm font-semibold sm:col-span-2">Course / Role<input className="mz-input mt-2" value={role} onChange={e=>setRole(e.target.value)}/></label><label className="text-sm font-semibold sm:col-span-2">Details<textarea className="mz-input mt-2 min-h-40" value={details} onChange={e=>setDetails(e.target.value)} placeholder="Add the information you want included..."/></label></div><button className="mz-btn-primary" onClick={generate}><Download className="h-4 w-4"/>Generate HTML document</button><p className="text-xs text-navy-400">The generated file is an editable HTML document. It is not a PDF export.</p></div>}
-
 function RandomTopic(){const [input,setInput]=useState(""),[topic,setTopic]=useState("");return <div className="text-center"><p className="text-sm text-navy-500">Enter subjects separated by commas.</p><input className="mz-input mx-auto mt-4 max-w-xl" value={input} onChange={e=>setInput(e.target.value)}/><button className="mz-btn-primary mt-4" onClick={()=>{const a=input.split(",").map(x=>x.trim()).filter(Boolean);setTopic(a[Math.floor(Math.random()*a.length)]||"")}}><Shuffle className="h-4 w-4"/>Pick a topic</button>{topic&&<div className="mx-auto mt-6 max-w-xl rounded-2xl bg-brand-50 p-5 font-bold text-brand-800 dark:bg-brand-950/30 dark:text-brand-200">{topic}</div>}</div>}
 
 export default function UtilityTool({ id }) {
  if(TEXT_TOOLS.has(id)) return <TextTool id={id}/>;
- if(CODE_TOOLS.has(id)) return <CodeTool id={id}/>;
  if(TIMER_TOOLS.has(id)) return <TimerTool id={id}/>;
  if(id==="todo-list") return <Todo/>;
  if(id==="daily-study-planner") return <Planner/>;
  if(id==="random-study-topic-generator") return <RandomTopic/>;
  if(UNIVERSITY_TOOLS.has(id)) return <UniversityTool id={id}/>;
- if(DOCUMENT_TOOLS.has(id)) return <DocumentTool id={id}/>;
  throw new Error(`No utility implementation registered for tool: ${id || "unknown"}`);
 }

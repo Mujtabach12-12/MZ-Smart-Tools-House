@@ -1,0 +1,5 @@
+MZ Smart Tool House
+Final Release Candidate
+Date: 2026-09-26
+Source status: verified by source-level regression and integrity checks
+Production verification: pending because the release environment cannot install the missing Vite/runtime dependencies

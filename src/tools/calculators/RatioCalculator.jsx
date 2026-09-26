@@ -1,8 +1,17 @@
 import { useState } from "react";
 import { simplifyRatio, solveProportion } from "../../lib/calculators/ratio";
+import { formatCalculatorNumber } from "../../lib/calculators/format";
 import ResultStat from "../../components/tools/ResultStat";
 import ErrorMessage from "../../components/tools/ErrorMessage";
-import ToolExtras from "../../components/tools/ToolExtras";
+import { trackEvent } from "../../lib/analytics";
+import { announceToolSuccess } from "../../lib/toolSuccess";
+
+function RatioInput({ label, value, onChange, placeholder }) {
+  return <label className="text-sm font-medium text-navy-700 dark:text-navy-200">
+    {label}
+    <input inputMode="decimal" step="any" min="0" type="number" value={value} onChange={(e) => onChange(e.target.value)} className="mz-input mt-1" placeholder={placeholder} />
+  </label>;
+}
 
 export default function RatioCalculator() {
   const [mode, setMode] = useState("simplify");
@@ -16,80 +25,72 @@ export default function RatioCalculator() {
   function handleCalculate() {
     try {
       setError("");
+      let next;
       if (mode === "simplify") {
         const r = simplifyRatio(a, b);
-        setResult(`${r.a} : ${r.b}`);
+        next = `${r.a} : ${r.b}`;
       } else {
-        const r = solveProportion({
-          a: a === "" ? null : a,
-          b: b === "" ? null : b,
-          c: c === "" ? null : c,
-          d: d === "" ? null : d,
-        });
+        const r = solveProportion({ a: a === "" ? null : a, b: b === "" ? null : b, c: c === "" ? null : c, d: d === "" ? null : d });
         const key = Object.keys(r)[0];
-        setResult(`${key.toUpperCase()} = ${r[key]}`);
+        next = `${key.toUpperCase()} = ${formatCalculatorNumber(r[key])}`;
       }
+      setResult(next);
+      trackEvent("calculator_complete", { tool_id: "ratio-calculator", calculation_mode: mode });
+      announceToolSuccess({ source: "calculation" });
     } catch (err) {
       setResult(null);
-      setError(err.message);
+      setError(err?.message || "Could not calculate this ratio.");
+      trackEvent("calculator_validation_error", { tool_id: "ratio-calculator", calculation_mode: mode });
     }
   }
-  function handleReset() { setA(""); setB(""); setC(""); setD(""); setResult(null); setError(""); }
+
+  function handleReset() {
+    setA(""); setB(""); setC(""); setD(""); setResult(null); setError("");
+    trackEvent("calculator_reset", { tool_id: "ratio-calculator" });
+  }
+
+  function switchMode(nextMode) {
+    setMode(nextMode);
+    setA(""); setB(""); setC(""); setD(""); setResult(null); setError("");
+  }
 
   return (
-    <div className="mz-card p-6">
-      <div className="flex flex-wrap gap-2">
-        <button type="button" onClick={() => { setMode("simplify"); handleReset(); }}
-          className={`rounded-full border px-3 py-1.5 text-sm font-medium transition ${mode === "simplify" ? "border-brand-500 bg-brand-50 text-brand-700 dark:bg-brand-950 dark:text-brand-300" : "border-navy-200 text-navy-600 dark:border-navy-700 dark:text-navy-300"}`}>
-          Simplify a Ratio
-        </button>
-        <button type="button" onClick={() => { setMode("solve"); handleReset(); }}
-          className={`rounded-full border px-3 py-1.5 text-sm font-medium transition ${mode === "solve" ? "border-brand-500 bg-brand-50 text-brand-700 dark:bg-brand-950 dark:text-brand-300" : "border-navy-200 text-navy-600 dark:border-navy-700 dark:text-navy-300"}`}>
-          Solve a : b = c : d
-        </button>
-      </div>
+    <div className="mz-card p-4 sm:p-6" data-utility-tool="ratio-calculator">
+      <fieldset>
+        <legend className="text-sm font-semibold text-navy-800 dark:text-navy-100">Calculation type</legend>
+        <div className="mt-2 flex flex-wrap gap-2">
+          <button type="button" aria-pressed={mode === "simplify"} onClick={() => switchMode("simplify")} className={`min-h-11 rounded-full border px-4 py-2 text-sm font-medium transition ${mode === "simplify" ? "border-brand-500 bg-brand-50 text-brand-700 dark:bg-brand-950 dark:text-brand-300" : "border-navy-200 text-navy-600 dark:border-navy-700 dark:text-navy-300"}`}>Simplify ratio</button>
+          <button type="button" aria-pressed={mode === "solve"} onClick={() => switchMode("solve")} className={`min-h-11 rounded-full border px-4 py-2 text-sm font-medium transition ${mode === "solve" ? "border-brand-500 bg-brand-50 text-brand-700 dark:bg-brand-950 dark:text-brand-300" : "border-navy-200 text-navy-600 dark:border-navy-700 dark:text-navy-300"}`}>Solve proportion</button>
+        </div>
+      </fieldset>
 
       {mode === "simplify" ? (
-        <div className="mt-5 grid max-w-sm grid-cols-2 gap-4">
-          <input type="number" value={a} onChange={(e) => setA(e.target.value)} className="mz-input" placeholder="a" aria-label="Ratio value a" />
-          <input type="number" value={b} onChange={(e) => setB(e.target.value)} className="mz-input" placeholder="b" aria-label="Ratio value b" />
+        <div className="mt-5 grid gap-4 sm:max-w-md sm:grid-cols-2">
+          <RatioInput label="First value" value={a} onChange={setA} placeholder="8" />
+          <RatioInput label="Second value" value={b} onChange={setB} placeholder="12" />
         </div>
       ) : (
-        <div className="mt-5 grid max-w-md grid-cols-4 items-center gap-2">
-          <input type="number" value={a} onChange={(e) => setA(e.target.value)} className="mz-input" placeholder="a" aria-label="a" />
-          <span className="text-center text-navy-400">:</span>
-          <input type="number" value={b} onChange={(e) => setB(e.target.value)} className="mz-input" placeholder="b" aria-label="b" />
-          <span className="text-center text-navy-400">=</span>
-          <input type="number" value={c} onChange={(e) => setC(e.target.value)} className="mz-input" placeholder="c" aria-label="c" />
-          <span className="text-center text-navy-400">:</span>
-          <input type="number" value={d} onChange={(e) => setD(e.target.value)} className="mz-input" placeholder="d" aria-label="d" />
+        <div className="mt-5 max-w-2xl">
+          <p className="mb-3 text-sm font-semibold text-navy-800 dark:text-navy-100">A : B = C : D</p>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <RatioInput label="A" value={a} onChange={setA} placeholder="2" />
+            <RatioInput label="B" value={b} onChange={setB} placeholder="3" />
+            <RatioInput label="C" value={c} onChange={setC} placeholder="8" />
+            <RatioInput label="D" value={d} onChange={setD} placeholder="leave empty" />
+          </div>
+          <p className="mt-2 text-xs leading-5 text-navy-500 dark:text-navy-400">Leave exactly one field empty. Positive values only; zero would create an undefined ratio in this calculator.</p>
         </div>
-      )}
-      {mode === "solve" && (
-        <p className="mt-2 text-xs text-navy-400 dark:text-navy-500">Leave exactly one field empty — that's the value we'll solve for.</p>
       )}
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <button type="button" onClick={handleCalculate} className="mz-btn-primary">Calculate</button>
-        <button type="button" onClick={handleReset} className="mz-btn-secondary">Reset</button>
+        <button type="button" onClick={handleCalculate} className="mz-btn-primary min-h-11">Calculate</button>
+        <button type="button" onClick={handleReset} className="mz-btn-secondary min-h-11">Reset</button>
       </div>
 
-      <div className="mt-6 space-y-3">
+      <div className="mt-6 space-y-3" aria-live="polite" aria-atomic="true">
         <ErrorMessage message={error} />
         {result && <ResultStat label="Result" value={result} highlight />}
       </div>
-
-      <ToolExtras
-        toolId="ratio-calculator"
-        category="calculators"
-        howTo={[
-          "Choose \"Simplify a Ratio\" to reduce a:b to its lowest terms.",
-          "Or choose \"Solve a proportion\" and leave one of the four values blank to solve for it.",
-        ]}
-        faq={[
-          { q: "Does this work with decimals?", a: "Yes — simplifying handles decimal ratios (like 1.5:2) by scaling them up before reducing." },
-        ]}
-      />
     </div>
   );
 }

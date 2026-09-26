@@ -14,7 +14,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const DIST_DIR = resolve(__dirname, "../dist");
 const BASE_URL = String(process.env.SITE_URL || process.env.VITE_SITE_URL || "https://mztoolshouse.com").replace(/\/+$/, "");
 const SITE_NAME = "MZ Smart Tool House";
-const DEFAULT_IMAGE = `${BASE_URL}/assets/mz-smart-office-hero.webp`;
+const DEFAULT_IMAGE = `${BASE_URL}/assets/mz-og-1200x630.webp`;
 const INDEX_ROBOTS = "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1";
 
 const staticPages = [
@@ -31,6 +31,11 @@ const staticPages = [
   ["/blog", "Blog", "Guides and articles for students, study, productivity and tool workflows.", "noindex,follow"],
 ];
 
+const utilityPages = [
+  ["/settings", "Tool Configuration", "Configure optional integrations and local tool preferences.", "noindex,follow"],
+  ["/tool-health", "Tool Health", "Internal tool-health and implementation status view.", "noindex,follow"],
+];
+
 const records = new Map();
 function add(path, title, description, robots = INDEX_ROBOTS) {
   const normalized = path === "/" ? "/" : `/${String(path).replace(/^\/+|\/+$/g, "")}`;
@@ -38,20 +43,24 @@ function add(path, title, description, robots = INDEX_ROBOTS) {
   records.set(normalized, { path: normalized, title: fullTitle, description, robots });
 }
 
-for (const [path, title, description, robots] of staticPages) add(path, title, description, robots);
+for (const [path, title, description, robots] of [...staticPages, ...utilityPages]) add(path, title, description, robots);
 for (const category of categories) {
   const path = category.route || `/categories/${category.slug}`;
-  add(path, `${category.name} – Online Tools`, `${category.description} Explore focused ${category.name.toLowerCase()} tools at MZ Smart Tool House.`);
+  add(path, `${category.name} – Online Tools`, `${category.description} Explore focused ${category.name.toLowerCase()} tools at MZ Smart Tool House.`, category.seoIndexable === false ? "noindex,follow" : INDEX_ROBOTS);
 }
 for (const tool of tools.filter((item) => item.status === "active")) {
   const seo = getToolSeo(tool);
-  add(tool.route || `/tools/${tool.id}`, seo.title, seo.description || tool.description);
+  add(tool.route || `/tools/${tool.id}`, seo.title, seo.description || tool.description, tool.seoIndexable === false ? "noindex,follow" : INDEX_ROBOTS);
 }
-for (const university of universityPolicies.filter((item) => item.verified !== false)) {
+for (const university of universityPolicies) {
+  const verified = university.verified === true;
   add(
     `/gpa-calculator/${university.id}`,
     `${university.shortName || university.name} GPA Calculator`,
-    `Calculate GPA using ${university.name} grading references, course credit hours and grade points. Review the published policy source before academic decisions.`,
+    verified
+      ? `Calculate GPA using ${university.name} grading references, course credit hours and grade points. Review the published policy source before academic decisions.`
+      : `${university.name} grading policy is not currently verified by MZ Smart Tool House. This route remains available for transparency and custom-scale workflows.`,
+    verified ? INDEX_ROBOTS : "noindex,follow",
   );
 }
 
@@ -121,4 +130,7 @@ for (const record of records.values()) {
   written += 1;
 }
 
-console.log(`SEO route shells written: ${written}`);
+const notFoundRecord = { path: "/404", title: `Page Not Found | ${SITE_NAME}`, description: "The requested MZ Smart Tool House page could not be found.", robots: "noindex,nofollow" };
+writeFileSync(resolve(DIST_DIR, "404.html"), renderShell(template, notFoundRecord), "utf8");
+
+console.log(`SEO route shells written: ${written}; 404 shell written`);

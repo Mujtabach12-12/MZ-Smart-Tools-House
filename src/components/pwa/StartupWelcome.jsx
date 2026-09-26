@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { Capacitor } from "@capacitor/core";
 
-const APP_STARTUP_MS = 6200;
-const WEB_STARTUP_MS = 6000;
+const APP_STARTUP_MS = 1400;
+const WEB_STARTUP_MS = 0;
 const STARTUP_STEPS = [
   "PDF Tools",
   "Image Tools",
@@ -24,19 +24,12 @@ export default function StartupWelcome() {
     const appLike = nativeApp || installedWebApp;
 
     if (!appLike) {
-      try {
-        if (window.sessionStorage.getItem("mz-web-startup-seen") === "1") {
-          startup.remove();
-          return undefined;
-        }
-        window.sessionStorage.setItem("mz-web-startup-seen", "1");
-      } catch {
-        // Storage may be unavailable in privacy modes; showing the welcome once
-        // more is safer than blocking the application.
-      }
+      // The normal website must never be hidden behind a timed splash screen.
+      startup.remove();
+      return undefined;
     }
 
-    const duration = appLike ? APP_STARTUP_MS : WEB_STARTUP_MS;
+    const duration = APP_STARTUP_MS;
     const label = startup.querySelector("[data-mz-startup-tool]");
     const progress = startup.querySelector("[data-mz-startup-progress]");
     let step = 0;

@@ -1,3 +1,4 @@
+import { breakEven as financeBreakEven, cagr as financeCagr, roi as financeRoi, commission as financeCommission } from '../../lib/finance/calculators.js';
 const EPS = 1e-12;
 
 function requireNumber(values, key, label = key) {
@@ -98,10 +99,10 @@ export const formulaDefinitions = {
   'slope-gradient-calculator': { formula:'Gradient = rise/run × 100', fields:[['rise','Rise','number','m'],['run','Run','number','m']], calculate:v=>{const rise=requireNumber(v,'rise','Rise'),run=positive(v,'run','Run'),ratio=rise/run;return numericResult(ratio*100,'%','Gradient',[`Angle ≈ ${formatNumber(Math.atan(ratio)*180/Math.PI)}°`])} },
 
   // Business additions
-  'break-even-calculator': { formula:'Break-even units = fixed costs / (price − variable cost)', fields:[['fixed','Fixed costs','number',''],['price','Selling price per unit','number',''],['variable','Variable cost per unit','number','']], calculate:v=>{const fixed=nonNegative(v,'fixed','Fixed costs'),price=requireNumber(v,'price','Selling price'),variable=nonNegative(v,'variable','Variable cost');if(price<=variable)throw new Error('Selling price must be greater than variable cost per unit.');return numericResult(fixed/(price-variable),'units','Break-even quantity')} },
-  'cagr-calculator': { formula:'CAGR = (Ending / Beginning)^(1/years) − 1', fields:[['start','Beginning value','number',''],['end','Ending value','number',''],['years','Years','number','']], calculate:v=>numericResult(((positive(v,'end','Ending value')/positive(v,'start','Beginning value'))**(1/positive(v,'years','Years'))-1)*100,'%','CAGR') },
-  'roi-calculator': { formula:'ROI = (gain − cost) / cost × 100', fields:[['gain','Final value / return','number',''],['cost','Investment cost','number','']], calculate:v=>numericResult((requireNumber(v,'gain','Final value')-positive(v,'cost','Investment cost'))/positive(v,'cost','Investment cost')*100,'%','ROI') },
-  'commission-calculator': { formula:'Commission = sales × rate / 100', fields:[['sales','Sales amount','number',''],['rate','Commission rate','number','%']], calculate:v=>numericResult(nonNegative(v,'sales','Sales amount')*nonNegative(v,'rate','Commission rate')/100,'','Commission') },
+  'break-even-calculator': { formula:'Break-even units = fixed costs / (price − variable cost)', fields:[['fixed','Fixed costs','number',''],['price','Selling price per unit','number',''],['variable','Variable cost per unit','number','']], calculate:v=>{const r=financeBreakEven({fixedCosts:v.fixed,sellingPrice:v.price,variableCost:v.variable});return numericResult(r.exactUnits,'units','Break-even quantity',[`Contribution per unit: ${formatNumber(r.contribution)}`,`Minimum whole units: ${formatNumber(r.wholeUnits)}`])} },
+  'cagr-calculator': { formula:'CAGR = (Ending / Beginning)^(1/years) − 1', fields:[['start','Beginning value','number',''],['end','Ending value','number',''],['years','Years','number','']], calculate:v=>numericResult(financeCagr({beginningValue:v.start,endingValue:v.end,years:v.years}).rate,'%','CAGR') },
+  'roi-calculator': { formula:'ROI = (gain − cost) / cost × 100', fields:[['gain','Final value / return','number',''],['cost','Investment cost','number','']], calculate:v=>{const r=financeRoi({cost:v.cost,returnValue:v.gain});return numericResult(r.rate,'%','ROI',[`Profit / loss: ${formatNumber(r.profit)}`])} },
+  'commission-calculator': { formula:'Commission = sales × rate / 100', fields:[['sales','Sales amount','number',''],['rate','Commission rate','number','%']], calculate:v=>numericResult(financeCommission({sales:v.sales,commissionRate:v.rate}).commission,'','Commission') },
 };
 
 export function calculateFormulaTool(id, values) {

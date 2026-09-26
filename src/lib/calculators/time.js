@@ -1,27 +1,35 @@
+function parseDurationUnit(value, label, { max = null } = {}) {
+  if (value === null || value === undefined || String(value).trim() === "") return 0;
+  const n = Number(value);
+  if (!Number.isFinite(n) || !Number.isInteger(n)) throw new Error(`${label} must be a whole number.`);
+  if (n < 0) throw new Error(`${label} cannot be negative.`);
+  if (max !== null && n > max) throw new Error(`${label} must be between 0 and ${max}.`);
+  return n;
+}
+
 function toSeconds({ h = 0, m = 0, s = 0 }) {
-  const hh = Number(h) || 0;
-  const mm = Number(m) || 0;
-  const ss = Number(s) || 0;
-  if (hh < 0 || mm < 0 || mm > 59 || ss < 0 || ss > 59) {
-    throw new Error("Minutes/seconds must be 0-59, and hours cannot be negative.");
-  }
-  return hh * 3600 + mm * 60 + ss;
+  const hh = parseDurationUnit(h, "Hours");
+  const mm = parseDurationUnit(m, "Minutes", { max: 59 });
+  const ss = parseDurationUnit(s, "Seconds", { max: 59 });
+  const total = hh * 3600 + mm * 60 + ss;
+  if (!Number.isSafeInteger(total)) throw new Error("This duration is too large to calculate safely.");
+  return total;
 }
 
 function fromSeconds(totalSeconds) {
-  const sign = totalSeconds < 0 ? -1 : 1;
+  const negative = totalSeconds < 0;
   const abs = Math.abs(totalSeconds);
-  const h = Math.floor(abs / 3600);
-  const m = Math.floor((abs % 3600) / 60);
-  const s = Math.floor(abs % 60);
-  return { h: h * sign, m, s, negative: sign < 0 };
+  return {
+    h: Math.floor(abs / 3600),
+    m: Math.floor((abs % 3600) / 60),
+    s: abs % 60,
+    negative,
+  };
 }
 
-/**
- * Add or subtract two durations (h/m/s each).
- * operation: "add" | "subtract"
- */
+/** Add or subtract two non-negative durations. */
 export function combineDurations(duration1, duration2, operation = "add") {
+  if (!["add", "subtract"].includes(operation)) throw new Error("Operation must be add or subtract.");
   const s1 = toSeconds(duration1);
   const s2 = toSeconds(duration2);
   const total = operation === "subtract" ? s1 - s2 : s1 + s2;
@@ -29,12 +37,14 @@ export function combineDurations(duration1, duration2, operation = "add") {
 }
 
 /**
- * Difference between two clock times "HH:MM" (24h). Handles overnight spans
- * (end earlier than start is treated as crossing midnight).
+ * Difference between two clock times "HH:MM" (24h). If end is earlier than
+ * start, the interval is treated as crossing midnight.
  */
 export function clockTimeDifference(startHHMM, endHHMM) {
   const parse = (value, label) => {
-    const match = /^(\d{1,2}):(\d{2})$/.exec(String(value).trim());
+    const text = String(value ?? "").trim();
+    if (!text) throw new Error(`${label} is required.`);
+    const match = /^(\d{1,2}):(\d{2})$/.exec(text);
     if (!match) throw new Error(`${label} must be in HH:MM format.`);
     const h = Number(match[1]);
     const m = Number(match[2]);
@@ -44,9 +54,7 @@ export function clockTimeDifference(startHHMM, endHHMM) {
 
   const startMin = parse(startHHMM, "Start time");
   const endMin = parse(endHHMM, "End time");
-
   let diff = endMin - startMin;
-  if (diff < 0) diff += 24 * 60; // crossed midnight
-
+  if (diff < 0) diff += 24 * 60;
   return { h: Math.floor(diff / 60), m: diff % 60 };
 }

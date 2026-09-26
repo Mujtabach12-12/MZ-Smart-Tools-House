@@ -1,21 +1,36 @@
 /**
- * daysUntilExam: positive integer
- * totalHoursNeeded: positive number (estimated hours to cover syllabus)
- * availableHoursPerDay: positive number (realistic hours/day the student can study)
+ * daysUntilExam: positive number
+ * totalHoursNeeded: zero or positive number
+ * availableHoursPerDay: optional positive number used only for feasibility
  */
-export function planStudyHours(daysUntilExam, totalHoursNeeded, availableHoursPerDay) {
+export function planStudyHours(daysUntilExam, totalHoursNeeded, availableHoursPerDay = "") {
   const days = Number(daysUntilExam);
   const hoursNeeded = Number(totalHoursNeeded);
-  const hoursPerDay = Number(availableHoursPerDay);
+  const hasAvailability = String(availableHoursPerDay ?? "").trim() !== "";
+  const hoursPerDay = hasAvailability ? Number(availableHoursPerDay) : null;
 
-  if (!Number.isFinite(days) || days <= 0) throw new Error("Days until exam must be a positive number.");
-  if (!Number.isFinite(hoursNeeded) || hoursNeeded <= 0) throw new Error("Total study hours needed must be a positive number.");
-  if (!Number.isFinite(hoursPerDay) || hoursPerDay <= 0) throw new Error("Available hours per day must be a positive number.");
+  if (!Number.isFinite(days) || days <= 0) throw new Error("Days available must be greater than 0.");
+  if (!Number.isFinite(hoursNeeded) || hoursNeeded < 0) throw new Error("Total study workload must be 0 or a positive number of hours.");
+  if (days > 1e9 || hoursNeeded > 1e9) throw new Error("The entered study plan is too large to calculate safely.");
+  if (hasAvailability && (!Number.isFinite(hoursPerDay) || hoursPerDay <= 0)) {
+    throw new Error("Available hours per day must be greater than 0 when provided.");
+  }
+  if (hasAvailability && hoursPerDay > 1e9) throw new Error("Available hours per day is too large to calculate safely.");
 
-  const requiredHoursPerDay = Number((hoursNeeded / days).toFixed(2));
-  const totalAvailableHours = Number((days * hoursPerDay).toFixed(2));
+  const requiredHoursPerDay = hoursNeeded / days;
+
+  if (!hasAvailability) {
+    return {
+      requiredHoursPerDay,
+      totalAvailableHours: null,
+      feasible: null,
+      shortfallHours: null,
+    };
+  }
+
+  const totalAvailableHours = days * hoursPerDay;
   const feasible = requiredHoursPerDay <= hoursPerDay;
-  const shortfallHours = feasible ? 0 : Number((hoursNeeded - totalAvailableHours).toFixed(2));
+  const shortfallHours = feasible ? 0 : Math.max(0, hoursNeeded - totalAvailableHours);
 
   return { requiredHoursPerDay, totalAvailableHours, feasible, shortfallHours };
 }

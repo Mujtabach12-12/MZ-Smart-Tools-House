@@ -1,5 +1,5 @@
 /**
- * subjects: [{ obtained: number, total: number }]
+ * subjects: [{ obtained: number|string, total: number|string }]
  * Returns { totalObtained, totalMax, percentage, average }
  */
 export function computeMarks(subjects) {
@@ -10,28 +10,39 @@ export function computeMarks(subjects) {
   let totalObtained = 0;
   let totalMax = 0;
 
-  for (const s of subjects) {
-    const obtained = Number(s.obtained);
-    const total = Number(s.total);
+  for (const [index, subject] of subjects.entries()) {
+    if (String(subject?.obtained ?? "").trim() === "") {
+      throw new Error(`Subject ${index + 1}: enter obtained marks.`);
+    }
+    if (String(subject?.total ?? "").trim() === "") {
+      throw new Error(`Subject ${index + 1}: enter maximum marks.`);
+    }
+
+    const obtained = Number(subject.obtained);
+    const total = Number(subject.total);
 
     if (!Number.isFinite(obtained) || obtained < 0) {
-      throw new Error("Obtained marks must be zero or a positive number.");
+      throw new Error(`Subject ${index + 1}: obtained marks must be 0 or a positive number.`);
     }
     if (!Number.isFinite(total) || total <= 0) {
-      throw new Error("Total marks must be a positive number.");
+      throw new Error(`Subject ${index + 1}: maximum marks must be greater than 0.`);
     }
     if (obtained > total) {
-      throw new Error("Obtained marks cannot be greater than total marks.");
+      throw new Error(`Subject ${index + 1}: obtained marks cannot be greater than maximum marks.`);
+    }
+    if (obtained > 1e12 || total > 1e12) {
+      throw new Error(`Subject ${index + 1}: marks are too large for a practical calculation.`);
     }
 
     totalObtained += obtained;
     totalMax += total;
+    if (!Number.isFinite(totalObtained) || !Number.isFinite(totalMax)) {
+      throw new Error("The entered marks are too large to calculate safely.");
+    }
   }
 
-  return {
-    totalObtained: Number(totalObtained.toFixed(2)),
-    totalMax: Number(totalMax.toFixed(2)),
-    percentage: Number(((totalObtained / totalMax) * 100).toFixed(2)),
-    average: Number((totalObtained / subjects.length).toFixed(2)),
-  };
+  const percentage = (totalObtained / totalMax) * 100;
+  const average = totalObtained / subjects.length;
+
+  return { totalObtained, totalMax, percentage, average };
 }

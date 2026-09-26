@@ -4,7 +4,7 @@ const SITE_NAME = "MZ Smart Tool House";
 const BASE_URL = String(import.meta.env.VITE_SITE_URL || "https://mztoolshouse.com").replace(/\/+$/, "");
 const DEFAULT_DESCRIPTION =
   "Free online tools for work, study and everyday productivity, including calculators, PDF tools, image tools and developer utilities.";
-const DEFAULT_IMAGE = `${BASE_URL}/assets/mz-smart-office-hero.webp`;
+const DEFAULT_IMAGE = `${BASE_URL}/assets/mz-og-1200x630.webp`;
 const DEFAULT_ROBOTS = "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1";
 
 function upsertMeta({ name, property, content }) {
@@ -97,8 +97,6 @@ export default function Seo({
     upsertMeta({ name: "twitter:image:alt", content: `${SITE_NAME} smart office productivity tools` });
 
     upsertLink("canonical", canonicalUrl);
-    upsertLink("alternate", canonicalUrl, { hreflang: "en" });
-    upsertLink("alternate", canonicalUrl, { hreflang: "x-default" });
 
     document.head.querySelector('script[data-prerender-schema="page"]')?.remove();
 

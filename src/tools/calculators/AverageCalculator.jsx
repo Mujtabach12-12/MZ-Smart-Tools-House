@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { computeAverage } from "../../lib/calculators/average";
+import { formatCalculatorNumber } from "../../lib/calculators/format";
 import ResultStat from "../../components/tools/ResultStat";
 import ErrorMessage from "../../components/tools/ErrorMessage";
-import ToolExtras from "../../components/tools/ToolExtras";
+import { trackEvent } from "../../lib/analytics";
+import { announceToolSuccess } from "../../lib/toolSuccess";
 
 export default function AverageCalculator() {
   const [input, setInput] = useState("");
@@ -12,59 +14,50 @@ export default function AverageCalculator() {
   function handleCalculate() {
     try {
       setError("");
-      const numbers = input
-        .split(/[,\s\n]+/)
-        .map((s) => s.trim())
-        .filter(Boolean);
-      if (numbers.length === 0) throw new Error("Enter at least one number, separated by commas or spaces.");
-      setResult(computeAverage(numbers));
+      const numbers = input.split(/[,\s\n]+/).map((s) => s.trim()).filter(Boolean);
+      if (numbers.length === 0) throw new Error("Enter at least one number, separated by commas, spaces, or new lines.");
+      const next = computeAverage(numbers);
+      setResult(next);
+      trackEvent("calculator_complete", { tool_id: "average-calculator", value_count: next.count });
+      announceToolSuccess({ source: "calculation" });
     } catch (err) {
       setResult(null);
-      setError(err.message);
+      setError(err?.message || "Could not calculate this average.");
+      trackEvent("calculator_validation_error", { tool_id: "average-calculator" });
     }
   }
-  function handleReset() { setInput(""); setResult(null); setError(""); }
+
+  function handleReset() {
+    setInput("");
+    setResult(null);
+    setError("");
+    trackEvent("calculator_reset", { tool_id: "average-calculator" });
+  }
 
   return (
-    <div className="mz-card p-6">
-      <label className="mb-1 block text-sm font-medium text-navy-700 dark:text-navy-200">Numbers</label>
-      <textarea
-        rows={4}
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        className="mz-input"
-        placeholder="e.g. 12, 45, 78, 90 or one per line"
-      />
+    <div className="mz-card p-4 sm:p-6" data-utility-tool="average-calculator">
+      <label className="block text-sm font-medium text-navy-700 dark:text-navy-200">
+        Numbers
+        <textarea rows={5} value={input} onChange={(e) => setInput(e.target.value)} className="mz-input mt-1 min-h-32" placeholder="10, 20, 30\nOr paste one number per line" spellCheck="false" />
+      </label>
+      <p className="mt-2 text-xs leading-5 text-navy-500 dark:text-navy-400">Commas, spaces, and line breaks are accepted. Invalid tokens are rejected rather than silently ignored.</p>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <button type="button" onClick={handleCalculate} className="mz-btn-primary">Calculate Average</button>
-        <button type="button" onClick={handleReset} className="mz-btn-secondary">Reset</button>
+        <button type="button" onClick={handleCalculate} className="mz-btn-primary min-h-11">Calculate Average</button>
+        <button type="button" onClick={handleReset} className="mz-btn-secondary min-h-11">Reset</button>
       </div>
 
-      <div className="mt-6 space-y-3">
+      <div className="mt-6 space-y-3" aria-live="polite" aria-atomic="true">
         <ErrorMessage message={error} />
         {result && (
-          <div className="grid gap-3 sm:grid-cols-4">
-            <ResultStat label="Average" value={result.average} highlight />
-            <ResultStat label="Sum" value={result.sum} />
-            <ResultStat label="Count" value={result.count} />
-            <ResultStat label="Min / Max" value={`${result.min} / ${result.max}`} />
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <ResultStat label="Average" value={formatCalculatorNumber(result.average)} highlight />
+            <ResultStat label="Sum" value={formatCalculatorNumber(result.sum)} />
+            <ResultStat label="Count" value={result.count.toLocaleString("en-US")} />
+            <ResultStat label="Min / Max" value={`${formatCalculatorNumber(result.min)} / ${formatCalculatorNumber(result.max)}`} />
           </div>
         )}
       </div>
-
-      <ToolExtras
-        toolId="average-calculator"
-        category="calculators"
-        howTo={[
-          "Type or paste your numbers, separated by commas, spaces or new lines.",
-          "Click Calculate Average to see the mean, sum, count, minimum and maximum.",
-        ]}
-        faq={[
-          { q: "How should I separate numbers?", a: "Commas, spaces, or new lines all work — you can even paste a column copied from a spreadsheet." },
-          { q: "What happens if I include a non-number?", a: "The tool will show an error telling you exactly which entry isn't a valid number." },
-        ]}
-      />
     </div>
   );
 }

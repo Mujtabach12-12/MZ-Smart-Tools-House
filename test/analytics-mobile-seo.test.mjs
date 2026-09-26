@@ -36,7 +36,7 @@ check('quick-card helper wraps instead of ellipsis', css.includes('.mz-mobile-qu
 check('category labels are allowed to wrap', css.includes('.mz-mobile-category-card strong{min-height:1.88rem') && css.includes('white-space:normal'));
 
 check('SEO maintains canonical metadata', seo.includes('upsertLink("canonical"'));
-check('SEO adds language alternates', seo.includes('hreflang: "en"') && seo.includes('hreflang: "x-default"'));
+check('single-language SEO avoids redundant hreflang alternates', !seo.includes('hreflang:'));
 check('site-level structured data is in initial HTML', index.includes('mz-site-structured-data') && index.includes('SearchAction'));
 check('route-specific prerender shell generator exists', prerender.includes('SEO route shells written') && prerender.includes('data-prerender-schema="page"'));
 check('postbuild runs SEO route shell generator', pkg.scripts.postbuild.includes('prerender-seo.js'));

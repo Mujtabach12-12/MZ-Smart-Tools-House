@@ -27,7 +27,7 @@ ok("every PDF tool has input/output/related SEO metadata", () => {
     assert.ok(Array.isArray(item.supportedInput) && item.supportedInput.length);
     assert.ok(Array.isArray(item.output) && item.output.length);
     assert.ok(Array.isArray(item.relatedTools) && item.relatedTools.length >= 2);
-    assert.ok(item.seoTitle?.includes("MZ Smart Tool House"));
+    assert.ok(item.seoTitle?.trim());
     assert.ok(item.seoDescription?.length >= 80);
     assert.equal(item.releaseStatus, "testing");
   }

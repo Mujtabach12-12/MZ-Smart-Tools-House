@@ -3,6 +3,9 @@ import { planStudyHours } from "../../lib/calculators/studyHours";
 import ResultStat from "../../components/tools/ResultStat";
 import ErrorMessage from "../../components/tools/ErrorMessage";
 import ToolExtras from "../../components/tools/ToolExtras";
+import { trackEvent } from "../../lib/analytics";
+
+const formatHours = (value) => Number(value.toFixed(2));
 
 export default function StudyHoursCalculator() {
   const [days, setDays] = useState("");
@@ -14,29 +17,40 @@ export default function StudyHoursCalculator() {
   function handleCalculate() {
     try {
       setError("");
-      setResult(planStudyHours(days, hoursNeeded, hoursPerDay));
+      const next = planStudyHours(days, hoursNeeded, hoursPerDay);
+      setResult(next);
+      trackEvent("calculator_complete", { tool_id: "study-hours-calculator", feasibility_checked: next.feasible != null });
     } catch (err) {
       setResult(null);
       setError(err.message);
+      trackEvent("calculator_validation_error", { tool_id: "study-hours-calculator" });
     }
   }
-  function handleReset() { setDays(""); setHoursNeeded(""); setHoursPerDay(""); setResult(null); setError(""); }
+
+  function handleReset() {
+    setDays("");
+    setHoursNeeded("");
+    setHoursPerDay("");
+    setResult(null);
+    setError("");
+    trackEvent("calculator_reset", { tool_id: "study-hours-calculator" });
+  }
 
   return (
-    <div className="mz-card p-6">
+    <div className="mz-card p-5 sm:p-6">
       <div className="grid gap-4 sm:grid-cols-3">
-        <div>
-          <label className="mb-1 block text-sm font-medium text-navy-700 dark:text-navy-200">Days Until Exam</label>
-          <input type="number" min="1" value={days} onChange={(e) => setDays(e.target.value)} className="mz-input" placeholder="10" />
-        </div>
-        <div>
-          <label className="mb-1 block text-sm font-medium text-navy-700 dark:text-navy-200">Total Study Hours Needed</label>
-          <input type="number" min="1" value={hoursNeeded} onChange={(e) => setHoursNeeded(e.target.value)} className="mz-input" placeholder="40" />
-        </div>
-        <div>
-          <label className="mb-1 block text-sm font-medium text-navy-700 dark:text-navy-200">Hours Available Per Day</label>
-          <input type="number" min="0.5" step="0.5" value={hoursPerDay} onChange={(e) => setHoursPerDay(e.target.value)} className="mz-input" placeholder="5" />
-        </div>
+        <label className="text-sm font-medium text-navy-700 dark:text-navy-200">
+          Days Available
+          <input type="number" inputMode="decimal" min="0.01" step="0.01" value={days} onChange={(e) => setDays(e.target.value)} className="mz-input mt-2" placeholder="5" />
+        </label>
+        <label className="text-sm font-medium text-navy-700 dark:text-navy-200">
+          Total Study Workload (hours)
+          <input type="number" inputMode="decimal" min="0" step="0.1" value={hoursNeeded} onChange={(e) => setHoursNeeded(e.target.value)} className="mz-input mt-2" placeholder="40" />
+        </label>
+        <label className="text-sm font-medium text-navy-700 dark:text-navy-200">
+          Hours Available Per Day <span className="font-normal text-navy-400">(optional)</span>
+          <input type="number" inputMode="decimal" min="0.01" step="0.1" value={hoursPerDay} onChange={(e) => setHoursPerDay(e.target.value)} className="mz-input mt-2" placeholder="5" />
+        </label>
       </div>
 
       <div className="mt-6 flex flex-wrap gap-3">
@@ -44,22 +58,20 @@ export default function StudyHoursCalculator() {
         <button type="button" onClick={handleReset} className="mz-btn-secondary">Reset</button>
       </div>
 
-      <div className="mt-6 space-y-3">
+      <div className="mt-6 space-y-3" aria-live="polite">
         <ErrorMessage message={error} />
         {result && (
           <div className="grid gap-3 sm:grid-cols-2">
-            <ResultStat label="Required Hours/Day" value={result.requiredHoursPerDay} highlight />
-            <ResultStat label="Total Available Hours" value={result.totalAvailableHours} />
-            {!result.feasible && (
-              <ResultStat label="Shortfall" value={`${result.shortfallHours} hours`} />
-            )}
+            <ResultStat label="Required Hours/Day" value={formatHours(result.requiredHoursPerDay)} highlight />
+            {result.totalAvailableHours != null && <ResultStat label="Total Available Hours" value={formatHours(result.totalAvailableHours)} />}
+            {result.shortfallHours != null && result.shortfallHours > 0 && <ResultStat label="Shortfall" value={`${formatHours(result.shortfallHours)} hours`} />}
           </div>
         )}
-        {result && (
-          <p className={`text-sm ${result.feasible ? "text-green-600" : "text-red-600"}`}>
+        {result && result.feasible != null && (
+          <p className={`text-sm ${result.feasible ? "text-green-700 dark:text-green-300" : "text-red-700 dark:text-red-300"}`}>
             {result.feasible
-              ? "Your available time comfortably covers what you need — you're on track."
-              : "Your current availability isn't quite enough — consider adding extra hours or starting sooner."}
+              ? "Your stated daily availability is enough for this workload."
+              : "Your stated daily availability is not enough for this workload. Increase daily hours or allow more days."}
           </p>
         )}
       </div>
@@ -68,14 +80,13 @@ export default function StudyHoursCalculator() {
         toolId="study-hours-calculator"
         category="calculators"
         howTo={[
-          "Enter how many days remain until your exam.",
-          "Enter your best estimate of total hours needed to cover the syllabus.",
-          "Enter how many hours you can realistically study per day.",
-          "Calculate to see if your plan is feasible and how many hours/day you actually need.",
+          "Enter the total study workload in hours and the number of days available.",
+          "The calculator divides workload by days to find the required hours per day.",
+          "Optionally enter your available hours per day to check whether the plan is feasible.",
         ]}
         faq={[
-          { q: "How do I estimate total hours needed?", a: "A common rule of thumb is 2-4 hours per topic/chapter depending on difficulty — adjust based on your own pace." },
-          { q: "What does \"shortfall\" mean?", a: "It's how many hours short you'll be if you stick to your stated daily availability — a signal to either study more per day or start earlier." },
+          { q: "What happens if the workload is 0 hours?", a: "The required study time is 0 hours/day. Days must still be greater than 0." },
+          { q: "Do I have to enter hours available per day?", a: "No. That field is optional and is only used to compare your availability with the calculated requirement." },
         ]}
       />
     </div>

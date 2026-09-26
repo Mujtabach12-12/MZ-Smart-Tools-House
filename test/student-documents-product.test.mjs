@@ -1,0 +1,33 @@
+import assert from "node:assert/strict";
+import {readFileSync} from "node:fs";
+import {resolve} from "node:path";
+const ROOT=resolve(new URL("..",import.meta.url).pathname);
+const read=p=>readFileSync(resolve(ROOT,p),"utf8");
+const ids=["assignment-cover-page-generator","student-cv-builder","resume-builder","cover-letter-generator","application-generator","study-timetable-generator","project-report-cover-generator","internship-application","leave-application","scholarship-application","text-to-pdf","markdown-to-pdf","docx-viewer","docx-text-extractor","txt-to-docx","html-to-docx","markdown-to-html","markdown-formatter","document-statistics","word-to-pdf"];
+const tools=read("src/data/tools.js"),loaders=read("src/tools/index.js"),component=read("src/tools/student-documents/StudentDocumentTool.jsx"),toolkit=read("src/lib/studentDocuments/toolkit.js"),seo=read("src/data/studentDocumentSeo.js"),util=read("src/tools/UtilityTool.jsx"),expanded=read("src/tools/expanded/ExpandedTool.jsx"),pkg=JSON.parse(read("package.json"));
+assert.equal(ids.length,20);
+for(const id of ids){
+  assert.match(tools,new RegExp(`id: "${id}"[^\\n]+category: "document-tools"[^\\n]+status: "active"`),`${id} missing active registry entry`);
+  assert.ok(loaders.includes(`"${id}": () => import("./student-documents/StudentDocumentTool")`),`${id} not using dedicated StudentDocumentTool`);
+  assert.ok(seo.includes(`"${id}"`),`${id} missing dedicated SEO metadata`);
+}
+assert.doesNotMatch(component,/dangerouslySetInnerHTML/);
+assert.doesNotMatch(component,/\beval\s*\(/);
+assert.doesNotMatch(component,/new Function\s*\(/);
+assert.match(component,/\[Content_Types\]\.xml/);
+assert.match(component,/word\/document\.xml/);
+assert.match(component,/vbaProject\\\.bin/);
+assert.match(component,/PDFDocument\.load/);
+assert.match(component,/getDocument\(\{data:bytes\.slice\(\)\}\)/);
+assert.match(component,/await validateGeneratedDocx/);
+assert.match(component,/await validateGeneratedPdf/);
+assert.match(component,/script,style,noscript,iframe,object,embed/);
+assert.match(component,/trackEvent\("student_document_/);
+assert.doesNotMatch(component,/trackEvent\([^\n]+text/,"Analytics must not transmit document text");
+assert.doesNotMatch(util,/function DocumentTool\(/,"Legacy generic DocumentTool must be removed");
+assert.doesNotMatch(expanded,/function TextToPdf\(/,"Legacy TextToPdf implementation must be removed");
+assert.doesNotMatch(expanded,/function DocxTool\(/,"Legacy DOCX implementation must be removed");
+assert.equal(pkg.scripts["test:student-documents"],"node test/student-documents.test.mjs");
+assert.equal(pkg.scripts["test:student-documents-product"],"node test/student-documents-product.test.mjs");
+assert.ok(pkg.scripts["test:all"].includes("test:student-documents"));
+console.log("Student Document product/source audit PASS (20/20 dedicated routes + file-integrity/security/SEO contracts)");

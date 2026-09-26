@@ -3,6 +3,9 @@ import { currentAttendancePercentage, maxMissableClasses, classesNeededToReach }
 import ResultStat from "../../components/tools/ResultStat";
 import ErrorMessage from "../../components/tools/ErrorMessage";
 import ToolExtras from "../../components/tools/ToolExtras";
+import { trackEvent } from "../../lib/analytics";
+
+const formatPercent = (value) => `${Number(value.toFixed(2))}%`;
 
 export default function AttendanceCalculator() {
   const [attended, setAttended] = useState("");
@@ -15,35 +18,46 @@ export default function AttendanceCalculator() {
     try {
       setError("");
       const percentage = currentAttendancePercentage(attended, total);
-      const meetsRequirement = percentage >= Number(required);
-      const missable = meetsRequirement ? maxMissableClasses(attended, total, required) : 0;
-      const needed = meetsRequirement ? 0 : classesNeededToReach(attended, total, required);
-      setResult({ percentage, meetsRequirement, missable, needed });
+      const target = Number(required);
+      if (!Number.isFinite(target) || target <= 0 || target > 100) {
+        throw new Error("Required attendance percentage must be greater than 0 and no more than 100.");
+      }
+      const meetsRequirement = percentage >= target;
+      const missable = meetsRequirement ? maxMissableClasses(attended, total, target) : 0;
+      const needed = meetsRequirement ? 0 : classesNeededToReach(attended, total, target);
+      setResult({ percentage, target, meetsRequirement, missable, needed });
+      trackEvent("calculator_complete", { tool_id: "attendance-calculator", meets_requirement: meetsRequirement });
     } catch (err) {
       setResult(null);
       setError(err.message);
+      trackEvent("calculator_validation_error", { tool_id: "attendance-calculator" });
     }
   }
 
   function handleReset() {
-    setAttended(""); setTotal(""); setRequired("75"); setResult(null); setError("");
+    setAttended("");
+    setTotal("");
+    setRequired("75");
+    setResult(null);
+    setError("");
+    trackEvent("calculator_reset", { tool_id: "attendance-calculator" });
   }
 
   return (
-    <div className="mz-card p-6">
+    <div className="mz-card p-5 sm:p-6">
       <div className="grid gap-4 sm:grid-cols-3">
-        <div>
-          <label className="mb-1 block text-sm font-medium text-navy-700 dark:text-navy-200">Classes Attended</label>
-          <input type="number" min="0" value={attended} onChange={(e) => setAttended(e.target.value)} className="mz-input" placeholder="45" />
-        </div>
-        <div>
-          <label className="mb-1 block text-sm font-medium text-navy-700 dark:text-navy-200">Total Classes Held</label>
-          <input type="number" min="0" value={total} onChange={(e) => setTotal(e.target.value)} className="mz-input" placeholder="50" />
-        </div>
-        <div>
-          <label className="mb-1 block text-sm font-medium text-navy-700 dark:text-navy-200">Required %</label>
-          <input type="number" min="1" max="100" value={required} onChange={(e) => setRequired(e.target.value)} className="mz-input" placeholder="75" />
-        </div>
+        <label className="text-sm font-medium text-navy-700 dark:text-navy-200">
+          Classes Attended
+          <input type="number" inputMode="numeric" min="0" step="1" value={attended} onChange={(e) => setAttended(e.target.value)} className="mz-input mt-2" placeholder="80" />
+        </label>
+        <label className="text-sm font-medium text-navy-700 dark:text-navy-200">
+          Total Classes Held
+          <input type="number" inputMode="numeric" min="1" step="1" value={total} onChange={(e) => setTotal(e.target.value)} className="mz-input mt-2" placeholder="100" />
+        </label>
+        <label className="text-sm font-medium text-navy-700 dark:text-navy-200">
+          Required Attendance %
+          <input type="number" inputMode="decimal" min="0.01" max="100" step="0.01" value={required} onChange={(e) => setRequired(e.target.value)} className="mz-input mt-2" placeholder="75" />
+        </label>
       </div>
 
       <div className="mt-6 flex flex-wrap gap-3">
@@ -51,17 +65,24 @@ export default function AttendanceCalculator() {
         <button type="button" onClick={handleReset} className="mz-btn-secondary">Reset</button>
       </div>
 
-      <div className="mt-6 space-y-3">
+      <div className="mt-6 space-y-3" aria-live="polite">
         <ErrorMessage message={error} />
         {result && (
           <div className="grid gap-3 sm:grid-cols-2">
-            <ResultStat label="Current Attendance" value={`${result.percentage}%`} highlight />
+            <ResultStat label="Current Attendance" value={formatPercent(result.percentage)} highlight />
             {result.meetsRequirement ? (
-              <ResultStat label="Classes You Can Still Miss" value={result.missable} />
+              <ResultStat label="Future Classes You Can Miss" value={result.missable} />
             ) : (
-              <ResultStat label="Classes Needed to Reach Requirement" value={result.needed} />
+              <ResultStat label="Consecutive Classes Needed" value={result.needed} />
             )}
           </div>
+        )}
+        {result && (
+          <p className="text-sm leading-6 text-navy-500 dark:text-navy-400">
+            {result.meetsRequirement
+              ? `The missable-class result assumes the next ${result.missable} class${result.missable === 1 ? "" : "es"} are missed and no other future classes are counted yet.`
+              : `To reach ${result.target}% from the current record, attend the next ${result.needed} class${result.needed === 1 ? "" : "es"} consecutively without another absence.`}
+          </p>
         )}
       </div>
 
@@ -69,13 +90,14 @@ export default function AttendanceCalculator() {
         toolId="attendance-calculator"
         category="calculators"
         howTo={[
-          "Enter how many classes you've attended and how many were held in total.",
-          "Enter your institution's required attendance percentage (commonly 75%).",
-          "Calculate to see your current percentage, plus how many classes you can miss or need to attend.",
+          "Enter whole-number counts for classes attended and total classes held.",
+          "Enter your institution's required attendance threshold.",
+          "Calculate to see your current attendance and either future absences allowed or consecutive classes needed to reach the target.",
         ]}
         faq={[
-          { q: "How is \"classes you can still miss\" calculated?", a: "It assumes every future class from now on is missed, and finds the maximum number you can skip while staying at or above your required percentage." },
-          { q: "What if I'm already below the requirement?", a: "The tool instead shows how many classes you'd need to attend consecutively (assuming you don't miss any more) to reach the requirement." },
+          { q: "How is attendance percentage calculated?", a: "Attendance % = attended classes ÷ total classes × 100." },
+          { q: "How is 'classes you can miss' calculated?", a: "It finds the maximum number of future absences that keep attended ÷ (current total + future missed) at or above your required percentage." },
+          { q: "What if I am below the requirement?", a: "The tool solves for the number of future classes you must attend consecutively so that (attended + new attended) ÷ (total + new attended) reaches the target." },
         ]}
       />
     </div>
