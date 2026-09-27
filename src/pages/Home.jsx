@@ -28,7 +28,7 @@ export default function Home() {
   const mobile = useMobileLayout();
   return (
     <>
-      <Seo path="/" title={null} description="MZ Smart Tool House is a focused digital office for PDF, documents, images, study, programming, developer utilities, AI and everyday calculations." />
+      <Seo path="/" title="Free Online Tools for PDF, Documents, Images & More" description="Use 300+ browser-based tools for PDF files, documents, images, calculators, study, coding and everyday productivity in one smart workspace." />
       {mobile ? <MobileHome /> : (
         <>
           <Hero />

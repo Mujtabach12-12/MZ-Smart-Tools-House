@@ -35,14 +35,14 @@ export default function ToolPage() {
      {
        "@type": "WebPage",
        name: `${tool.name} | MZ Smart Tool House`,
-       description: tool.description,
+       description: seo.description || tool.description,
        url: `${BASE_URL}${tool.route}`,
        isPartOf: { "@type": "WebSite", name: "MZ Smart Tool House", url: BASE_URL },
      },
      {
        "@type": "WebApplication",
        name: tool.name,
-       description: tool.description,
+       description: seo.description || tool.description,
        url: `${BASE_URL}${tool.route}`,
        applicationCategory: "UtilitiesApplication",
        operatingSystem: "Any",
@@ -67,8 +67,9 @@ export default function ToolPage() {
      }] : []),
    ],
  };
+ const robots = tool.status !== "active" || missingImplementation || tool.seoIndexable === false ? "noindex,follow" : undefined;
  return <>
-   <Seo path={tool.route} title={seo.title} description={seo.description} type="website" schema={schema} robots={tool.seoIndexable === false ? "noindex,follow" : undefined}/>
+   <Seo path={tool.route} title={seo.title} description={seo.description} type="website" schema={schema} robots={robots}/>
    <ToolPageLayout tool={tool}>
     {ActiveComponent ? <ToolWorkspace className={APP_WORKSPACES.has(tool.id) ? "mz-app-workspace" : ""}><Suspense fallback={<div className="mz-tool-loading" role="status">Loading tool workspace…</div>}><ActiveComponent id={tool.id} tool={tool}/></Suspense></ToolWorkspace> :
       <ToolWorkspace className="min-h-[360px] flex flex-col items-center justify-center text-center">

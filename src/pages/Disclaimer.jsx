@@ -6,7 +6,7 @@ export default function Disclaimer() {
     <div className="mz-section max-w-4xl py-14">
       <Seo
         path="/disclaimer"
-        title="Disclaimer | MZ Smart Tool House"
+        title="Disclaimer"
         description="Important limitations and verification guidance for calculators, documents, coding, finance, health and other MZ Smart Tool House tools."
       />
       <h1 className="text-3xl font-bold text-navy-900 dark:text-navy-50">Disclaimer</h1>

@@ -78,8 +78,8 @@ export default function MobileHome() {
         <div className="mz-mobile-hero-glow" aria-hidden="true" />
         <div className="relative z-10">
           <span className="mz-mobile-kicker"><Sparkles className="h-3.5 w-3.5" /> SMART TOOL HOUSE</span>
-          <h1>Everything you need.<br /><span>One smart app.</span></h1>
-          <p>Work, study, scan, convert and create without jumping between different websites.</p>
+          <h1>Free online tools.<br /><span>One smart workspace.</span></h1>
+          <p>Work with PDFs, documents, images, calculators, study tools and code without jumping between different websites.</p>
           <div className="mt-5"><SearchBar size="lg" placeholder="Search tools, PDFs, calculators…" /></div>
           <div className="mt-4 grid grid-cols-2 gap-2.5">
             {quickTools.map(([label, id, helper]) => {

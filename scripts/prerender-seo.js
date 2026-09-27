@@ -18,7 +18,7 @@ const DEFAULT_IMAGE = `${BASE_URL}/assets/mz-og-1200x630.webp`;
 const INDEX_ROBOTS = "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1";
 
 const staticPages = [
-  ["/", null, "MZ Smart Tool House is a focused digital office for PDF, documents, images, study, programming, developer utilities, AI and everyday calculations."],
+  ["/", "Free Online Tools for PDF, Documents, Images & More", "Use 300+ browser-based tools for PDF files, documents, images, calculators, study, coding and everyday productivity in one smart workspace."],
   ["/tools", "All Tools", "Browse every active MZ Smart Tool House utility across office, PDF, science, engineering, education, developer, health, conversion and productivity categories."],
   ["/categories", "Tool Categories", "Browse MZ Smart Tool House categories for health, student, PDF, image, text, finance, converter and developer tools."],
   ["/office", "MZ Office – Online Word, Excel, PowerPoint & PDF Editor", "Create assignments, spreadsheets and presentations, or edit PDFs in one browser-based MZ Office workspace."],
@@ -39,14 +39,15 @@ const utilityPages = [
 const records = new Map();
 function add(path, title, description, robots = INDEX_ROBOTS) {
   const normalized = path === "/" ? "/" : `/${String(path).replace(/^\/+|\/+$/g, "")}`;
-  const fullTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} — Smart tools for work, study & productivity`;
+  const trimmedTitle = String(title || "").trim();
+  const fullTitle = trimmedTitle ? (trimmedTitle.includes(SITE_NAME) ? trimmedTitle : `${trimmedTitle} | ${SITE_NAME}`) : `Free Online Tools for PDF, Documents, Images & More | ${SITE_NAME}`;
   records.set(normalized, { path: normalized, title: fullTitle, description, robots });
 }
 
 for (const [path, title, description, robots] of [...staticPages, ...utilityPages]) add(path, title, description, robots);
 for (const category of categories) {
   const path = category.route || `/categories/${category.slug}`;
-  add(path, `${category.name} – Online Tools`, `${category.description} Explore focused ${category.name.toLowerCase()} tools at MZ Smart Tool House.`, category.seoIndexable === false ? "noindex,follow" : INDEX_ROBOTS);
+  add(path, category.seoTitle || `${category.name} – Online Tools`, category.seoDescription || `${category.description} Explore focused ${category.name.toLowerCase()} tools at MZ Smart Tool House.`, category.seoIndexable === false ? "noindex,follow" : INDEX_ROBOTS);
 }
 for (const tool of tools.filter((item) => item.status === "active")) {
   const seo = getToolSeo(tool);

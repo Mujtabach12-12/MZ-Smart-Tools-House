@@ -62,9 +62,10 @@ export default function Seo({
   useEffect(() => {
     const cleanPath = path.startsWith("/") ? path : `/${path}`;
     const canonicalUrl = `${BASE_URL}${cleanPath === "/" ? "/" : cleanPath}`;
-    const fullTitle = title
-      ? `${title} | ${SITE_NAME}`
-      : `${SITE_NAME} — Smart tools for work, study & productivity`;
+    const trimmedTitle = String(title || "").trim();
+    const fullTitle = trimmedTitle
+      ? (trimmedTitle.includes(SITE_NAME) ? trimmedTitle : `${trimmedTitle} | ${SITE_NAME}`)
+      : `Free Online Tools for PDF, Documents, Images & More | ${SITE_NAME}`;
     const metaDescription = description || DEFAULT_DESCRIPTION;
     const robotsValue = robots || DEFAULT_ROBOTS;
 

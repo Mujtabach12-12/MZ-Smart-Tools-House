@@ -38,10 +38,10 @@ export default function Hero() {
           <div className="max-w-2xl">
             <div className="mz-hero-badge"><Sparkles className="h-3.5 w-3.5" /> SMART DIGITAL OFFICE <span>•</span> FREE TOOLS</div>
             <h1 className="mt-5 text-[2.65rem] font-black leading-[1.02] tracking-[-.055em] text-navy-950 sm:text-5xl lg:text-6xl dark:text-white">
-              One digital workspace, <span className="mz-gradient-text">for every kind of work.</span>
+              Free online tools, <span className="mz-gradient-text">one smart workspace.</span>
             </h1>
             <p className="mt-5 max-w-xl text-base leading-7 text-navy-600 sm:text-lg dark:text-navy-300">
-              Calculate, create, convert, study, code and get everyday work done across office, science, engineering, developer and productivity tools.
+              Compress and edit PDFs, create documents, resize images, calculate, study and code with practical browser-based tools for everyday work.
             </p>
             <div className="mt-7 hidden max-w-2xl sm:block"><SearchBar placeholder="What do you want to do?" /></div>
             <div className="mz-quick-actions mt-4 flex gap-2 overflow-x-auto pb-1 text-xs text-navy-500 sm:mt-3 sm:flex-wrap sm:overflow-visible sm:pb-0 dark:text-navy-400" aria-label="Popular shortcuts">

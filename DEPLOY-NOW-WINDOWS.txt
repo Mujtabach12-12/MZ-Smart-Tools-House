@@ -1,0 +1,23 @@
+MZ SMART TOOL HOUSE — SEO GROWTH DEPLOYMENT
+
+1) Extract this ZIP into your current MZ Smart Tool House working folder (or copy the changed source files into your existing Git repository).
+2) Open CMD in the project root.
+3) Run:
+
+npm ci
+npm run test:seo-growth
+npm run test:seo-architecture
+npm run test:analytics-seo
+npm run build
+
+git status
+git add .
+git commit -m "SEO growth hardening and metadata improvements"
+git push origin main
+
+If Netlify is already connected to the GitHub main branch, the push should trigger the normal production deployment automatically.
+
+IMPORTANT:
+- Do not commit .env secrets.
+- Do not deploy if npm run build fails.
+- A #1 Google ranking cannot be guaranteed by code changes; verify indexing, impressions, CTR and ranking changes in Google Search Console after deployment.
