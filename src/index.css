@@ -1189,3 +1189,49 @@ body {
   .mz-pdf-reader:fullscreen .mz-pdf-document-viewport,.mz-pdf-reader.is-fullscreen .mz-pdf-document-viewport{height:auto;min-height:0;flex:1}
   .mz-pdf-reader-status{padding-bottom:max(.35rem,env(safe-area-inset-bottom))}
 }
+
+/* --------------------------------------------------------------------------
+   PDF Editor — centered responsive page workspace + editable text overlay
+   -------------------------------------------------------------------------- */
+.mz-pdf-editor-topbar{
+  display:flex;align-items:center;gap:.55rem;min-width:0;flex-wrap:wrap;
+}
+.mz-pdf-editor-stage{
+  position:relative;overflow:hidden;min-width:0;isolation:isolate;
+}
+.mz-pdf-editor-toolbar{min-width:0;overflow:hidden}
+.mz-pdf-editor-toolbar-scroll{
+  display:flex;align-items:center;justify-content:center;gap:.45rem;min-width:0;
+}
+.mz-pdf-editor-stage-scroll{
+  position:relative;min-width:0;max-width:100%;overflow:auto;overscroll-behavior:contain;
+  min-height:520px;padding-bottom:1rem;
+}
+.mz-pdf-editor-page{
+  min-width:0;max-width:100%;overflow:hidden;background:#fff;box-shadow:0 18px 50px rgba(15,23,42,.2);
+}
+.mz-pdf-editor-page>img{max-width:100%;height:auto;object-fit:contain}
+.mz-pdf-editor-text-block{
+  position:absolute;z-index:2;margin:0;padding:0 .08em;border:1px solid transparent;border-radius:.18rem;
+  overflow:hidden;white-space:pre;outline:none;cursor:text;font-family:Arial,Helvetica,sans-serif;font-weight:inherit;
+  caret-color:#2563eb;transition:border-color .12s ease,box-shadow .12s ease,background .12s ease;
+}
+.mz-pdf-editor-text-block:hover{border-color:rgba(37,99,235,.42);background:rgba(255,255,255,.34)!important}
+.mz-pdf-editor-text-block.is-active{
+  z-index:4;border-color:#2563eb;box-shadow:0 0 0 2px rgba(37,99,235,.18);overflow:visible;
+}
+.mz-pdf-editor-text-block.is-dirty:not(.is-active){border-color:rgba(14,165,233,.38)}
+@media(max-width:767px){
+  .mz-pdf-editor-topbar{align-items:stretch}
+  .mz-pdf-editor-topbar>div:first-child{flex-basis:100%}
+  .mz-pdf-editor-topbar>.mz-btn-primary,.mz-pdf-editor-topbar>.mz-btn-secondary{flex:1 1 auto;justify-content:center;min-height:42px}
+  .mz-pdf-editor-toolbar-scroll{justify-content:flex-start;overflow-x:auto;overflow-y:hidden;padding-bottom:.2rem;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+  .mz-pdf-editor-toolbar-scroll>*{flex:0 0 auto}
+  .mz-pdf-editor-stage-scroll{min-height:56vh;padding:0 10px calc(5.5rem + env(safe-area-inset-bottom));}
+  .mz-pdf-editor-page{width:100%!important;max-width:100%!important;margin-inline:auto}
+  .mz-pdf-editor-text-block{min-height:18px}
+}
+@media(min-width:768px) and (max-width:1279px){
+  .mz-pdf-editor-stage-scroll{min-height:620px}
+  .mz-pdf-editor-page{max-width:min(900px,100%)}
+}

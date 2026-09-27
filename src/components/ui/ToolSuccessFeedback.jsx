@@ -69,10 +69,10 @@ export default function ToolSuccessFeedback({ tool }) {
         <div className="mz-success-feedback-thanks"><strong>Thank you!</strong><span>{status === "sent" ? "Your reaction was received." : "Your reaction was saved and can sync later."}</span></div>
       ) : (
         <>
-          <div><strong>How was {tool.name}?</strong><span>Optional — one tap helps us improve MZ.</span></div>
+          <div><strong>Was {tool.name} helpful?</strong><span>Optional — one tap helps us improve MZ. You can dismiss this anytime.</span></div>
           <div className="mz-success-feedback-actions">
             <button type="button" onClick={() => react("helpful")} disabled={status === "sending"}><ThumbsUp /> Helpful</button>
-            <button type="button" onClick={() => react("needs-improvement")} disabled={status === "sending"}><ThumbsDown /> Needs work</button>
+            <button type="button" onClick={() => react("needs-improvement")} disabled={status === "sending"}><ThumbsDown /> Not helpful</button>
             <button type="button" onClick={() => { close(); window.dispatchEvent(new Event("mz-feedback-open")); }}><MessageCircle /> Feedback</button>
           </div>
         </>

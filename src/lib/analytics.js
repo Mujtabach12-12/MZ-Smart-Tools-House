@@ -1,3 +1,4 @@
+import { announceToolSuccess } from "./toolSuccess.js";
 export const GA_MEASUREMENT_ID = "G-1LKZ5FMH6R";
 
 const LAST_PAGE_VIEW_KEY = "__mzGaLastPageView";
@@ -31,8 +32,21 @@ export function trackPageView({ pathname = "/", title } = {}) {
   return true;
 }
 
+function isMeaningfulToolSuccess(name, parameters = {}) {
+  const value = String(name || "");
+  if (!value) return false;
+  if (/(?:_complete|_generate|_download|_process|_success)$/.test(value)) return true;
+  return value === "developer_tool_action" && parameters?.action === "complete";
+}
+
 export function trackEvent(name, parameters = {}) {
-  if (!canTrack() || !name) return false;
+  if (!name) return false;
+  // Feedback is a local product interaction and must not depend on GA being
+  // available. Only the event name is used; private tool input is never copied.
+  if (typeof window !== "undefined" && isMeaningfulToolSuccess(name, parameters)) {
+    announceToolSuccess({ source: `event:${name}` });
+  }
+  if (!canTrack()) return false;
   window.gtag("event", name, parameters);
   return true;
 }

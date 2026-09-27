@@ -47,13 +47,28 @@ export default function About() {
               Wherever practical, file-based tools process data locally in the browser. Features that genuinely require online services use explicit server-backed paths rather than pretending a result was created locally.
             </p>
             <p>
-              The project is actively developed and improved with a focus on clear workflows, mobile usability, privacy-conscious processing and dependable exports.
+              The project is actively developed and improved with a focus on clear workflows, mobile usability, privacy-conscious processing and dependable exports. The platform is designed for real use rather than demo-only output, and tools should be clear about their limitations.
+            </p>
+            <p>
+              MZ Smart Tool House is intended to remain broadly accessible. Advertising may help support free access, but advertisements are kept separate from core tool actions. Users do not need to click an ad to calculate, convert, create, copy, download, scan or edit with the platform.
             </p>
           </div>
           <div className="mt-6 flex items-start gap-3 rounded-2xl bg-emerald-50 p-4 text-sm text-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-200">
             <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0" />
             <p><strong>Product direction:</strong> useful tools should be understandable, testable and honest about what is processed locally and what requires an online service.</p>
           </div>
+
+          <div className="mt-6 grid gap-4 sm:grid-cols-3">
+            <div className="rounded-2xl border border-navy-100 p-4 dark:border-navy-800"><h3 className="font-bold text-navy-900 dark:text-white">Transparent tools</h3><p className="mt-2 text-sm leading-6 text-navy-500 dark:text-navy-400">Outputs, limitations and online requirements should be described truthfully rather than hidden behind fake success states.</p></div>
+            <div className="rounded-2xl border border-navy-100 p-4 dark:border-navy-800"><h3 className="font-bold text-navy-900 dark:text-white">Privacy-conscious</h3><p className="mt-2 text-sm leading-6 text-navy-500 dark:text-navy-400">Browser-first processing is preferred where practical, with clear disclosure for analytics, advertising and online services.</p></div>
+            <div className="rounded-2xl border border-navy-100 p-4 dark:border-navy-800"><h3 className="font-bold text-navy-900 dark:text-white">User-first ads</h3><p className="mt-2 text-sm leading-6 text-navy-500 dark:text-navy-400">Advertising should support the service without blocking or disguising core tool controls.</p></div>
+          </div>
+
+          <p className="mt-6 text-sm text-navy-500 dark:text-navy-400">
+            Read our <Link to="/privacy-policy" className="font-semibold text-brand-600 hover:underline">Privacy Policy</Link>, {" "}
+            <Link to="/terms" className="font-semibold text-brand-600 hover:underline">Terms</Link> and {" "}
+            <Link to="/disclaimer" className="font-semibold text-brand-600 hover:underline">Disclaimer</Link> for more details.
+          </p>
         </section>
 
         <aside className="mz-card p-6 sm:p-7">
