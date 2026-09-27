@@ -38,14 +38,14 @@ export default function AllTools() {
     <div className="mz-section py-12">
       <Seo
         path="/tools"
-        title="All Tools"
-        description="Browse every active MZ Smart Tool House utility across office, PDF, science, engineering, education, developer, health, conversion and productivity categories."
+        title="Free Online Tools – PDF, Image, Student, Developer & More"
+        description="Browse active online tools for PDF, images, documents, students, developers, calculators, converters, business, science and everyday productivity."
       />
 
       <div className="mz-page-intro">
         <span className="mz-eyebrow">The complete toolbox</span>
-        <h1 className="mt-2 text-4xl font-black tracking-tight text-navy-950 dark:text-white">Find a tool for the task.</h1>
-        <p className="mt-2 max-w-2xl text-sm leading-6 text-navy-500 dark:text-navy-400">{activeTools.length} tools across {categories.length} categories, organized for quick discovery.</p>
+        <h1 className="mt-2 text-4xl font-black tracking-tight text-navy-950 dark:text-white">Free online tools for real tasks.</h1>
+        <p className="mt-2 max-w-2xl text-sm leading-6 text-navy-500 dark:text-navy-400">{activeTools.length} active tools across {categories.length} categories for documents, PDFs, images, study, coding, calculations and everyday work.</p>
       </div>
 
       <div className="mt-7 flex flex-col gap-4">

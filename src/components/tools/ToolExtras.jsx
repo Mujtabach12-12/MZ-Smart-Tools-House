@@ -33,6 +33,14 @@ export default function ToolExtras({ toolId, category, howTo = [], faq = [], sho
 
         {(seo.formula || seo.example) && <section className="mt-7 grid gap-3 sm:grid-cols-2"><div className="mz-card p-4"><h2 className="text-sm font-bold">Formula / method</h2><p className="mt-2 text-sm leading-5 text-navy-500 dark:text-navy-400">{seo.formula}</p></div><div className="mz-card p-4"><h2 className="text-sm font-bold">Example</h2><p className="mt-2 text-sm leading-5 text-navy-500 dark:text-navy-400">{seo.example}</p></div></section>}
 
+        {(seo.features?.length || seo.useCases?.length || seo.supportedFormats?.length) ? (
+          <section className="mt-7 grid gap-3 md:grid-cols-3">
+            {seo.features?.length ? <div className="mz-card p-4"><h2 className="text-sm font-bold">Key features</h2><ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-5 text-navy-500 dark:text-navy-400">{seo.features.map((item) => <li key={item}>{item}</li>)}</ul></div> : null}
+            {seo.useCases?.length ? <div className="mz-card p-4"><h2 className="text-sm font-bold">Common uses</h2><ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-5 text-navy-500 dark:text-navy-400">{seo.useCases.map((item) => <li key={item}>{item}</li>)}</ul></div> : null}
+            {seo.supportedFormats?.length ? <div className="mz-card p-4"><h2 className="text-sm font-bold">Supported formats</h2><ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-5 text-navy-500 dark:text-navy-400">{seo.supportedFormats.map((item) => <li key={item}>{item}</li>)}</ul></div> : null}
+          </section>
+        ) : null}
+
         {faq.length > 0 && (
           <>
             <h2 className="mt-8 text-lg font-semibold text-navy-900 dark:text-navy-50">Frequently Asked Questions</h2>

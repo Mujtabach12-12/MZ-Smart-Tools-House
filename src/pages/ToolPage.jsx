@@ -29,6 +29,8 @@ export default function ToolPage() {
  const category = getCategoryBySlug(tool.category);
  const categoryRoute = category?.route || tool.categoryRoute || `/categories/${tool.category}`;
  const faq = (seo.faq || []).map(([q,a]) => ({q,a}));
+ const howTo = seo.howTo || [`Open ${tool.name}.`, "Enter the required information and review the options.", "Run the tool and review, copy or download the result."];
+ const isIndexable = tool.status === "active" && Boolean(ActiveComponent) && tool.seoIndexable !== false;
  const schema = {
    "@context": "https://schema.org",
    "@graph": [
@@ -48,6 +50,7 @@ export default function ToolPage() {
        operatingSystem: "Any",
        offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
        isAccessibleForFree: true,
+       ...(seo.features?.length ? { featureList: seo.features.join(", ") } : {}),
      },
      {
        "@type": "BreadcrumbList",
@@ -57,6 +60,12 @@ export default function ToolPage() {
          { "@type": "ListItem", position: 3, name: tool.name, item: `${BASE_URL}${tool.route}` },
        ],
      },
+     ...(howTo.length >= 2 ? [{
+       "@type": "HowTo",
+       name: `How to use ${tool.name}`,
+       description: seo.intro || seo.description || tool.description,
+       step: howTo.map((text, index) => ({ "@type": "HowToStep", position: index + 1, text })),
+     }] : []),
      ...(faq.length ? [{
        "@type": "FAQPage",
        mainEntity: faq.map((item) => ({
@@ -67,9 +76,8 @@ export default function ToolPage() {
      }] : []),
    ],
  };
- const robots = tool.status !== "active" || missingImplementation || tool.seoIndexable === false ? "noindex,follow" : undefined;
  return <>
-   <Seo path={tool.route} title={seo.title} description={seo.description} type="website" schema={schema} robots={robots}/>
+   <Seo path={tool.route} title={seo.title} description={seo.description} type="website" schema={schema} robots={isIndexable ? undefined : "noindex,follow"}/>
    <ToolPageLayout tool={tool}>
     {ActiveComponent ? <ToolWorkspace className={APP_WORKSPACES.has(tool.id) ? "mz-app-workspace" : ""}><Suspense fallback={<div className="mz-tool-loading" role="status">Loading tool workspace…</div>}><ActiveComponent id={tool.id} tool={tool}/></Suspense></ToolWorkspace> :
       <ToolWorkspace className="min-h-[360px] flex flex-col items-center justify-center text-center">
@@ -78,7 +86,7 @@ export default function ToolPage() {
        <p className="mt-2 max-w-md text-sm leading-6 text-navy-500 dark:text-navy-400">{tool.status === "coming-soon" ? "We’re building this carefully so it works properly. Thanks for your patience — please check back soon." : missingImplementation ? "This tool is registered but its implementation is missing from this build. Please use Feedback to report this issue." : "This tool is not currently enabled in the production registry."}</p>
        <Link to="/tools" className="mz-btn-primary mt-5">Browse available tools</Link>
       </ToolWorkspace>}
-    <ToolSuccessFeedback tool={tool}/><div className="mt-8"><ToolExtras toolId={tool.id} category={tool.category} showPrivacyNote={FILE_TOOL_CATEGORIES.has(tool.category)} howTo={[`Open ${tool.name}.`,"Enter the required information and review the options.","Run the tool and review, copy or download the result."]} faq={faq} seo={seo}/></div>
+    <ToolSuccessFeedback tool={tool}/><div className="mt-8"><ToolExtras toolId={tool.id} category={tool.category} showPrivacyNote={FILE_TOOL_CATEGORIES.has(tool.category)} howTo={howTo} faq={faq} seo={seo}/></div>
    </ToolPageLayout>
  </>;
 }

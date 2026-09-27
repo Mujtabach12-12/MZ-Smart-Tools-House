@@ -3,7 +3,7 @@ import { useEffect } from "react";
 const SITE_NAME = "MZ Smart Tool House";
 const BASE_URL = String(import.meta.env.VITE_SITE_URL || "https://mztoolshouse.com").replace(/\/+$/, "");
 const DEFAULT_DESCRIPTION =
-  "Free online tools for work, study and everyday productivity, including calculators, PDF tools, image tools and developer utilities.";
+  "Free online tools for PDF, documents, images, study, coding and everyday work. Use focused browser-based utilities from MZ Smart Tool House.";
 const DEFAULT_IMAGE = `${BASE_URL}/assets/mz-og-1200x630.webp`;
 const DEFAULT_ROBOTS = "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1";
 
@@ -50,6 +50,21 @@ function removeJsonLd(id) {
   document.head.querySelector(`script[data-seo-schema="${id}"]`)?.remove();
 }
 
+function buildFullTitle(title) {
+  const clean = String(title || "").trim();
+  if (!clean) return `${SITE_NAME} – Free Online Tools for Work & Study`;
+  if (clean.includes(SITE_NAME)) return clean;
+  const branded = `${clean} | ${SITE_NAME}`;
+  return branded.length <= 70 ? branded : clean;
+}
+
+function normalizeCanonicalPath(path) {
+  const withoutQuery = String(path || "/").split("?")[0].split("#")[0] || "/";
+  const leading = withoutQuery.startsWith("/") ? withoutQuery : `/${withoutQuery}`;
+  if (leading === "/") return "/";
+  return leading.replace(/\/{2,}/g, "/").replace(/\/+$/, "");
+}
+
 export default function Seo({
   title,
   description,
@@ -60,12 +75,9 @@ export default function Seo({
   robots,
 }) {
   useEffect(() => {
-    const cleanPath = path.startsWith("/") ? path : `/${path}`;
+    const cleanPath = normalizeCanonicalPath(path);
     const canonicalUrl = `${BASE_URL}${cleanPath === "/" ? "/" : cleanPath}`;
-    const trimmedTitle = String(title || "").trim();
-    const fullTitle = trimmedTitle
-      ? (trimmedTitle.includes(SITE_NAME) ? trimmedTitle : `${trimmedTitle} | ${SITE_NAME}`)
-      : `Free Online Tools for PDF, Documents, Images & More | ${SITE_NAME}`;
+    const fullTitle = buildFullTitle(title);
     const metaDescription = description || DEFAULT_DESCRIPTION;
     const robotsValue = robots || DEFAULT_ROBOTS;
 
@@ -123,4 +135,4 @@ export default function Seo({
   return null;
 }
 
-export { BASE_URL, SITE_NAME, DEFAULT_DESCRIPTION, DEFAULT_IMAGE };
+export { BASE_URL, SITE_NAME, DEFAULT_DESCRIPTION, DEFAULT_IMAGE, buildFullTitle, normalizeCanonicalPath };

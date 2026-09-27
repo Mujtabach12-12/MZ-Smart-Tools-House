@@ -6,7 +6,7 @@ export default function Terms() {
     <div className="mz-section max-w-4xl py-14">
       <Seo
         path="/terms"
-        title="Terms & Conditions"
+        title="Terms & Conditions | MZ Smart Tool House"
         description="Terms governing use of MZ Smart Tool House tools, generated outputs, advertising and third-party services."
       />
       <h1 className="text-3xl font-bold text-navy-900 dark:text-navy-50">Terms &amp; Conditions</h1>

@@ -41,12 +41,19 @@ function isMeaningfulToolSuccess(name, parameters = {}) {
 
 export function trackEvent(name, parameters = {}) {
   if (!name) return false;
-  // Feedback is a local product interaction and must not depend on GA being
-  // available. Only the event name is used; private tool input is never copied.
-  if (typeof window !== "undefined" && isMeaningfulToolSuccess(name, parameters)) {
+  const meaningfulSuccess = isMeaningfulToolSuccess(name, parameters);
+  // Product success feedback must not depend on GA being available. Private
+  // tool input is never copied into analytics.
+  if (typeof window !== "undefined" && meaningfulSuccess) {
     announceToolSuccess({ source: `event:${name}` });
   }
   if (!canTrack()) return false;
   window.gtag("event", name, parameters);
+  if (meaningfulSuccess && name !== "tool_success") {
+    window.gtag("event", "tool_success", {
+      tool_id: parameters.tool_id || parameters.document_tool || "unknown",
+      source_event: name,
+    });
+  }
   return true;
 }

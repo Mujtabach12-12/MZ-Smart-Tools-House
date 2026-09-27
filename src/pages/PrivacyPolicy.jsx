@@ -6,7 +6,7 @@ export default function PrivacyPolicy() {
     <div className="mz-section max-w-4xl py-14">
       <Seo
         path="/privacy-policy"
-        title="Privacy Policy"
+        title="Privacy Policy | MZ Smart Tool House"
         description="Privacy, cookies, advertising, analytics and browser-based file processing practices for MZ Smart Tool House."
       />
       <h1 className="text-3xl font-bold text-navy-900 dark:text-navy-50">Privacy Policy</h1>

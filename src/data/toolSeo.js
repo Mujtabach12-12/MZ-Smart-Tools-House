@@ -1,6 +1,7 @@
 import financeToolSeo from './financeToolSeo.js';
 import developerToolSeo from './developerToolSeo.js';
 import studentDocumentSeo from './studentDocumentSeo.js';
+import priorityToolSeo from './seoGrowth.js';
 const featured = {
   "bmi-calculator": {
     title: "BMI Calculator – Free Online BMI Calculator",
@@ -165,7 +166,7 @@ const featured = {
     formula: "Compression results depend on the PDF's existing structure, images and embedded content.",
     example: "Image-heavy PDFs generally have more opportunity for size reduction than text-only PDFs.",
     faq: [["Are my PDF files uploaded?", "The project's PDF processing tools are designed for browser-based processing; check the tool notice for the exact operation."]],
-    related: ["pdf-merger", "pdf-splitter", "pdf-to-jpg", "pdf-to-text"],
+    related: ["pdf-merge", "pdf-split", "pdf-to-jpg", "pdf-to-text"],
   },
   "image-compressor": {
     title: "Image Compressor – Compress JPG, PNG & Web Images",
@@ -224,90 +225,20 @@ const featured = {
   }
 };
 
-const growthSeoOverrides = {
-  "pdf-merger": {
-    title: "Merge PDF Online – Combine PDF Files",
-    description: "Merge multiple PDF files into one document online, arrange the file order and download a combined PDF from your browser.",
-    intro: "Combine multiple PDFs into one ordered document without turning pages into screenshots.",
-    formula: "Uploaded PDF page trees are copied into a new PDF in the order you choose.",
-    example: "Add three assignment PDFs, reorder them as cover, report and appendix, then export one combined PDF.",
-    faq: [["Can I change the order before merging?", "Yes. Arrange the selected PDFs before creating the combined output."], ["Are pages converted to images?", "The merge workflow is designed to preserve PDF pages rather than rasterizing them unnecessarily."]],
-    related: ["pdf-splitter", "pdf-compressor", "pdf-reorder-pages", "mz-pdf-editor"],
-  },
-  "pdf-to-word": {
-    title: "PDF to Word Converter – Convert PDF Text to DOCX",
-    description: "Convert selectable PDF text into a real editable DOCX document online with an honest text-focused workflow.",
-    intro: "Extract selectable text from a PDF and create an editable Word document without claiming pixel-perfect reconstruction of every PDF layout.",
-    formula: "PDF text is extracted page by page and written into a DOCX document structure.",
-    example: "Convert a text-based university handout into DOCX, then continue editing the paragraphs in Word or MZ Online Word.",
-    faq: [["Will the DOCX look exactly like the PDF?", "Not always. PDF stores positioned page content, while Word uses editable document flow; complex layouts may require adjustment."], ["What about scanned PDFs?", "Use PDF OCR first when the PDF contains images instead of selectable text."]],
-    related: ["pdf-ocr", "mz-pdf-editor", "mz-online-word", "pdf-to-text"],
-  },
-  "image-resizer": {
-    title: "Image Resizer – Resize JPG, PNG & WebP by Pixels",
-    description: "Resize JPG, PNG and WebP images to exact pixel dimensions online while controlling width, height and aspect ratio.",
-    intro: "Resize an image to the dimensions you need without confusing preview size with exported output size.",
-    formula: "New pixel dimensions are applied to the working canvas; aspect ratio can be preserved when enabled.",
-    example: "Resize a 2400×1600 image to 1200×800 while keeping the same 3:2 aspect ratio.",
-    faq: [["Can I enter exact pixel dimensions?", "Yes. Set the output width and height directly."], ["Will resizing reduce detail?", "Downscaling removes pixels by definition; avoid reducing dimensions unless the target use requires it."]],
-    related: ["image-compressor", "image-cropper", "jpg-to-webp", "image-to-pdf"],
-  },
-  "smart-document-scanner": {
-    title: "Document Scanner Online – Scan Photos to PDF",
-    description: "Scan document photos in your browser, adjust page corners, enhance pages and export a multi-page PDF without unnecessary quality loss.",
-    intro: "Turn camera captures or document photos into a cleaned, ordered PDF with crop and enhancement controls.",
-    formula: "Each page keeps a high-resolution working source while preview rendering is handled separately for responsive editing.",
-    example: "Capture two assignment pages, correct their corners, choose an enhancement mode, reorder them and export one PDF.",
-    faq: [["Can I scan more than one page?", "Yes. Add multiple pages, review their order and export a multi-page PDF."], ["Does preview size control export quality?", "No. The scanner is designed to keep preview rendering separate from the higher-quality working source used for export."]],
-    related: ["pdf-ocr", "pdf-compressor", "mz-pdf-editor", "jpg-to-pdf"],
-  },
-  "pdf-ocr": {
-    title: "PDF OCR – Extract Text from Scanned PDFs",
-    description: "Run OCR on scanned or image-based PDF pages online and extract selectable text with local Tesseract.js processing.",
-    intro: "Use OCR when a PDF page contains an image of text rather than selectable text.",
-    formula: "PDF pages are rendered to images and passed through OCR to estimate the visible text.",
-    example: "Upload a scanned lecture handout, run OCR and copy the recognized text for editing or search.",
-    faq: [["Is OCR always perfect?", "No. Accuracy depends on scan quality, language, fonts, skew and image clarity."], ["Does OCR change the original PDF?", "This extraction tool focuses on recognized text; use the searchable-PDF tool when you want an added text layer."]],
-    related: ["scanned-pdf-to-searchable-pdf", "pdf-to-text", "pdf-to-word", "smart-document-scanner"],
-  },
-  "jpg-to-pdf": {
-    title: "JPG to PDF Converter – Combine Images into One PDF",
-    description: "Convert JPG and PNG images into a validated PDF, arrange image order and create one downloadable document online.",
-    intro: "Build a PDF from one or more images while keeping the original image sources for final generation.",
-    formula: "Selected images are embedded as PDF page content in the order you choose.",
-    example: "Select five photographed notes, arrange them in page order and export one PDF for submission.",
-    faq: [["Can I combine multiple images?", "Yes. Add multiple supported images and arrange their order before export."], ["Does the tool just rename the image file?", "No. It creates actual PDF bytes and validates the resulting document structure."]],
-    related: ["image-to-pdf", "pdf-compressor", "pdf-merger", "smart-document-scanner"],
-  },
-  "pdf-to-jpg": {
-    title: "PDF to JPG Converter – Export PDF Pages as Images",
-    description: "Convert PDF pages to JPG images online with browser rendering and download page images for sharing or reuse.",
-    intro: "Render selected PDF pages into JPG images without changing the original PDF file.",
-    formula: "Each PDF page is rendered to a canvas at the selected output scale and encoded as JPG.",
-    example: "Convert a three-page PDF handout into three JPG images for use in slides or notes.",
-    faq: [["Will every PDF page become a separate JPG?", "The tool converts pages individually so each rendered page can be downloaded as an image."], ["Does conversion change the PDF?", "No. The original PDF remains unchanged."]],
-    related: ["pdf-to-png", "image-compressor", "image-resizer", "mz-pdf-editor"],
-  },
-  "programming-lab": {
-    title: "Online Programming Lab – Run Browser-Supported Code",
-    description: "Write and run supported code in a browser programming workspace with clear language capabilities and no fake execution claims.",
-    intro: "Practice code in one workspace and use only execution modes that are genuinely supported by the current browser or configured backend.",
-    formula: "Execution depends on the selected language: browser-native modes run locally, while languages requiring a compiler need a configured sandbox service.",
-    example: "Open the programming lab, choose a supported language, write code, run it and review the real output or configuration requirement.",
-    faq: [["Can it run every programming language directly in the browser?", "No. Some languages require a secure compiler backend; the interface should state that requirement instead of faking execution."], ["Is source code sent to analytics?", "Analytics should record tool usage events, not private source-code contents."]],
-    related: ["json-formatter", "regex-tester", "base64-encoder", "url-encoder"],
-  },
-};
-
-Object.assign(featured, growthSeoOverrides, financeToolSeo, developerToolSeo, studentDocumentSeo);
+Object.assign(featured, financeToolSeo, developerToolSeo, studentDocumentSeo);
 
 function fallbackTitle(tool) { return tool.name; }
 function fallbackDescription(tool) { return tool.description; }
 export function getToolSeo(tool) {
-  const item = featured[tool.id] || {};
+  const item = {
+    ...(featured[tool.id] || {}),
+    ...(priorityToolSeo[tool.id] || {}),
+  };
+  const registryTitle = tool.seoTitle && tool.seoTitle !== tool.name ? tool.seoTitle : null;
+  const registryDescription = tool.seoDescription && tool.seoDescription !== tool.description ? tool.seoDescription : null;
   return {
-    title: item.title || tool.seoTitle || fallbackTitle(tool),
-    description: item.description || tool.seoDescription || fallbackDescription(tool),
+    title: item.title || registryTitle || fallbackTitle(tool),
+    description: item.description || registryDescription || fallbackDescription(tool),
     ...item,
   };
 }
