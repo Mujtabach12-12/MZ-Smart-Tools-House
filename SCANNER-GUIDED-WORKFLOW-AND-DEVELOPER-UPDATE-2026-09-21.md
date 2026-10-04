@@ -1,4 +1,4 @@
-# MZ Smart Tool House — Guided Scanner & Developer Identity Update
+# MZ Smart Tools House — Guided Scanner & Developer Identity Update
 
 Date: 2026-09-21
 

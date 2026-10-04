@@ -1,4 +1,4 @@
-# MZ Smart Tool House — Final Production Pass Report
+# MZ Smart Tools House — Final Production Pass Report
 
 Date: 2026-09-20
 

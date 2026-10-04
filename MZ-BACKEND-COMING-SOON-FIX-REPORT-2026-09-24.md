@@ -1,4 +1,4 @@
-# MZ Smart Tool House — Backend/API Coming Soon UX Fix
+# MZ Smart Tools House — Backend/API Coming Soon UX Fix
 
 Date: 2026-09-24
 

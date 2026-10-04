@@ -7,8 +7,7 @@ import {
 import { PDFDocument, rgb } from "pdf-lib";
 import { downloadBlob, downloadBytes } from "../../lib/download";
 import { recognizeImage } from "../../lib/ocr";
-import { loadImage as decodeImage, browserImageDeps } from "../../lib/image/canvas.js";
-import { convertImage } from "../../lib/image/process.js";
+import { loadImage as decodeImage } from "../../lib/image/canvas.js";
 import { createFileAsset, attachImageMetadata } from "../../lib/files/fileAsset.js";
 import { assertFileSignature } from "../../lib/files/signatures.js";
 import { validateImageOutput, validatePdfOutput } from "../../lib/files/outputValidation.js";
@@ -23,6 +22,35 @@ import {
 
 const clamp = (n, a = 0, b = 1) => Math.min(b, Math.max(a, n));
 const ACCEPTED_SCANNER_MIMES = ["image/jpeg", "image/png", "image/webp"];
+
+const EXPORT_PRESETS = {
+  original: null,
+  "1080p": 1920,
+  "1440p": 2560,
+  "4k": 3840,
+};
+
+async function prepareImageExport(blob, preset, format = "png", jpegQuality = 0.95) {
+  const decoded = await decodeImage(blob);
+  try {
+    const sourceW = decoded.width;
+    const sourceH = decoded.height;
+    const maxLongSide = EXPORT_PRESETS[preset] || null;
+    const scale = maxLongSide ? Math.min(1, maxLongSide / Math.max(sourceW, sourceH)) : 1;
+    const width = Math.max(1, Math.round(sourceW * scale));
+    const height = Math.max(1, Math.round(sourceH * scale));
+    const canvas = document.createElement("canvas");
+    canvas.width = width; canvas.height = height;
+    const ctx = canvas.getContext("2d", { alpha: format !== "jpg" });
+    if (format === "jpg") { ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, width, height); }
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
+    ctx.drawImage(decoded.source, 0, 0, sourceW, sourceH, 0, 0, width, height);
+    const mime = format === "jpg" ? "image/jpeg" : "image/png";
+    const out = await scannerCanvasToBlob(canvas, mime, format === "jpg" ? jpegQuality : undefined);
+    return { blob: out, width, height, mime };
+  } finally { decoded?.close?.(); }
+}
 
 function snapshotPage(page) {
   return {
@@ -95,6 +123,8 @@ export default function SmartDocumentScanner() {
   const [sharpen, setSharpen] = useState(0);
   const [pdfSize, setPdfSize] = useState("a4");
   const [pdfMargin, setPdfMargin] = useState("normal");
+  const [imageExportSize, setImageExportSize] = useState("original");
+  const [jpegQuality, setJpegQuality] = useState(95);
   const [busy, setBusy] = useState(false);
   const [ocrText, setOcrText] = useState("");
   const [ocrBusy, setOcrBusy] = useState(false);
@@ -657,17 +687,11 @@ export default function SmartDocumentScanner() {
       const files = [];
       for (const [index, page] of pages.entries()) {
         if (!(page.outputBlob instanceof Blob)) throw new Error(`Page ${index + 1} has no validated high-quality master.`);
-        let blob = page.outputBlob;
-        let extension = "png";
-        let mime = "image/png";
-        if (format === "jpg") {
-          const source = new File([page.outputBlob], `scan-${index + 1}.png`, { type: page.outputBlob.type || "image/png" });
-          const converted = await convertImage(source, { format: "jpeg", quality: 0.95, background: "#ffffff" }, browserImageDeps);
-          blob = converted.blob; extension = "jpg"; mime = "image/jpeg";
-        }
-        const validation = await validateImageOutput(blob, { expectedMime: mime, expectedWidth: page.width, expectedHeight: page.height, decodeImage });
-        const bytes = new Uint8Array(await blob.arrayBuffer());
-        files.push({ bytes, name: `scan-${index + 1}.${extension}`, mime, validation });
+        const prepared = await prepareImageExport(page.outputBlob, imageExportSize, format, jpegQuality / 100);
+        const extension = format === "jpg" ? "jpg" : "png";
+        const validation = await validateImageOutput(prepared.blob, { expectedMime: prepared.mime, expectedWidth: prepared.width, expectedHeight: prepared.height, decodeImage });
+        const bytes = new Uint8Array(await prepared.blob.arrayBuffer());
+        files.push({ bytes, name: `scan-${index + 1}-${imageExportSize}.${extension}`, mime: prepared.mime, validation });
       }
       if (files.length === 1) {
         await downloadBytes(files[0].bytes, files[0].name, files[0].mime);
@@ -682,7 +706,8 @@ export default function SmartDocumentScanner() {
         }
         await downloadBytes(zipBytes, `mz-scans-${format}.zip`, "application/zip");
       }
-      setMessage(files.length === 1 ? `${format.toUpperCase()} image downloaded at full processed resolution.` : `${files.length} ${format.toUpperCase()} pages prepared at full processed resolution.`);
+      const sizeLabel = imageExportSize === "original" ? "original full resolution" : imageExportSize.toUpperCase();
+      setMessage(files.length === 1 ? `${format.toUpperCase()} image downloaded at ${sizeLabel}.` : `${files.length} ${format.toUpperCase()} pages prepared at ${sizeLabel}.`);
     } catch (e) {
       setError(e.message || "Unable to export scanned images.");
     } finally { setBusy(false); }
@@ -820,7 +845,7 @@ export default function SmartDocumentScanner() {
                   points={crop.map(([x, y]) => `${x * 100},${y * 100}`).join(" ")}
                   fill="rgba(37,99,235,.10)"
                   stroke="rgb(59 130 246)"
-                  strokeWidth="0.9"
+                  strokeWidth="0.42"
                   vectorEffect="non-scaling-stroke"
                 />
               </svg>
@@ -985,7 +1010,10 @@ export default function SmartDocumentScanner() {
           <div className="mz-scanner-export-settings">
             <label>PDF page size<select className="mz-input" value={pdfSize} onChange={(e) => setPdfSize(e.target.value)}><option value="a4">A4</option><option value="letter">US Letter</option></select></label>
             <label>PDF margins<select className="mz-input" value={pdfMargin} onChange={(e) => setPdfMargin(e.target.value)}><option value="none">None</option><option value="small">Small</option><option value="normal">Normal</option></select></label>
+            <label>Image export size<select className="mz-input" value={imageExportSize} onChange={(e) => setImageExportSize(e.target.value)}><option value="original">Original / Full Quality</option><option value="1080p">1080p (long side 1920)</option><option value="1440p">1440p (long side 2560)</option><option value="4k">4K (long side 3840)</option></select></label>
+            <label>JPG quality <span>{jpegQuality}%</span><input className="w-full" type="range" min="80" max="100" value={jpegQuality} onChange={(e) => setJpegQuality(Number(e.target.value))}/></label>
           </div>
+          <p className="mz-scanner-quality-note">Original/full quality never downsizes the processed master. 1080p, 1440p and 4K are optional export caps; images smaller than the selected preset are never enlarged.</p>
 
           <div className="mz-scanner-export-grid">
             <button className="mz-scanner-export-primary" onClick={pdf} disabled={busy || hasUnreviewedPages}><FileDown /> <span><strong>Download PDF</strong><small>Best for documents</small></span></button>

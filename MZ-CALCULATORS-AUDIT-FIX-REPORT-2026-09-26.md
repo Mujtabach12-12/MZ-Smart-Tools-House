@@ -1,8 +1,8 @@
-# MZ Smart Tool House — Calculators Category Audit / Fix Report
+# MZ Smart Tools House — Calculators Category Audit / Fix Report
 
 **Date:** 2026-09-26  
 **Scope:** `/calculators` and exactly six registry tools: GPA, CGPA, Marks, Grade, Attendance, Study Hours.  
-**Base project:** latest MZ Smart Tool House project snapshot available in this conversation, including the Business & Finance update.
+**Base project:** latest MZ Smart Tools House project snapshot available in this conversation, including the Business & Finance update.
 
 ## Release status
 

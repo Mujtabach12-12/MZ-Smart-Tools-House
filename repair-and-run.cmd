@@ -4,7 +4,7 @@ cd /d "%~dp0"
 
 echo.
 echo ==========================================================
-echo   MZ Smart Tool House V10 - CLEAN INSTALL / VERIFY / RUN
+echo   MZ Smart Tools House V10 - CLEAN INSTALL / VERIFY / RUN
 echo ==========================================================
 echo Project: %CD%
 echo.

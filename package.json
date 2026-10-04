@@ -3,11 +3,11 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "MZ Smart Tool House \u2014 a global browser-first productivity, office, science, engineering, education, developer and utility platform.",
+  "description": "MZ Smart Tools House \u2014 a global browser-first productivity, office, science, engineering, education, developer and utility platform.",
   "scripts": {
     "dev": "vite --force",
     "build": "vite build",
-    "postbuild": "node scripts/generate-sitemap.js && node scripts/prerender-seo.js",
+    "postbuild": "node scripts/generate-sitemap.js && node scripts/prerender-seo.js && node scripts/verify-seo-production.mjs",
     "generate:sitemap": "node scripts/generate-sitemap.js",
     "preview": "vite preview",
     "test:calculators": "node test/calculators.test.mjs",
@@ -71,7 +71,8 @@
     "test:final-release": "node test/final-release-gate.test.mjs",
     "test:adsense": "node test/adsense-integration.test.mjs",
     "test:pdf-editor": "node test/pdf-editor-editable.test.mjs",
-    "test:seo-growth": "node test/seo-growth.test.mjs"
+    "test:seo-growth": "node test/seo-growth.test.mjs",
+    "verify:seo-output": "node scripts/verify-seo-production.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.436.0",

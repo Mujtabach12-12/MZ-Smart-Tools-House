@@ -11,7 +11,7 @@ export default function Settings() {
   const camera = typeof navigator !== "undefined" && Boolean(navigator.mediaDevices?.getUserMedia);
   const secure = typeof window !== "undefined" && window.isSecureContext;
   return <>
-    <Seo title="Tool Configuration" description="Tool configuration for MZ Smart Tool House." path="/settings" robots="noindex,nofollow,noarchive" />
+    <Seo title="Tool Configuration" description="Tool configuration for MZ Smart Tools House." path="/settings" robots="noindex,nofollow,noarchive" />
     <main className="mz-section py-10 sm:py-14">
       <div className="max-w-4xl">
         <p className="text-xs font-bold uppercase tracking-wider text-brand-600">Settings</p>

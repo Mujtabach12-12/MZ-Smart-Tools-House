@@ -1,7 +1,7 @@
 # Universal Conversion Hub — V11 Implementation Report
 
 ## Scope
-Implemented and hardened the Universal Conversion Hub inside the existing MZ Smart Tool House architecture. No separate mini-app was created.
+Implemented and hardened the Universal Conversion Hub inside the existing MZ Smart Tools House architecture. No separate mini-app was created.
 
 ## Registry / architecture
 - Central conversion registry: `src/tools/converters/conversionRegistry.js`

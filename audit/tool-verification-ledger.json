@@ -4290,7 +4290,7 @@
       ],
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Temperature Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Temperature Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert Celsius, Fahrenheit, Kelvin and Rankine with thermodynamically correct formulas.",
       "relatedTools": [
         "cooking-converter",
@@ -4305,7 +4305,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Temperature Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Temperature Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert Celsius, Fahrenheit, Kelvin and Rankine with thermodynamically correct formulas."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -4342,7 +4342,7 @@
       ],
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Length & Distance Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Length & Distance Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert metric, imperial, nautical and astronomical distance units with exact or defined standards.",
       "relatedTools": [
         "height-converter",
@@ -4358,7 +4358,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Length & Distance Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Length & Distance Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert metric, imperial, nautical and astronomical distance units with exact or defined standards."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -4391,7 +4391,7 @@
       ],
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Weight & Mass Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Weight & Mass Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert metric and imperial mass units including kilograms, pounds, ounces, stones and tons.",
       "relatedTools": [
         "height-converter",
@@ -4407,7 +4407,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Weight & Mass Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Weight & Mass Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert metric and imperial mass units including kilograms, pounds, ounces, stones and tons."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -4437,7 +4437,7 @@
       ],
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Area Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Area Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert square metric and imperial units, acres, hectares and square miles.",
       "relatedTools": [
         "land-area-converter",
@@ -4453,7 +4453,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Area Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Area Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert square metric and imperial units, acres, hectares and square miles."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -4484,7 +4484,7 @@
       ],
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Volume Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Volume Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert liters, cubic units and clearly labeled US/Imperial liquid measures.",
       "relatedTools": [
         "cooking-converter",
@@ -4499,7 +4499,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Volume Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Volume Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert liters, cubic units and clearly labeled US/Imperial liquid measures."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -4527,7 +4527,7 @@
       ],
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Time Unit Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Time Unit Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert precise time units plus clearly labeled Gregorian-average month/year units. Use Date Converter for exact calendar arithmetic.",
       "relatedTools": [
         "time-duration-converter",
@@ -4542,7 +4542,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Time Unit Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Time Unit Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert precise time units plus clearly labeled Gregorian-average month/year units. Use Date Converter for exact calendar arithmetic."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -4572,7 +4572,7 @@
       ],
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Speed Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Speed Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert m/s, km/h, mph, ft/s, knots and an explicitly approximate Mach reference.",
       "relatedTools": [
         "acceleration-converter",
@@ -4587,7 +4587,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Speed Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Speed Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert m/s, km/h, mph, ft/s, knots and an explicitly approximate Mach reference."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -4619,7 +4619,7 @@
       ],
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Data Storage Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Data Storage Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert bits/bytes with decimal SI units and binary IEC units without mixing KB with KiB.",
       "relatedTools": [
         "data-transfer-speed-converter",
@@ -4634,7 +4634,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Data Storage Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Data Storage Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert bits/bytes with decimal SI units and binary IEC units without mixing KB with KiB."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -4664,7 +4664,7 @@
       ],
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Pressure Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Pressure Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert Pa, kPa, MPa, bar, millibar, PSI, atmosphere, Torr, mmHg and inHg.",
       "relatedTools": [
         "force-converter",
@@ -4679,7 +4679,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Pressure Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Pressure Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert Pa, kPa, MPa, bar, millibar, PSI, atmosphere, Torr, mmHg and inHg."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -4709,7 +4709,7 @@
       ],
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Energy Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Energy Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert joules, calories, watt-hours, electronvolts, BTU and foot-pounds using standard factors.",
       "relatedTools": [
         "power-converter",
@@ -4724,7 +4724,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Energy Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Energy Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert joules, calories, watt-hours, electronvolts, BTU and foot-pounds using standard factors."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -4754,7 +4754,7 @@
       ],
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Power Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Power Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert watts, kilowatts, megawatts, mechanical horsepower and BTU/hour.",
       "relatedTools": [
         "energy-converter"
@@ -4768,7 +4768,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Power Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Power Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert watts, kilowatts, megawatts, mechanical horsepower and BTU/hour."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -7117,7 +7117,7 @@
       "route": "/convert/time-zone",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Time Zone Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Time Zone Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert a date and wall-clock time between real IANA time zones with daylight-saving and date changes handled by the browser timezone database.",
       "relatedTools": [
         "time-unit-converter",
@@ -7132,7 +7132,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Time Zone Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Time Zone Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert a date and wall-clock time between real IANA time zones with daylight-saving and date changes handled by the browser timezone database."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -7874,7 +7874,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Height Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Height Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert centimeters, meters, inches, decimal feet and feet + inches without confusing height with weight.",
       "relatedTools": [
         "weight-converter",
@@ -7890,7 +7890,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Height Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Height Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert centimeters, meters, inches, decimal feet and feet + inches without confusing height with weight."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -7922,7 +7922,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "BMI Calculator – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "BMI Calculator – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Calculate adult BMI from kg/lb and cm/meters/inches/feet + inches. Unit conversion and screening estimate only—not a diagnosis.",
       "relatedTools": [
         "height-converter",
@@ -7938,7 +7938,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "BMI Calculator – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "BMI Calculator – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Calculate adult BMI from kg/lb and cm/meters/inches/feet + inches. Unit conversion and screening estimate only—not a diagnosis."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -7965,7 +7965,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Time Duration Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Time Duration Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Combine days, hours, minutes and seconds and convert the duration into total hours, minutes or seconds.",
       "relatedTools": [
         "time-unit-converter",
@@ -7980,7 +7980,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Time Duration Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Time Duration Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Combine days, hours, minutes and seconds and convert the duration into total hours, minutes or seconds."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -8012,7 +8012,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Date Converter & Calculator – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Date Converter & Calculator – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Find date differences, add/subtract calendar days, weeks, months or years, and count working days using unambiguous dates.",
       "relatedTools": [
         "time-unit-converter"
@@ -8026,7 +8026,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Date Converter & Calculator – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Date Converter & Calculator – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Find date differences, add/subtract calendar days, weeks, months or years, and count working days using unambiguous dates."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -8053,7 +8053,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Acceleration Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Acceleration Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert metric/imperial acceleration and standard gravity.",
       "relatedTools": [
         "speed-converter",
@@ -8068,7 +8068,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Acceleration Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Acceleration Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert metric/imperial acceleration and standard gravity."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -8097,7 +8097,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Data Transfer Speed Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Data Transfer Speed Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert bit/s and byte/s networking/storage speeds using decimal prefixes.",
       "relatedTools": [
         "data-unit-converter",
@@ -8112,7 +8112,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Data Transfer Speed Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Data Transfer Speed Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert bit/s and byte/s networking/storage speeds using decimal prefixes."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -8138,7 +8138,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Download Time Calculator – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Download Time Calculator – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Estimate transfer time from file size and connection speed using explicit byte/bit units.",
       "relatedTools": [
         "data-unit-converter",
@@ -8153,7 +8153,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Download Time Calculator – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Download Time Calculator – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Estimate transfer time from file size and connection speed using explicit byte/bit units."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -8180,7 +8180,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Frequency Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Frequency Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert Hertz through Terahertz for electronics, CPU, RAM and wireless frequencies.",
       "relatedTools": [
         "data-transfer-speed-converter"
@@ -8194,7 +8194,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Frequency Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Frequency Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert Hertz through Terahertz for electronics, CPU, RAM and wireless frequencies."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -8225,7 +8225,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Image Size & Aspect Ratio – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Image Size & Aspect Ratio – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Calculate aspect ratios and physical print size from pixels and DPI/PPI without pretending pixels have one universal physical size.",
       "relatedTools": [
         "typography-converter",
@@ -8240,7 +8240,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Image Size & Aspect Ratio – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Image Size & Aspect Ratio – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Calculate aspect ratios and physical print size from pixels and DPI/PPI without pretending pixels have one universal physical size."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -8267,7 +8267,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Angle Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Angle Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert degrees, radians, gradians, arcminutes, arcseconds and revolutions.",
       "relatedTools": [
         "length-converter"
@@ -8281,7 +8281,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Angle Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Angle Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert degrees, radians, gradians, arcminutes, arcseconds and revolutions."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -8307,7 +8307,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Force Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Force Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert newtons, kilonewtons, dynes, pound-force and kilogram-force.",
       "relatedTools": [
         "torque-converter",
@@ -8322,7 +8322,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Force Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Force Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert newtons, kilonewtons, dynes, pound-force and kilogram-force."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -8348,7 +8348,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Torque Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Torque Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert N·m, lb·ft, lb·in and kgf·m torque units.",
       "relatedTools": [
         "force-converter",
@@ -8363,7 +8363,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Torque Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Torque Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert N·m, lb·ft, lb·in and kgf·m torque units."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -8389,7 +8389,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Voltage Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Voltage Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert millivolts, volts and kilovolts.",
       "relatedTools": [
         "current-converter",
@@ -8405,7 +8405,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Voltage Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Voltage Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert millivolts, volts and kilovolts."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -8431,7 +8431,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Electric Current Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Electric Current Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert microamps, milliamps and amps.",
       "relatedTools": [
         "voltage-converter",
@@ -8446,7 +8446,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Electric Current Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Electric Current Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert microamps, milliamps and amps."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -8472,7 +8472,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Resistance Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Resistance Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert ohms, kiloohms and megaohms.",
       "relatedTools": [
         "voltage-converter",
@@ -8487,7 +8487,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Resistance Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Resistance Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert ohms, kiloohms and megaohms."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -8513,7 +8513,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Electric Charge Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Electric Charge Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert coulombs, ampere-hours and milliampere-hours.",
       "relatedTools": [
         "current-converter",
@@ -8528,7 +8528,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Electric Charge Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Electric Charge Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert coulombs, ampere-hours and milliampere-hours."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -8554,7 +8554,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Illuminance Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Illuminance Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert lux and foot-candles. Lumens are luminous flux and require area, so they are not falsely treated as directly convertible.",
       "relatedTools": [
         "area-converter"
@@ -8568,7 +8568,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Illuminance Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Illuminance Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert lux and foot-candles. Lumens are luminous flux and require area, so they are not falsely treated as directly convertible."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -8595,7 +8595,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Fuel Economy Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Fuel Economy Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert km/L, L/100 km, US MPG and Imperial MPG using reciprocal formulas.",
       "relatedTools": [
         "volume-converter",
@@ -8610,7 +8610,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Fuel Economy Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Fuel Economy Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert km/L, L/100 km, US MPG and Imperial MPG using reciprocal formulas."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -8639,7 +8639,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Cooking Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Cooking Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert common cooking volumes and oven temperatures. Weight conversions require ingredient density and are not guessed.",
       "relatedTools": [
         "volume-converter",
@@ -8654,7 +8654,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Cooking Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Cooking Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert common cooking volumes and oven temperatures. Weight conversions require ingredient density and are not guessed."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -8682,7 +8682,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Health Units Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Health Units Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert common measurement units including glucose and cholesterol with analyte-specific factors. Unit conversion only—not medical advice.",
       "relatedTools": [
         "height-converter",
@@ -8698,7 +8698,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Health Units Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Health Units Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert common measurement units including glucose and cholesterol with analyte-specific factors. Unit conversion only—not medical advice."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -8728,7 +8728,7 @@
       "status": "active",
       "processingType": "api",
       "requiresInternet": true,
-      "seoTitle": "Currency Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Currency Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert major currencies using live exchange-rate data when available, with last-updated/source information and manual-rate fallback.",
       "relatedTools": [
         "crypto-converter"
@@ -8742,7 +8742,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Currency Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Currency Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert major currencies using live exchange-rate data when available, with last-updated/source information and manual-rate fallback."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -8769,7 +8769,7 @@
       "status": "active",
       "processingType": "api",
       "requiresInternet": true,
-      "seoTitle": "Cryptocurrency Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Cryptocurrency Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert supported cryptocurrencies using live market data with timestamp/source. Static values are never presented as live.",
       "relatedTools": [
         "currency-converter"
@@ -8783,7 +8783,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Cryptocurrency Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Cryptocurrency Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert supported cryptocurrencies using live market data with timestamp/source. Static values are never presented as live."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -8810,7 +8810,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Number System Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Number System Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert binary, decimal, octal and hexadecimal values, plus ASCII code representations.",
       "relatedTools": [
         "roman-numeral-converter",
@@ -8825,7 +8825,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Number System Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Number System Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert binary, decimal, octal and hexadecimal values, plus ASCII code representations."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -8852,7 +8852,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Roman Numeral Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Roman Numeral Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert integers to canonical Roman numerals and validate Roman numeral input before converting back.",
       "relatedTools": [
         "number-system-converter"
@@ -8866,7 +8866,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Roman Numeral Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Roman Numeral Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert integers to canonical Roman numerals and validate Roman numeral input before converting back."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -8893,7 +8893,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Percentage Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Percentage Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert decimal, percentage and fractions, and calculate percentage increase/decrease.",
       "relatedTools": [
         "fraction-converter"
@@ -8907,7 +8907,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Percentage Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Percentage Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert decimal, percentage and fractions, and calculate percentage increase/decrease."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -8936,7 +8936,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Fraction Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Fraction Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert decimals to simplified fractions and fractions/mixed numbers to decimals or improper fractions.",
       "relatedTools": [
         "percentage-converter"
@@ -8950,7 +8950,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Fraction Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Fraction Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert decimals to simplified fractions and fractions/mixed numbers to decimals or improper fractions."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -8976,7 +8976,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Density Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Density Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert common mass-density units.",
       "relatedTools": [
         "volume-converter",
@@ -8991,7 +8991,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Density Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Density Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert common mass-density units."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -9017,7 +9017,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Molar Mass Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Molar Mass Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert g/mol and kg/kmol (numerically equivalent units).",
       "relatedTools": [
         "concentration-converter"
@@ -9031,7 +9031,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Molar Mass Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Molar Mass Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert g/mol and kg/kmol (numerically equivalent units)."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -9058,7 +9058,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Concentration Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Concentration Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert mass or molar concentration. Cross-conversion asks for molar mass instead of guessing a substance density/molar mass.",
       "relatedTools": [
         "molar-mass-converter",
@@ -9073,7 +9073,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Concentration Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Concentration Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert mass or molar concentration. Cross-conversion asks for molar mass instead of guessing a substance density/molar mass."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -9099,7 +9099,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Radiation Units Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Radiation Units Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert within absorbed dose, equivalent dose, or activity dimensions without incorrectly mixing Gray, Sievert and Becquerel.",
       "relatedTools": [
         "energy-converter"
@@ -9113,7 +9113,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Radiation Units Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Radiation Units Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert within absorbed dose, equivalent dose, or activity dimensions without incorrectly mixing Gray, Sievert and Becquerel."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -9139,7 +9139,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Flow Rate Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Flow Rate Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert L/s, L/min, L/h, cubic meters per time and US gallons per minute.",
       "relatedTools": [
         "volume-converter",
@@ -9154,7 +9154,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Flow Rate Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Flow Rate Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert L/s, L/min, L/h, cubic meters per time and US gallons per minute."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -9182,7 +9182,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Typography & CSS Unit Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Typography & CSS Unit Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert px, rem, em, pt and physical dimensions with explicit root/font size and DPI assumptions.",
       "relatedTools": [
         "image-size-converter"
@@ -9196,7 +9196,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Typography & CSS Unit Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Typography & CSS Unit Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert px, rem, em, pt and physical dimensions with explicit root/font size and DPI assumptions."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -9225,7 +9225,7 @@
       "status": "active",
       "processingType": "browser",
       "requiresInternet": false,
-      "seoTitle": "Pakistan Land Area Converter – Free Online Conversion Tool | MZ Smart Tool House",
+      "seoTitle": "Pakistan Land Area Converter – Free Online Conversion Tool | MZ Smart Tools House",
       "seoDescription": "Convert square feet/yards/meters, acre, hectare, Marla and Kanal with a selectable Pakistan Marla standard.",
       "relatedTools": [
         "area-converter"
@@ -9239,7 +9239,7 @@
       "requiresEnvironment": [],
       "implementation": "browser",
       "seo": {
-        "title": "Pakistan Land Area Converter – Free Online Conversion Tool | MZ Smart Tool House",
+        "title": "Pakistan Land Area Converter – Free Online Conversion Tool | MZ Smart Tools House",
         "description": "Convert square feet/yards/meters, acre, hectare, Marla and Kanal with a selectable Pakistan Marla standard."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -9267,7 +9267,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Velocity Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Velocity Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate velocity from distance and time. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "velocity-calculator",
       "route": "/tools/velocity-calculator",
@@ -9279,7 +9279,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Velocity Calculator Online | MZ Smart Tool House",
+        "title": "Velocity Calculator Online | MZ Smart Tools House",
         "description": "Calculate velocity from distance and time. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -9307,7 +9307,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Force Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Force Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate force from mass and acceleration using Newton’s second law. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "force-calculator",
       "route": "/tools/force-calculator",
@@ -9319,7 +9319,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Force Calculator Online | MZ Smart Tool House",
+        "title": "Force Calculator Online | MZ Smart Tools House",
         "description": "Calculate force from mass and acceleration using Newton’s second law. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -9346,7 +9346,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Work Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Work Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate mechanical work from force, displacement and angle. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "work-calculator",
       "route": "/tools/work-calculator",
@@ -9358,7 +9358,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Work Calculator Online | MZ Smart Tool House",
+        "title": "Work Calculator Online | MZ Smart Tools House",
         "description": "Calculate mechanical work from force, displacement and angle. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -9385,7 +9385,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Kinetic Energy Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Kinetic Energy Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate translational kinetic energy. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "kinetic-energy-calculator",
       "route": "/tools/kinetic-energy-calculator",
@@ -9397,7 +9397,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Kinetic Energy Calculator Online | MZ Smart Tool House",
+        "title": "Kinetic Energy Calculator Online | MZ Smart Tools House",
         "description": "Calculate translational kinetic energy. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -9424,7 +9424,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Potential Energy Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Potential Energy Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate gravitational potential energy near Earth’s surface. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "potential-energy-calculator",
       "route": "/tools/potential-energy-calculator",
@@ -9436,7 +9436,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Potential Energy Calculator Online | MZ Smart Tool House",
+        "title": "Potential Energy Calculator Online | MZ Smart Tools House",
         "description": "Calculate gravitational potential energy near Earth’s surface. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -9462,7 +9462,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Momentum Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Momentum Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate linear momentum from mass and velocity. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "momentum-calculator",
       "route": "/tools/momentum-calculator",
@@ -9474,7 +9474,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Momentum Calculator Online | MZ Smart Tool House",
+        "title": "Momentum Calculator Online | MZ Smart Tools House",
         "description": "Calculate linear momentum from mass and velocity. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -9500,7 +9500,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Density Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Density Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate density from mass and volume. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "physics-density-calculator",
       "route": "/tools/physics-density-calculator",
@@ -9512,7 +9512,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Density Calculator Online | MZ Smart Tool House",
+        "title": "Density Calculator Online | MZ Smart Tools House",
         "description": "Calculate density from mass and volume. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -9538,7 +9538,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Pressure Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Pressure Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate pressure from normal force and area. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "physics-pressure-calculator",
       "route": "/tools/physics-pressure-calculator",
@@ -9550,7 +9550,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Pressure Calculator Online | MZ Smart Tool House",
+        "title": "Pressure Calculator Online | MZ Smart Tools House",
         "description": "Calculate pressure from normal force and area. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -9578,7 +9578,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Wavelength Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Wavelength Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate wavelength from wave speed and frequency. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "wavelength-calculator",
       "route": "/tools/wavelength-calculator",
@@ -9590,7 +9590,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Wavelength Calculator Online | MZ Smart Tool House",
+        "title": "Wavelength Calculator Online | MZ Smart Tools House",
         "description": "Calculate wavelength from wave speed and frequency. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -9618,7 +9618,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Frequency & Period Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Frequency & Period Calculator Online | MZ Smart Tools House",
       "seoDescription": "Convert a period into frequency using the reciprocal relationship. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "frequency-period-calculator",
       "route": "/tools/frequency-period-calculator",
@@ -9630,7 +9630,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Frequency & Period Calculator Online | MZ Smart Tool House",
+        "title": "Frequency & Period Calculator Online | MZ Smart Tools House",
         "description": "Convert a period into frequency using the reciprocal relationship. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -9657,7 +9657,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Ohm’s Law Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Ohm’s Law Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate voltage from current and resistance. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "ohms-law-calculator",
       "route": "/tools/ohms-law-calculator",
@@ -9669,7 +9669,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Ohm’s Law Calculator Online | MZ Smart Tool House",
+        "title": "Ohm’s Law Calculator Online | MZ Smart Tools House",
         "description": "Calculate voltage from current and resistance. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -9696,7 +9696,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Electrical Power Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Electrical Power Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate DC electrical power from voltage and current. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "electrical-power-calculator",
       "route": "/tools/electrical-power-calculator",
@@ -9708,7 +9708,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Electrical Power Calculator Online | MZ Smart Tool House",
+        "title": "Electrical Power Calculator Online | MZ Smart Tools House",
         "description": "Calculate DC electrical power from voltage and current. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -9735,7 +9735,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Specific Heat Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Specific Heat Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate sensible heat from mass, specific heat capacity and temperature change. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "specific-heat-calculator",
       "route": "/tools/specific-heat-calculator",
@@ -9747,7 +9747,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Specific Heat Calculator Online | MZ Smart Tool House",
+        "title": "Specific Heat Calculator Online | MZ Smart Tools House",
         "description": "Calculate sensible heat from mass, specific heat capacity and temperature change. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -9775,7 +9775,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Thin Lens Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Thin Lens Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate focal length from object and image distance using the thin-lens relation. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "lens-equation-calculator",
       "route": "/tools/lens-equation-calculator",
@@ -9787,7 +9787,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Thin Lens Calculator Online | MZ Smart Tool House",
+        "title": "Thin Lens Calculator Online | MZ Smart Tools House",
         "description": "Calculate focal length from object and image distance using the thin-lens relation. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -9815,7 +9815,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Molarity Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Molarity Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate molar concentration from moles and solution volume. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "molarity-calculator",
       "route": "/tools/molarity-calculator",
@@ -9827,7 +9827,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Molarity Calculator Online | MZ Smart Tool House",
+        "title": "Molarity Calculator Online | MZ Smart Tools House",
         "description": "Calculate molar concentration from moles and solution volume. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -9853,7 +9853,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Molality Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Molality Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate molality from moles of solute and kilograms of solvent. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "molality-calculator",
       "route": "/tools/molality-calculator",
@@ -9865,7 +9865,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Molality Calculator Online | MZ Smart Tool House",
+        "title": "Molality Calculator Online | MZ Smart Tools House",
         "description": "Calculate molality from moles of solute and kilograms of solvent. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -9892,7 +9892,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Normality Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Normality Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate equivalents per liter for a prepared solution. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "normality-calculator",
       "route": "/tools/normality-calculator",
@@ -9904,7 +9904,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Normality Calculator Online | MZ Smart Tool House",
+        "title": "Normality Calculator Online | MZ Smart Tools House",
         "description": "Calculate equivalents per liter for a prepared solution. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -9931,7 +9931,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Dilution Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Dilution Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate final concentration using the standard dilution relationship. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "dilution-calculator",
       "route": "/tools/dilution-calculator",
@@ -9943,7 +9943,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Dilution Calculator Online | MZ Smart Tool House",
+        "title": "Dilution Calculator Online | MZ Smart Tools House",
         "description": "Calculate final concentration using the standard dilution relationship. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -9970,7 +9970,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "pH Calculator Online | MZ Smart Tool House",
+      "seoTitle": "pH Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate pH from hydrogen ion concentration. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "ph-calculator",
       "route": "/tools/ph-calculator",
@@ -9982,7 +9982,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "pH Calculator Online | MZ Smart Tool House",
+        "title": "pH Calculator Online | MZ Smart Tools House",
         "description": "Calculate pH from hydrogen ion concentration. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -10010,7 +10010,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Ideal Gas Law Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Ideal Gas Law Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate gas pressure from amount, temperature and volume using the ideal-gas equation. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "ideal-gas-law-calculator",
       "route": "/tools/ideal-gas-law-calculator",
@@ -10022,7 +10022,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Ideal Gas Law Calculator Online | MZ Smart Tool House",
+        "title": "Ideal Gas Law Calculator Online | MZ Smart Tools House",
         "description": "Calculate gas pressure from amount, temperature and volume using the ideal-gas equation. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -10049,7 +10049,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Percent Composition Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Percent Composition Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate mass percent of a component in a mixture or compound sample. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "percent-composition-calculator",
       "route": "/tools/percent-composition-calculator",
@@ -10061,7 +10061,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Percent Composition Calculator Online | MZ Smart Tool House",
+        "title": "Percent Composition Calculator Online | MZ Smart Tools House",
         "description": "Calculate mass percent of a component in a mixture or compound sample. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -10089,7 +10089,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Hardy-Weinberg Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Hardy-Weinberg Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate expected genotype frequencies from one allele frequency. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "hardy-weinberg-calculator",
       "route": "/tools/hardy-weinberg-calculator",
@@ -10101,7 +10101,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Hardy-Weinberg Calculator Online | MZ Smart Tool House",
+        "title": "Hardy-Weinberg Calculator Online | MZ Smart Tools House",
         "description": "Calculate expected genotype frequencies from one allele frequency. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -10128,7 +10128,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Population Growth Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Population Growth Calculator Online | MZ Smart Tools House",
       "seoDescription": "Estimate continuous exponential population growth. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "population-growth-calculator",
       "route": "/tools/population-growth-calculator",
@@ -10140,7 +10140,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Population Growth Calculator Online | MZ Smart Tool House",
+        "title": "Population Growth Calculator Online | MZ Smart Tools House",
         "description": "Estimate continuous exponential population growth. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -10167,7 +10167,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Microscope Magnification Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Microscope Magnification Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate total microscope magnification from eyepiece and objective lenses. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "microscope-magnification-calculator",
       "route": "/tools/microscope-magnification-calculator",
@@ -10179,7 +10179,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Microscope Magnification Calculator Online | MZ Smart Tool House",
+        "title": "Microscope Magnification Calculator Online | MZ Smart Tools House",
         "description": "Calculate total microscope magnification from eyepiece and objective lenses. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -10206,7 +10206,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "DNA Complement Tool Online | MZ Smart Tool House",
+      "seoTitle": "DNA Complement Tool Online | MZ Smart Tools House",
       "seoDescription": "Generate the complementary DNA sequence using base-pair rules. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "dna-complement-tool",
       "route": "/tools/dna-complement-tool",
@@ -10218,7 +10218,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "DNA Complement Tool Online | MZ Smart Tool House",
+        "title": "DNA Complement Tool Online | MZ Smart Tools House",
         "description": "Generate the complementary DNA sequence using base-pair rules. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -10245,7 +10245,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "DNA to RNA Tool Online | MZ Smart Tool House",
+      "seoTitle": "DNA to RNA Tool Online | MZ Smart Tools House",
       "seoDescription": "Convert a coding DNA sequence to RNA by replacing thymine with uracil. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "dna-to-rna-tool",
       "route": "/tools/dna-to-rna-tool",
@@ -10257,7 +10257,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "DNA to RNA Tool Online | MZ Smart Tool House",
+        "title": "DNA to RNA Tool Online | MZ Smart Tools House",
         "description": "Convert a coding DNA sequence to RNA by replacing thymine with uracil. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -10285,7 +10285,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "RNA to Protein Helper Online | MZ Smart Tool House",
+      "seoTitle": "RNA to Protein Helper Online | MZ Smart Tools House",
       "seoDescription": "Translate complete RNA codons with the standard genetic code until a stop codon. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "rna-to-protein-tool",
       "route": "/tools/rna-to-protein-tool",
@@ -10297,7 +10297,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "RNA to Protein Helper Online | MZ Smart Tool House",
+        "title": "RNA to Protein Helper Online | MZ Smart Tools House",
         "description": "Translate complete RNA codons with the standard genetic code until a stop codon. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -10324,7 +10324,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Punnett Square Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Punnett Square Calculator Online | MZ Smart Tools House",
       "seoDescription": "Generate a monohybrid 2×2 Punnett square and genotype frequencies. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "punnett-square-calculator",
       "route": "/tools/punnett-square-calculator",
@@ -10336,7 +10336,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Punnett Square Calculator Online | MZ Smart Tool House",
+        "title": "Punnett Square Calculator Online | MZ Smart Tools House",
         "description": "Generate a monohybrid 2×2 Punnett square and genotype frequencies. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -10364,7 +10364,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Quadratic Equation Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Quadratic Equation Calculator Online | MZ Smart Tools House",
       "seoDescription": "Solve real or complex roots of ax² + bx + c = 0. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "quadratic-equation-calculator",
       "route": "/tools/quadratic-equation-calculator",
@@ -10376,7 +10376,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Quadratic Equation Calculator Online | MZ Smart Tool House",
+        "title": "Quadratic Equation Calculator Online | MZ Smart Tools House",
         "description": "Solve real or complex roots of ax² + bx + c = 0. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -10403,7 +10403,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Pythagorean Theorem Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Pythagorean Theorem Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate the hypotenuse of a right triangle. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "pythagorean-calculator",
       "route": "/tools/pythagorean-calculator",
@@ -10415,7 +10415,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Pythagorean Theorem Calculator Online | MZ Smart Tool House",
+        "title": "Pythagorean Theorem Calculator Online | MZ Smart Tools House",
         "description": "Calculate the hypotenuse of a right triangle. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -10442,7 +10442,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Vector Magnitude Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Vector Magnitude Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate the magnitude of a 3D vector. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "vector-magnitude-calculator",
       "route": "/tools/vector-magnitude-calculator",
@@ -10454,7 +10454,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Vector Magnitude Calculator Online | MZ Smart Tool House",
+        "title": "Vector Magnitude Calculator Online | MZ Smart Tools House",
         "description": "Calculate the magnitude of a 3D vector. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -10483,7 +10483,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Permutation & Combination Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Permutation & Combination Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate nPr and nCr for whole-number selections. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "permutation-combination-calculator",
       "route": "/tools/permutation-combination-calculator",
@@ -10495,7 +10495,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Permutation & Combination Calculator Online | MZ Smart Tool House",
+        "title": "Permutation & Combination Calculator Online | MZ Smart Tools House",
         "description": "Calculate nPr and nCr for whole-number selections. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -10522,7 +10522,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Stress Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Stress Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate normal stress from force and cross-sectional area. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "stress-calculator",
       "route": "/tools/stress-calculator",
@@ -10534,7 +10534,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Stress Calculator Online | MZ Smart Tool House",
+        "title": "Stress Calculator Online | MZ Smart Tools House",
         "description": "Calculate normal stress from force and cross-sectional area. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -10561,7 +10561,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Strain Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Strain Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate engineering strain from change in length and original length. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "strain-calculator",
       "route": "/tools/strain-calculator",
@@ -10573,7 +10573,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Strain Calculator Online | MZ Smart Tool House",
+        "title": "Strain Calculator Online | MZ Smart Tools House",
         "description": "Calculate engineering strain from change in length and original length. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -10600,7 +10600,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Voltage Divider Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Voltage Divider Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate unloaded divider output voltage from two resistors. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "voltage-divider-calculator",
       "route": "/tools/voltage-divider-calculator",
@@ -10612,7 +10612,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Voltage Divider Calculator Online | MZ Smart Tool House",
+        "title": "Voltage Divider Calculator Online | MZ Smart Tools House",
         "description": "Calculate unloaded divider output voltage from two resistors. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -10639,7 +10639,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Series Resistance Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Series Resistance Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate total resistance of three series resistors. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "series-resistance-calculator",
       "route": "/tools/series-resistance-calculator",
@@ -10651,7 +10651,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Series Resistance Calculator Online | MZ Smart Tool House",
+        "title": "Series Resistance Calculator Online | MZ Smart Tools House",
         "description": "Calculate total resistance of three series resistors. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -10678,7 +10678,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Parallel Resistance Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Parallel Resistance Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate equivalent resistance of two parallel resistors. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "parallel-resistance-calculator",
       "route": "/tools/parallel-resistance-calculator",
@@ -10690,7 +10690,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Parallel Resistance Calculator Online | MZ Smart Tool House",
+        "title": "Parallel Resistance Calculator Online | MZ Smart Tools House",
         "description": "Calculate equivalent resistance of two parallel resistors. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -10717,7 +10717,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "LED Resistor Calculator Online | MZ Smart Tool House",
+      "seoTitle": "LED Resistor Calculator Online | MZ Smart Tools House",
       "seoDescription": "Estimate a current-limiting resistor for a simple DC LED circuit. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "led-resistor-calculator",
       "route": "/tools/led-resistor-calculator",
@@ -10729,7 +10729,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "LED Resistor Calculator Online | MZ Smart Tool House",
+        "title": "LED Resistor Calculator Online | MZ Smart Tools House",
         "description": "Estimate a current-limiting resistor for a simple DC LED circuit. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -10756,7 +10756,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "RC Time Constant Calculator Online | MZ Smart Tool House",
+      "seoTitle": "RC Time Constant Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate the RC time constant from resistance and capacitance. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "rc-time-constant-calculator",
       "route": "/tools/rc-time-constant-calculator",
@@ -10768,7 +10768,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "RC Time Constant Calculator Online | MZ Smart Tool House",
+        "title": "RC Time Constant Calculator Online | MZ Smart Tools House",
         "description": "Calculate the RC time constant from resistance and capacitance. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -10795,7 +10795,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Concrete Volume Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Concrete Volume Calculator Online | MZ Smart Tools House",
       "seoDescription": "Estimate rectangular concrete volume from dimensions. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "concrete-volume-calculator",
       "route": "/tools/concrete-volume-calculator",
@@ -10807,7 +10807,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Concrete Volume Calculator Online | MZ Smart Tool House",
+        "title": "Concrete Volume Calculator Online | MZ Smart Tools House",
         "description": "Estimate rectangular concrete volume from dimensions. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -10835,7 +10835,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Slope & Gradient Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Slope & Gradient Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate percentage gradient and slope angle from rise and run. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "slope-gradient-calculator",
       "route": "/tools/slope-gradient-calculator",
@@ -10847,7 +10847,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Slope & Gradient Calculator Online | MZ Smart Tool House",
+        "title": "Slope & Gradient Calculator Online | MZ Smart Tools House",
         "description": "Calculate percentage gradient and slope angle from rise and run. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -10874,7 +10874,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Gear Ratio Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Gear Ratio Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate driven-to-driver gear ratio from tooth counts. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "gear-ratio-calculator",
       "route": "/tools/gear-ratio-calculator",
@@ -10886,7 +10886,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Gear Ratio Calculator Online | MZ Smart Tool House",
+        "title": "Gear Ratio Calculator Online | MZ Smart Tools House",
         "description": "Calculate driven-to-driver gear ratio from tooth counts. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -10914,7 +10914,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Wheel Speed Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Wheel Speed Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate robot linear speed from wheel diameter and RPM. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "wheel-speed-calculator",
       "route": "/tools/wheel-speed-calculator",
@@ -10926,7 +10926,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Wheel Speed Calculator Online | MZ Smart Tool House",
+        "title": "Wheel Speed Calculator Online | MZ Smart Tools House",
         "description": "Calculate robot linear speed from wheel diameter and RPM. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -10953,7 +10953,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Battery Runtime Estimator Online | MZ Smart Tool House",
+      "seoTitle": "Battery Runtime Estimator Online | MZ Smart Tools House",
       "seoDescription": "Estimate runtime from battery capacity, load current and usable-capacity percentage. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "battery-runtime-calculator",
       "route": "/tools/battery-runtime-calculator",
@@ -10965,7 +10965,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Battery Runtime Estimator Online | MZ Smart Tool House",
+        "title": "Battery Runtime Estimator Online | MZ Smart Tools House",
         "description": "Estimate runtime from battery capacity, load current and usable-capacity percentage. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -10993,7 +10993,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "PWM Duty Cycle Calculator Online | MZ Smart Tool House",
+      "seoTitle": "PWM Duty Cycle Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate PWM duty cycle from on-time and off-time. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "pwm-duty-cycle-calculator",
       "route": "/tools/pwm-duty-cycle-calculator",
@@ -11005,7 +11005,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "PWM Duty Cycle Calculator Online | MZ Smart Tool House",
+        "title": "PWM Duty Cycle Calculator Online | MZ Smart Tools House",
         "description": "Calculate PWM duty cycle from on-time and off-time. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -11032,7 +11032,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Break-even Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Break-even Calculator Online | MZ Smart Tools House",
       "seoDescription": "Estimate break-even sales quantity from fixed cost and unit contribution. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "break-even-calculator",
       "route": "/tools/break-even-calculator",
@@ -11044,7 +11044,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Break-even Calculator Online | MZ Smart Tool House",
+        "title": "Break-even Calculator Online | MZ Smart Tools House",
         "description": "Estimate break-even sales quantity from fixed cost and unit contribution. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -11072,7 +11072,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "CAGR Calculator Online | MZ Smart Tool House",
+      "seoTitle": "CAGR Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate compound annual growth rate between two positive values. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "cagr-calculator",
       "route": "/tools/cagr-calculator",
@@ -11084,7 +11084,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "CAGR Calculator Online | MZ Smart Tool House",
+        "title": "CAGR Calculator Online | MZ Smart Tools House",
         "description": "Calculate compound annual growth rate between two positive values. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -11111,7 +11111,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "ROI Calculator Online | MZ Smart Tool House",
+      "seoTitle": "ROI Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate return on investment as a percentage of investment cost. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "roi-calculator",
       "route": "/tools/roi-calculator",
@@ -11123,7 +11123,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "ROI Calculator Online | MZ Smart Tool House",
+        "title": "ROI Calculator Online | MZ Smart Tools House",
         "description": "Calculate return on investment as a percentage of investment cost. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",
@@ -11150,7 +11150,7 @@
       "processingType": "browser",
       "requiresBackend": false,
       "requiresInternet": false,
-      "seoTitle": "Commission Calculator Online | MZ Smart Tool House",
+      "seoTitle": "Commission Calculator Online | MZ Smart Tools House",
       "seoDescription": "Calculate commission amount from sales and percentage rate. Uses a validated browser-side formula with clear inputs, units and result.",
       "slug": "commission-calculator",
       "route": "/tools/commission-calculator",
@@ -11162,7 +11162,7 @@
       "implementation": "browser",
       "relatedTools": [],
       "seo": {
-        "title": "Commission Calculator Online | MZ Smart Tool House",
+        "title": "Commission Calculator Online | MZ Smart Tools House",
         "description": "Calculate commission amount from sales and percentage rate. Uses a validated browser-side formula with clear inputs, units and result."
       },
       "verification": "SAMPLE_LOGIC_EXECUTED",

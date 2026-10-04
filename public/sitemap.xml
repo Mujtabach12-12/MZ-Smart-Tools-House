@@ -1,1026 +1,898 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://mztoolshouse.com/</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.00</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/categories</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/office</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/student-hub</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/about</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.50</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/contact</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.40</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/privacy-policy</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.30</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/terms</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.30</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/disclaimer</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.30</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/office-tools</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/pdf-tools</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/image-tools</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/student-tools</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/programming-tools</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/business-tools</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/calculators</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/utilities</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/developer-tools</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/scanner-tools</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/document-tools</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/text-tools</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/convert</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/date-time-tools</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/world-tools</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/daily-life-tools</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/university-tools</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/productivity-tools</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/mathematics-tools</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/physics-tools</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/chemistry-tools</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/biology-tools</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/engineering-tools</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/robotics-tools</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/health-tools</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/nutrition-tools</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.72</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/online-word</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/programming-lab</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/pdf-viewer</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/pdf-editor</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/online-excel</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/powerpoint-viewer</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/online-powerpoint</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/dictionary</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/smart-document-scanner</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/gpa-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/cgpa-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/percentage-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/marks-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/grade-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/attendance-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/age-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/discount-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/average-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/ratio-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/time-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/study-hours-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/pdf-merger</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/pdf-splitter</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/pdf-compressor</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/pdf-to-jpg</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/jpg-to-pdf</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/pdf-to-png</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/pdf-rotator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/pdf-delete-pages</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/pdf-extract-pages</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/pdf-reorder-pages</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/pdf-page-counter</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/pdf-watermark</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/pdf-metadata-viewer</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/image-compressor</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/image-resizer</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/jpg-to-png</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/png-to-jpg</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/jpg-to-webp</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/png-to-webp</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/webp-to-jpg</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/image-cropper</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/image-rotator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/image-to-pdf</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/passport-photo-resizer</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/word-counter</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/character-counter</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/sentence-counter</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/case-converter</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/remove-extra-spaces</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/remove-duplicate-lines</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/text-cleaner</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/text-sorter</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/text-reverser</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/text-to-slug</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/reading-time-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/line-counter</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/json-viewer</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/json-formatter</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/json-validator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/json-minifier</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/base64-encoder</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/base64-decoder</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/url-encoder</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/url-decoder</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/html-formatter</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/css-formatter</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/javascript-formatter</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/regex-tester</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/binary-converter</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/decimal-converter</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/hex-converter</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/unix-timestamp-converter</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/uuid-generator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/password-generator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/assignment-cover-page-generator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/student-cv-builder</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/resume-builder</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/cover-letter-generator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/application-generator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/study-timetable-generator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/project-report-cover-generator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/internship-application</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/leave-application</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/scholarship-application</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/university-aggregate-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/merit-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/semester-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/credit-hour-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/scholarship-percentage-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/pomodoro-timer</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/stopwatch</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/countdown-timer</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/study-timer</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/todo-list</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/daily-study-planner</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/random-study-topic-generator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/pdf-to-word</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/pdf-to-excel</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/pdf-to-powerpoint</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/pdf-to-text</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/pdf-ocr</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/scanned-pdf-to-searchable-pdf</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/text-to-pdf</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/markdown-to-pdf</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/docx-viewer</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/docx-text-extractor</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/txt-to-docx</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/html-to-docx</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/markdown-to-html</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/markdown-formatter</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/document-statistics</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/find-replace</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/whitespace-cleaner</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/line-break-cleaner</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/speaking-time-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/alternating-case</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/title-case</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/sentence-case</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/extract-emails</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/extract-urls</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/extract-numbers</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/temperature</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/length</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/mass</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/area</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/volume</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/time</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/speed</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/data-storage</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/pressure</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/energy</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/power</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/cm-to-feet</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/kg-to-lbs</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/date-difference-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/days-between-dates</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/weeks-between-dates</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/months-between-dates</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/years-between-dates</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/date-plus-days</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/date-minus-days</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/age-calculator-plus</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/working-days-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/business-days-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/bmi-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/bmr-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/tdee-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/calorie-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/calorie-deficit-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/calorie-surplus-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/maintenance-calories</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/weight-loss-calorie-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/weight-gain-calorie-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/protein-intake-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/carbohydrate-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/fat-intake-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/water-intake-estimator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/ideal-weight-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/healthy-weight-range-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/body-surface-area-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/lean-body-mass-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/heart-rate-zone-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/target-heart-rate-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/pulse-counter</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/simple-interest-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/compound-interest-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/emi-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/loan-payment-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/savings-goal-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/investment-growth-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/profit-margin-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/percentage-change-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/budget-planner</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/salary-breakdown-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/loan-affordability-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/tip-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/bill-splitter</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/tax-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/fuel-cost-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/speed-distance-time</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/pace-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/running-pace-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/study-hours-calculator-plus</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/percentage-calculator-plus</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/marks-required-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/smart-study-schedule-generator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/pakistan-university-gpa-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/uol-gpa-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/ucp-gpa-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/custom-gpa-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/hash-generator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/color-converter</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/rgb-to-hex</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/hex-to-rgb</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/html-escape</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/html-unescape</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/lorem-ipsum-generator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/unix-timestamp-converter-plus</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/image-metadata-viewer</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/image-metadata-remover</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/world-clock</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/time-zone</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/pregnancy-due-date-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/internet-data-usage-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/pdf-repair</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/pdf-metadata-editor</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/pdf-page-size-converter</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/pdf-compare</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/image-flipper</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/image-brightness</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/image-contrast</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/grayscale-image</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/image-blur</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/image-sharpen</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/favicon-generator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/smart-text-summarizer</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/study-notes-generator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/flashcard-generator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/quiz-generator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/email-generator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/formal-text-converter</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/word-to-pdf</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/height</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/bmi</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/time-duration</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/date</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/acceleration</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/data-speed</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/download-time</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/frequency</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/image-size</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/angle</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/force</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/torque</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/voltage</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/current</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/resistance</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/charge</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/illuminance</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/fuel-economy</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/cooking</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/health-units</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/currency</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/crypto</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/number-system</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/roman</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/percentage</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/fraction</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/density</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/molar-mass</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/concentration</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/radiation</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/flow-rate</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/typography</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/convert/land-area</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/velocity-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/force-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/work-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/kinetic-energy-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/potential-energy-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/momentum-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/physics-density-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/physics-pressure-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/wavelength-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/frequency-period-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/ohms-law-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/electrical-power-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/specific-heat-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/lens-equation-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/molarity-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/molality-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/normality-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/dilution-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/ph-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/ideal-gas-law-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/percent-composition-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/hardy-weinberg-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/population-growth-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/microscope-magnification-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/dna-complement-tool</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/dna-to-rna-tool</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/rna-to-protein-tool</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/punnett-square-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/quadratic-equation-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/pythagorean-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/vector-magnitude-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/permutation-combination-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/stress-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/strain-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/voltage-divider-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/series-resistance-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/parallel-resistance-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/led-resistor-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/rc-time-constant-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/concrete-volume-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/slope-gradient-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/gear-ratio-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/wheel-speed-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/battery-runtime-calculator</loc>
-  </url>
-  <url>
-    <loc>https://mztoolshouse.com/tools/pwm-duty-cycle-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/break-even-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/cagr-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/roi-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://mztoolshouse.com/tools/commission-calculator</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
+  </url>
+  <url>
+    <loc>https://mztoolshouse.com/gpa-calculator/uol</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.76</priority>
+  </url>
+  <url>
+    <loc>https://mztoolshouse.com/gpa-calculator/ucp</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.76</priority>
+  </url>
+  <url>
+    <loc>https://mztoolshouse.com/gpa-calculator/fast</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.76</priority>
+  </url>
+  <url>
+    <loc>https://mztoolshouse.com/gpa-calculator/nust</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.76</priority>
+  </url>
+  <url>
+    <loc>https://mztoolshouse.com/gpa-calculator/giki</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.76</priority>
+  </url>
+  <url>
+    <loc>https://mztoolshouse.com/gpa-calculator/bahria</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.76</priority>
+  </url>
+  <url>
+    <loc>https://mztoolshouse.com/gpa-calculator/air</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.76</priority>
+  </url>
+  <url>
+    <loc>https://mztoolshouse.com/gpa-calculator/iba</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.76</priority>
+  </url>
+  <url>
+    <loc>https://mztoolshouse.com/gpa-calculator/fcc</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.76</priority>
+  </url>
+  <url>
+    <loc>https://mztoolshouse.com/gpa-calculator/itu</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.76</priority>
+  </url>
+  <url>
+    <loc>https://mztoolshouse.com/gpa-calculator/lgu</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.76</priority>
+  </url>
+  <url>
+    <loc>https://mztoolshouse.com/gpa-calculator/ned</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.76</priority>
+  </url>
+  <url>
+    <loc>https://mztoolshouse.com/gpa-calculator/pu</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.76</priority>
+  </url>
+  <url>
+    <loc>https://mztoolshouse.com/gpa-calculator/numl</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.76</priority>
+  </url>
+  <url>
+    <loc>https://mztoolshouse.com/gpa-calculator/uob</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.76</priority>
+  </url>
+  <url>
+    <loc>https://mztoolshouse.com/gpa-calculator/riphah</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.76</priority>
+  </url>
+  <url>
+    <loc>https://mztoolshouse.com/gpa-calculator/superior</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.76</priority>
   </url>
 </urlset>

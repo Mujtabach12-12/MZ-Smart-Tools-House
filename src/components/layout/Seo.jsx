@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 
-const SITE_NAME = "MZ Smart Tool House";
+const SITE_NAME = "MZ Smart Tools House";
 const BASE_URL = String(import.meta.env.VITE_SITE_URL || "https://mztoolshouse.com").replace(/\/+$/, "");
 const DEFAULT_DESCRIPTION =
-  "Free online tools for PDF, documents, images, study, coding and everyday work. Use focused browser-based utilities from MZ Smart Tool House.";
+  "Free online tools for PDF, documents, images, study, coding and everyday work. Use focused browser-based utilities from MZ Smart Tools House.";
 const DEFAULT_IMAGE = `${BASE_URL}/assets/mz-og-1200x630.webp`;
 const DEFAULT_ROBOTS = "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1";
 

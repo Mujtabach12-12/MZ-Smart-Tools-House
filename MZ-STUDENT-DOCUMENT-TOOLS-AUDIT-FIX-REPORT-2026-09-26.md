@@ -1,4 +1,4 @@
-# MZ Smart Tool House — Student Document Tools Audit & Fix Report
+# MZ Smart Tools House — Student Document Tools Audit & Fix Report
 
 Date: 2026-09-26  
 Category: Student Document Tools  
@@ -6,7 +6,7 @@ Audited public tools: 20
 
 ## Scope and release honesty
 
-This work audited and modified the current MZ Smart Tool House project snapshot. No tool is marked PASS because real browser/device QA and the final production build could not be completed in this sandbox. The build was attempted but the sandbox has no installed `vite`; offline dependency installation was also attempted and failed because `zlibjs-0.3.1` is not present in the npm cache.
+This work audited and modified the current MZ Smart Tools House project snapshot. No tool is marked PASS because real browser/device QA and the final production build could not be completed in this sandbox. The build was attempted but the sandbox has no installed `vite`; offline dependency installation was also attempted and failed because `zlibjs-0.3.1` is not present in the npm cache.
 
 Live web research was unavailable in this environment. Therefore the current Microsoft Word / Google Docs / Canva / Acrobat / Smallpdf / iLovePDF / PDFgear products were not falsely claimed as reopened or re-benchmarked. Functional decisions use the user-supplied benchmark requirements plus actual DOCX/PDF/HTML format constraints and the existing repository architecture.
 

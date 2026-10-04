@@ -1,6 +1,6 @@
-# MZ Smart Tool House — Production V9 Candidate
+# MZ Smart Tools House — Production V9 Candidate
 
-MZ Smart Tool House is an existing React/Vite productivity platform that has been audited, repaired and expanded **in place**. The project was not replaced by an unrelated scaffold.
+MZ Smart Tools House is an existing React/Vite productivity platform that has been audited, repaired and expanded **in place**. The project was not replaced by an unrelated scaffold.
 
 ## Release position
 

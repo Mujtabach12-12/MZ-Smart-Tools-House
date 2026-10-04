@@ -1,4 +1,4 @@
-# MZ Smart Tool House — Functional Tool Audit
+# MZ Smart Tools House — Functional Tool Audit
 
 ## Scope
 Audited the complete `src/` tool registry, routes, shared implementations, utility implementations, expanded implementations, and production placeholder paths.

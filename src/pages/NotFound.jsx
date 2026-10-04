@@ -8,7 +8,7 @@ export default function NotFound() {
   const popular = getPopularTools().slice(0, 4);
   return (
     <div className="mz-section py-16 sm:py-24">
-      <Seo path="/404" title="Page Not Found" description="The requested MZ Smart Tool House page could not be found." robots="noindex,nofollow,noarchive" />
+      <Seo path="/404" title="Page Not Found" description="The requested MZ Smart Tools House page could not be found." robots="noindex,nofollow,noarchive" />
       <div className="mx-auto max-w-2xl text-center">
         <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-brand-50 text-brand-600 dark:bg-brand-950 dark:text-brand-300">
           <Wrench className="h-7 w-7" aria-hidden="true" />

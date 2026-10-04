@@ -100,7 +100,7 @@ export default function PdfPageView({
         setNearViewport(entry.isIntersecting || entry.intersectionRatio > 0);
         onVisibility(pageNumber, entry.intersectionRatio || 0);
       }
-    }, { root, rootMargin: "1100px 0px", threshold: [0, 0.01, 0.2, 0.5, 0.8, 1] });
+    }, { root, rootMargin: "420px 0px", threshold: [0, 0.01, 0.25, 0.6, 1] });
     observer.observe(node);
     return () => {
       onVisibility(pageNumber, 0);
@@ -127,16 +127,19 @@ export default function PdfPageView({
         await renderTask.promise;
         if (cancelled) return;
         viewportRef.current = started.cssViewport;
-        const textContent = await getTextContent(pageNumber, pdfPage);
-        if (cancelled) return;
-        textContentRef.current = textContent;
-        buildSelectableTextLayer({
-          pdfjs,
-          textContent,
-          container: textLayerRef.current,
-          viewport: started.cssViewport,
-          query: searchQuery,
-        });
+        const prepareText = async () => {
+          if (cancelled) return;
+          const textContent = await getTextContent(pageNumber, pdfPage);
+          if (cancelled) return;
+          textContentRef.current = textContent;
+          buildSelectableTextLayer({ pdfjs, textContent, container: textLayerRef.current, viewport: started.cssViewport, query: searchQuery });
+        };
+        if (typeof window.requestIdleCallback === "function") {
+          await new Promise((resolve) => window.requestIdleCallback(() => resolve(), { timeout: 220 }));
+        } else {
+          await new Promise((resolve) => window.setTimeout(resolve, 24));
+        }
+        await prepareText();
       } catch (error) {
         if (!cancelled && error?.name !== "RenderingCancelledException") {
           // Page-level failures remain isolated so another page can still render.

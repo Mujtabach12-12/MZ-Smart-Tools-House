@@ -58,7 +58,7 @@ const studentDocumentSeo = {
     description: "Create a clean project report cover page using your project, university, department, student, supervisor and session details.",
     intro: "Generate an academic project cover without fake university branding or signatures.",
     formula: "Your project metadata is arranged into a printable academic cover layout.",
-    example: "Enter MZ Smart Tool House, Computer Science, your university, student name and supervisor.",
+    example: "Enter MZ Smart Tools House, Computer Science, your university, student name and supervisor.",
     faq: [["Is a supervisor required?","No. Optional fields are omitted cleanly when left empty."],["Can I download DOCX?","Yes. The generated DOCX is structurally validated before download."]],
     related:["assignment-cover-page-generator","resume-builder","text-to-pdf","mz-online-word"],
   },

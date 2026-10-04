@@ -1,4 +1,4 @@
-# MZ Smart Tool House — Business & Finance Audit, Fix & Verification Report
+# MZ Smart Tools House — Business & Finance Audit, Fix & Verification Report
 
 Date: 2026-09-26
 

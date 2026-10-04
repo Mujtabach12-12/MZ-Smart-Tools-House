@@ -1,4 +1,4 @@
-# MZ Smart Tool House — Truthful Tool Verification Ledger
+# MZ Smart Tools House — Truthful Tool Verification Ledger
 
 This ledger separates code wiring from actual sample execution. It must not be used to claim browser/mobile/output verification that did not happen.
 

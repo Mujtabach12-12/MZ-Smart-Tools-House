@@ -94,6 +94,7 @@ const tools = [
   { id: "line-counter", name: "Line Counter", category: "text-tools", description: "Count total, non-empty and unique lines in text.", icon: "list-ordered", keywords: ["line count", "lines"], status: "active" },
 
   // ---------------------------------------------------------------- Developer Tools
+  { id: "web-development-lab", name: "Web Development Live Lab", category: "programming-tools", description: "Write HTML, CSS and JavaScript together with a sandboxed live preview, console and downloadable webpage.", icon: "code", keywords: ["html css javascript", "web development", "live preview", "frontend playground"], status: "active", popular: true, isNew: true },
   { id: "json-viewer", name: "JSON Viewer", category: "developer-tools", description: "Inspect valid JSON as a readable formatted tree-style text view.", icon: "braces", keywords: ["json tree", "json viewer", "inspect json"], status: "active" },
   { id: "json-formatter", name: "JSON Formatter", category: "developer-tools", description: "Format and beautify messy JSON.", icon: "braces", keywords: ["json format", "beautify json"], status: "active", popular: true },
   { id: "json-validator", name: "JSON Validator", category: "developer-tools", description: "Check whether a JSON document is valid.", icon: "check-circle", keywords: ["validate json"], status: "active" },
@@ -269,6 +270,8 @@ const tools = [
   { id: "quiz-generator", name: "Quiz Generator", category: "student-tools", description: "Turn numbered study points into a simple self-test quiz locally.", icon: "help-circle", keywords: ["quiz generator"], status: "active" },
   { id: "email-generator", name: "Professional Email Generator", category: "text-tools", description: "Generate a structured professional email from a subject and purpose without an API.", icon: "mail", keywords: ["email writer", "professional email"], status: "active" },
   { id: "formal-text-converter", name: "Formal Text Converter", category: "text-tools", description: "Apply a basic local cleanup for professional tone and formatting.", icon: "file-signature", keywords: ["formal text", "professional writing"], status: "active" },
+{ id: "powerpoint-to-word", name: "PowerPoint to Word", category: "document-tools", description: "Extract editable slide text from PPTX into a real DOCX document in your browser.", icon: "file-text", keywords: ["ppt word", "powerpoint docx", "pptx to word"], status: "active", isNew: true },
+{ id: "word-to-powerpoint", name: "Word to PowerPoint", category: "document-tools", description: "Turn DOCX paragraph text into a real editable PPTX slide deck in your browser.", icon: "presentation", keywords: ["word ppt", "docx powerpoint", "word to ppt"], status: "active", isNew: true },
 { id: "word-to-pdf", name: "Word to PDF", category: "document-tools", description: "Upload a DOCX file, extract its paragraph text locally, and create a browser-generated PDF.", icon: "file-text", keywords: ["word pdf", "doc pdf"], status: "active" },
 ];
 

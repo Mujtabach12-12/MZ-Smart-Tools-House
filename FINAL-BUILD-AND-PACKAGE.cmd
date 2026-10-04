@@ -3,7 +3,7 @@ setlocal
 cd /d "%~dp0"
 
 echo ============================================================
-echo MZ Smart Tool House - Final Production Build and Package
+echo MZ Smart Tools House - Final Production Build and Package
 echo ============================================================
 
 where node >nul 2>&1 || (echo ERROR: Node.js is not installed.& exit /b 1)

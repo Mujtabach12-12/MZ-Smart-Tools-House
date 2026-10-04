@@ -3,7 +3,7 @@ import { ChevronDown } from "lucide-react";
 
 const FAQS = [
   {
-    q: "Is MZ Smart Tool House really free to use?",
+    q: "Is MZ Smart Tools House really free to use?",
     a: "Yes. Every tool on the platform is completely free, with no sign-up and no hidden charges.",
   },
   {
@@ -11,12 +11,12 @@ const FAQS = [
     a: "Wherever technically possible, tools process your files locally in your browser. If a specific tool ever needs server processing, this will be stated clearly on that tool's page.",
   },
   {
-    q: "Can I use MZ Smart Tool House on my phone?",
+    q: "Can I use MZ Smart Tools House on my phone?",
     a: "Yes. The whole platform is designed mobile-first and works on phones, tablets and desktops.",
   },
   {
     q: "Will more tools be added?",
-    a: "Yes. MZ Smart Tool House is being built in phases, and new calculators, PDF, image, text and productivity tools are being added regularly.",
+    a: "Yes. MZ Smart Tools House is being built in phases, and new calculators, PDF, image, text and productivity tools are being added regularly.",
   },
 ];
 

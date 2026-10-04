@@ -1,4 +1,4 @@
-# MZ Smart Tool House — Audit & Repair Report
+# MZ Smart Tools House — Audit & Repair Report
 
 **Audit date:** 2026-09-20  
 **Source:** User-provided `MZ-Smart-Tool-House-ERROR-FREE-V4(1).zip`  

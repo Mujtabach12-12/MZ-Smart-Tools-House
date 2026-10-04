@@ -1,7 +1,7 @@
-# MZ Smart Tool House — Final Release Engineering Report
+# MZ Smart Tools House — Final Release Engineering Report
 
 **Date:** 2026-09-26  
-**Project:** MZ Smart Tool House  
+**Project:** MZ Smart Tools House  
 **Package version:** 0.1.0  
 **Release status:** **PARTIAL / Release Candidate**
 

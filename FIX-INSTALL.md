@@ -1,4 +1,4 @@
-# MZ Smart Tool House — clean install fix
+# MZ Smart Tools House — clean install fix
 
 The reported errors are dependency-tree errors inside `node_modules`, not errors in the application's source files:
 

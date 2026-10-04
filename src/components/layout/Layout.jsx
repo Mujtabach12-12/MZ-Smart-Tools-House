@@ -7,6 +7,7 @@ import CommandPalette from "../ui/CommandPalette";
 import ErrorBoundary from "./ErrorBoundary";
 import ViewportLock from "./ViewportLock";
 import AnalyticsTracker from "../analytics/AnalyticsTracker";
+import MzAiRobot from "../ai/MzAiRobot";
 
 export default function Layout() {
   const { pathname } = useLocation();
@@ -24,6 +25,7 @@ export default function Layout() {
         <ErrorBoundary><Outlet /></ErrorBoundary>
       </main>
       <Footer />
+      <div className="mz-ai-floating-assistant" aria-hidden="true"><MzAiRobot /></div>
       <MobileBottomNav />
       <CommandPalette />
     </div>

@@ -1,4 +1,4 @@
-# MZ Smart Tool House — Phase 4 Report
+# MZ Smart Tools House — Phase 4 Report
 
 Date: 2026-09-22
 

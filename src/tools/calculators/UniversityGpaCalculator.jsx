@@ -202,7 +202,7 @@ export default function UniversityGpaCalculator({ initialMode = "gpa", initialUn
     "@graph": [
       {
         "@type": "WebApplication",
-        name: `${seoTitle} | MZ Smart Tool House`,
+        name: `${seoTitle} | MZ Smart Tools House`,
         description: seoDescription,
         applicationCategory: "EducationalApplication",
         operatingSystem: "Any",

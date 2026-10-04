@@ -41,7 +41,7 @@ fs.mkdirSync(outDir,{recursive:true});
 fs.writeFileSync(path.join(outDir,'tool-verification-ledger.json'), JSON.stringify({generatedAt:new Date().toISOString(), total:rows.length, counts, rows}, null, 2));
 
 const md = [];
-md.push('# MZ Smart Tool House — Truthful Tool Verification Ledger');
+md.push('# MZ Smart Tools House — Truthful Tool Verification Ledger');
 md.push('');
 md.push('This ledger separates code wiring from actual sample execution. It must not be used to claim browser/mobile/output verification that did not happen.');
 md.push('');

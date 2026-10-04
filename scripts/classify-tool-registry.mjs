@@ -117,7 +117,7 @@ fs.mkdirSync(auditDir, { recursive: true });
 fs.writeFileSync(path.join(auditDir, 'professional-tool-classification.json'), JSON.stringify(output, null, 2));
 
 const lines = [];
-lines.push('# MZ Smart Tool House — Professional Tool Classification Audit');
+lines.push('# MZ Smart Tools House — Professional Tool Classification Audit');
 lines.push('');
 lines.push(`Generated: ${output.generatedAt}`);
 lines.push('');

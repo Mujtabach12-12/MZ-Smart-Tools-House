@@ -1,4 +1,4 @@
-# MZ Smart Tool House — PDF & Documents Product Upgrade Report
+# MZ Smart Tools House — PDF & Documents Product Upgrade Report
 
 Date: 2026-09-24
 Scope: PDF & Documents tools only, plus the shared PDF viewer/result/output infrastructure required by those tools.

@@ -192,3 +192,24 @@ export function getDictionarySource() {
     provider: "Free Dictionary API with Datamuse + MZ fallback",
   };
 }
+
+
+const URDU_TRANSLATE_BASE = "https://api.mymemory.translated.net/get";
+export async function translateMeaningToUrdu(text, { signal } = {}) {
+  const source = String(text || "").trim();
+  if (!source) return "";
+  const linked = createLinkedController(signal, 4200);
+  try {
+    const url = `${URDU_TRANSLATE_BASE}?q=${encodeURIComponent(source.slice(0, 480))}&langpair=en|ur`;
+    const response = await fetch(url, { signal: linked.signal, headers: { accept: "application/json" }, cache: "default" });
+    if (!response.ok) return "";
+    const payload = await response.json();
+    const translated = String(payload?.responseData?.translatedText || "").trim();
+    if (!translated || translated.toLowerCase() === source.toLowerCase()) return "";
+    return translated;
+  } catch {
+    return "";
+  } finally {
+    linked.cleanup();
+  }
+}

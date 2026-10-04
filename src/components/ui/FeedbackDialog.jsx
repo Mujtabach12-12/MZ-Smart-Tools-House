@@ -50,7 +50,7 @@ export default function FeedbackDialog({ open, onClose }) {
     setStatus("sending"); setNotice("");
     const result = await submitFeedback(payload);
     if (result.status === "sent") {
-      setStatus("sent"); setNotice("Thanks for helping us improve MZ Smart Tool House. Your feedback has been received."); notify("Thanks for helping us improve MZ Smart Tool House.", { type:"success", title:"Feedback received" }); setMessage(""); return;
+      setStatus("sent"); setNotice("Thanks for helping us improve MZ Smart Tools House. Your feedback has been received."); notify("Thanks for helping us improve MZ Smart Tools House.", { type:"success", title:"Feedback received" }); setMessage(""); return;
     }
     setStatus("queued");
     setNotice(result.status === "queued" ? "We couldn't reach the feedback service, so your feedback was saved safely on this device and can sync later." : "Feedback could not be sent or saved on this device. Please try again later.");

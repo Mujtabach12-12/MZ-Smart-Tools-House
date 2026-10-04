@@ -169,6 +169,16 @@ export const universityPolicies = [
   },
 ];
 
+// Source-backed records above carry an official university URL, a verification date and a usable grade table.
+// Promote only those complete records; placeholder universities below remain blocked until authoritative data exists.
+for (const policy of universityPolicies) {
+  const sourceBacked = Boolean(policy.sourceUrl && policy.lastVerified && policy.grades?.length && Number.isFinite(Number(policy.maxGPA)));
+  if (sourceBacked && policy.verified !== false) {
+    policy.verified = true;
+    policy.policyStatus = "official-source-verified";
+  }
+}
+
 const requestedUniversities = [
   ["comsats","COMSATS University Islamabad","CUI","Islamabad"], ["gcu-lahore","Government College University Lahore","GCU","Lahore"], ["lums","LUMS","LUMS","Lahore"], ["uet-lahore","University of Engineering and Technology Lahore","UET Lahore","Lahore"],
   ["uog","University of Gujrat","UOG","Gujrat"], ["uskt","University of Sialkot","USKT","Sialkot"], ["umt","University of Management and Technology","UMT","Lahore"],

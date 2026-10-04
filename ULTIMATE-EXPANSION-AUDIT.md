@@ -1,4 +1,4 @@
-# MZ Smart Tool House — Ultimate Expansion Audit
+# MZ Smart Tools House — Ultimate Expansion Audit
 
 Creator: Muhammad Mujtaba
 

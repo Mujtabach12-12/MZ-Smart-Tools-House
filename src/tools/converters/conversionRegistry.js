@@ -57,7 +57,7 @@ export const converterRegistry = [
   requiresBackend: Boolean(c.requiresBackend),
   requiresInternet: Boolean(c.requiresInternet),
   formula: c.formula || (c.kind === "linear" ? "result = value × fromFactor ÷ toFactor" : "Specialized validated conversion formula"),
-  seoTitle: c.seoTitle || `${c.name} – Free Online Converter | MZ Smart Tool House`,
+  seoTitle: c.seoTitle || `${c.name} – Free Online Converter | MZ Smart Tools House`,
   seoDescription: c.seoDescription || c.description,
   ...c,
 }));
@@ -79,7 +79,7 @@ export const converterToolRecords = [
     status:"active",
     processingType:c.requiresInternet?"api":"browser",
     requiresInternet:Boolean(c.requiresInternet),
-    seoTitle:`${c.name} – Free Online Conversion Tool | MZ Smart Tool House`,
+    seoTitle:`${c.name} – Free Online Conversion Tool | MZ Smart Tools House`,
     seoDescription:c.description,
     relatedTools:(c.relatedTools||[]).map((id)=>converterRegistry.find((x)=>x.id===id)?.toolId).filter(Boolean),
   })),

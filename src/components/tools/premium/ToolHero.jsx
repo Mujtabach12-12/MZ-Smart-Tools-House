@@ -1,4 +1,4 @@
-import { Cloud, ShieldCheck, WifiOff } from "lucide-react";
+import { Cloud, ShieldCheck } from "lucide-react";
 import ToolIcon from "../../ui/ToolIcon";
 import FavoriteButton from "../../ui/FavoriteButton";
 import { getCategoryBySlug } from "../../../data/categories";
@@ -21,7 +21,7 @@ export default function ToolHero({ tool, compact = false }) {
           <p className={`${compact ? "mt-1 text-sm" : "mt-2"} max-w-2xl leading-6 text-navy-500 dark:text-navy-400`}>{tool.description}</p>
           <div className={`${compact ? "mt-2" : "mt-3"} flex flex-wrap items-center gap-3 text-xs text-navy-400`}>
             <span className="inline-flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-brand-600"/> Browser-first privacy where supported</span>
-            <span className="inline-flex items-center gap-2">{tool.requiresInternet ? <Cloud className="h-4 w-4 text-sky-500"/> : <WifiOff className="h-4 w-4 text-emerald-600"/>}{tool.requiresInternet ? "Online required" : "Offline-ready after assets are cached"}</span>
+            {tool.requiresInternet ? <span className="inline-flex items-center gap-2"><Cloud className="h-4 w-4 text-sky-500"/> Online required</span> : null}
           </div>
         </div>
       </div>

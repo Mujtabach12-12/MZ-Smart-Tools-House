@@ -1,4 +1,4 @@
-# MZ Smart Tool House — Professional Tool Classification Audit
+# MZ Smart Tools House — Professional Tool Classification Audit
 
 Generated: 2026-09-22T13:36:53.345Z
 

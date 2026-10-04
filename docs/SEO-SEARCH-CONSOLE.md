@@ -1,6 +1,6 @@
 # SEO & Google Search Console deployment checklist
 
-MZ Smart Tool House is configured around the canonical production origin currently used in source: `https://mztoolshouse.com`.
+MZ Smart Tools House is configured around the canonical production origin currently used in source: `https://mztoolshouse.com`.
 
 If the production domain changes, update it consistently in:
 

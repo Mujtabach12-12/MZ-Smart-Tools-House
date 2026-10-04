@@ -1,4 +1,4 @@
-# MZ Smart Tool House — File, Image & PDF Quality Architecture
+# MZ Smart Tools House — File, Image & PDF Quality Architecture
 
 ## Core invariant
 

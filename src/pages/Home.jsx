@@ -28,7 +28,7 @@ export default function Home() {
   const mobile = useMobileLayout();
   return (
     <>
-      <Seo path="/" title="Free Online Tools for Work & Study" description="Use free online tools for PDF, documents, images, study, coding, calculators and everyday work in one browser-based MZ Smart Tool House workspace." />
+      <Seo path="/" title="Free Online Tools for Work & Study" description="Use free online tools for PDF, documents, images, study, coding, calculators and everyday work in one browser-based MZ Smart Tools House workspace." />
       {mobile ? <MobileHome /> : (
         <>
           <Hero />

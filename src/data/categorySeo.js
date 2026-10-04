@@ -2,7 +2,7 @@ const categorySeo = {
   "office-tools": {
     title: "Online Office Tools – Word, Excel, PowerPoint & PDF",
     h1: "Online Office Tools",
-    description: "Create documents, spreadsheets and presentations, view or edit PDFs, and work in browser-based office tools from one MZ Smart Tool House workspace.",
+    description: "Create documents, spreadsheets and presentations, view or edit PDFs, and work in browser-based office tools from one MZ Smart Tools House workspace.",
     intro: "Open a focused browser workspace for documents, spreadsheets, presentations and PDFs without switching between unrelated tool sites.",
     about: "MZ Office groups the main document-creation and PDF workspaces in one category. Use the tool that matches the file you need to create, view or edit, then export a real file format where the workspace supports it.",
     quickLinks: [
@@ -15,7 +15,7 @@ const categorySeo = {
   "pdf-tools": {
     title: "Free Online PDF Tools – Compress, Merge, Convert & Edit",
     h1: "Free Online PDF Tools",
-    description: "Compress, merge, split, convert, OCR, organize and edit PDF files online with browser-based PDF tools from MZ Smart Tool House.",
+    description: "Compress, merge, split, convert, OCR, organize and edit PDF files online with browser-based PDF tools from MZ Smart Tools House.",
     intro: "Choose the PDF task you need: reduce file size, combine documents, split pages, convert formats, extract text, run OCR or organize pages.",
     about: "The PDF collection focuses on real document workflows rather than placeholder buttons. Conversion tools state their limitations, page operations preserve PDF structure where practical, and file-processing pages explain when browser-only processing is used.",
     quickLinks: [
@@ -28,7 +28,7 @@ const categorySeo = {
   "image-tools": {
     title: "Free Online Image Tools – Compress, Resize & Convert",
     h1: "Free Online Image Tools",
-    description: "Compress, resize, crop, rotate and convert JPG, PNG and WebP images online with browser-based image tools from MZ Smart Tool House.",
+    description: "Compress, resize, crop, rotate and convert JPG, PNG and WebP images online with browser-based image tools from MZ Smart Tools House.",
     intro: "Edit everyday images without installing a desktop application. Start with compression, resizing, cropping or format conversion depending on your output requirement.",
     about: "Image tools are designed around source preservation and deliberate output settings. When a task changes quality, dimensions or format, review the preview and output information before downloading the result.",
     quickLinks: [
@@ -67,7 +67,7 @@ const categorySeo = {
   "developer-tools": {
     title: "Developer Tools – JSON, Regex, Base64, URL & Hash Utilities",
     h1: "Online Developer Tools",
-    description: "Use JSON, regex, Base64, URL, hash, color and encoding utilities online with focused browser-based developer tools from MZ Smart Tool House.",
+    description: "Use JSON, regex, Base64, URL, hash, color and encoding utilities online with focused browser-based developer tools from MZ Smart Tools House.",
     intro: "Open a small, focused utility for common developer tasks instead of loading a full IDE when you only need to format, validate, encode or inspect data.",
     about: "Developer utilities are designed for predictable transformations and transparent validation. Where the browser can complete the operation locally, the tool avoids unnecessary server processing.",
     quickLinks: [
@@ -132,7 +132,7 @@ export function getCategorySeo(category, list = []) {
   return {
     title: custom.title || `${category.name} – Online Tools`,
     h1: custom.h1 || category.name,
-    description: custom.description || `${category.description} Explore ${count} focused ${noun} at MZ Smart Tool House.`,
+    description: custom.description || `${category.description} Explore ${count} focused ${noun} at MZ Smart Tools House.`,
     intro: custom.intro || category.description,
     about: custom.about || "Choose the tool that matches your task, review the available options and verify the result before using it in important work.",
     quickLinks: custom.quickLinks || [],

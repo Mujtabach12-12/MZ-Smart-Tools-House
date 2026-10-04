@@ -61,7 +61,7 @@ export default function Contact() {
 
   return (
     <div className="mz-section max-w-2xl py-14">
-      <Seo path="/contact" title="Contact Us" description="Get in touch with the MZ Smart Tool House team." />
+      <Seo path="/contact" title="Contact Us" description="Get in touch with the MZ Smart Tools House team." />
       <h1 className="text-3xl font-bold text-navy-900 dark:text-navy-50">Contact Us</h1>
       <p className="mt-2 text-navy-500 dark:text-navy-400">
         Have a suggestion, found a bug, or want to request a tool? Send us a message.

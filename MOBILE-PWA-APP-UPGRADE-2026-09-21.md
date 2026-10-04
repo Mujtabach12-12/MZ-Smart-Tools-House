@@ -1,4 +1,4 @@
-# MZ Smart Tool House — Mobile App / PWA Upgrade
+# MZ Smart Tools House — Mobile App / PWA Upgrade
 
 Date: 2026-09-21
 Production domain: https://mztoolshouse.com

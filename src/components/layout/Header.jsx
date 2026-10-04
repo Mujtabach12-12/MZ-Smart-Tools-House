@@ -73,12 +73,12 @@ export default function Header() {
             to="/"
             className="group flex min-w-0 items-center gap-2.5"
             onClick={() => setMobileOpen(false)}
-            aria-label="MZ Smart Tool House home"
+            aria-label="MZ Smart Tools House home"
           >
             <BrandMark compact className="shrink-0" />
             <span className="mz-brand-wordmark min-w-0">
               <strong>MZ</strong>
-              <span>Smart Tool House</span>
+              <span>Smart Tools House</span>
             </span>
           </Link>
 
@@ -115,14 +115,14 @@ export default function Header() {
           <div className="ml-auto hidden w-[min(22vw,18rem)] 2xl:block"><SearchBar size="sm" placeholder="Search tools…" /></div>
           <button className="mz-btn-ghost hidden lg:inline-flex" onClick={() => setFeedbackOpen(true)}><MessageCircle className="h-4 w-4" /> Feedback</button>
           <button className="mz-btn-ghost hidden lg:inline-flex" onClick={install}><InstallIcon className="h-4 w-4" /> {installLabel}</button>
-          <ThemeToggle className="hidden sm:inline-flex" />
+          <ThemeToggle className="hidden sm:block" />
 
           {!pwa.installed ? (
             <button
               type="button"
               className="mz-mobile-install-btn ml-auto xl:hidden"
               onClick={install}
-              aria-label="Install MZ Smart Tool House app"
+              aria-label="Install MZ Smart Tools House app"
               title="Install App"
             >
               <Download className="h-4 w-4" />
@@ -142,7 +142,7 @@ export default function Header() {
               {!pwa.installed ? (
                 <button type="button" onClick={() => { install(); setMobileOpen(false); }} className="mz-mobile-menu-install">
                   <span><Download className="h-5 w-5" /></span>
-                  <span className="min-w-0 flex-1 text-left"><strong>Install MZ Smart Tool House</strong><small>Launch it from your home screen like an app.</small></span>
+                  <span className="min-w-0 flex-1 text-left"><strong>Install MZ Smart Tools House</strong><small>Launch it from your home screen like an app.</small></span>
                   <ChevronDown className="h-4 w-4 -rotate-90" />
                 </button>
               ) : null}

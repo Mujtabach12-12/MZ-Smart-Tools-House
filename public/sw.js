@@ -1,5 +1,5 @@
-/* MZ Smart Tool House service worker. Generated cache version is replaced before build. */
-const CACHE_VERSION = '0.1.0-de3e60c6ed';
+/* MZ Smart Tools House service worker. Generated cache version is replaced before build. */
+const CACHE_VERSION = '0.1.0-395d525370';
 const SHELL_CACHE = `mz-tools-shell-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `mz-tools-runtime-${CACHE_VERSION}`;
 const SHELL = ['/', '/index.html', '/manifest.webmanifest', '/favicon.svg', '/icons/icon-192.png', '/icons/icon-512.png', '/icons/icon-maskable.png'];

@@ -1,4 +1,4 @@
-# MZ Smart Tool House Android
+# MZ Smart Tools House Android
 
 This Android target is configured for Capacitor 8 and package `com.mzsmarttoolhouse.app`.
 

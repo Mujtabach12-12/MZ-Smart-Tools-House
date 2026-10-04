@@ -24,9 +24,9 @@ test("assignment cover preserves every supplied field",()=>{
 });
 
 test("student CV contains supplied sections and no invented achievements",()=>{
-  const model=buildGeneratorModel("student-cv-builder",{name:"Muhammad Mujtaba",title:"BSCS Student | AI & Software Developer",email:"m@example.com",phone:"123",links:"https://example.com",summary:"Student developer",education:"BS Computer Science\nUniversity of Lahore",skills:"Python\nJavaScript\nReact",projects:"MZ Smart Tool House\nMZ AI Hospital",experience:"Student / Developer"});
+  const model=buildGeneratorModel("student-cv-builder",{name:"Muhammad Mujtaba",title:"BSCS Student | AI & Software Developer",email:"m@example.com",phone:"123",links:"https://example.com",summary:"Student developer",education:"BS Computer Science\nUniversity of Lahore",skills:"Python\nJavaScript\nReact",projects:"MZ Smart Tools House\nMZ AI Hospital",experience:"Student / Developer"});
   const text=modelToPlainText(model);
-  assert.ok(text.includes("MZ Smart Tool House")); assert.ok(text.includes("Python")); assert.doesNotMatch(text,/award|certified|expert/i);
+  assert.ok(text.includes("MZ Smart Tools House")); assert.ok(text.includes("Python")); assert.doesNotMatch(text,/award|certified|expert/i);
 });
 
 test("resume hides omitted optional sections",()=>{
@@ -67,8 +67,8 @@ test("empty document has zero reading time",()=>assert.equal(documentStatistics(
 test("Unicode words counted",()=>assert.ok(documentStatistics("Hello پاکستان مرحبا 你好").words>=4));
 
 test("Markdown safe HTML supports headings, lists, emphasis, link and code",()=>{
-  const md="# MZ Smart Tool House\n\n## Features\n\n* Developer Tools\n* Student Tools\n\n**Bold** and *italic* with `code`.\n\n[Example](https://example.com)\n\n```\nconst x = 1;\n```";
-  const html=markdownToSafeHtml(md); assert.ok(html.includes("<h1>MZ Smart Tool House</h1>")); assert.ok(html.includes("<ul>")); assert.ok(html.includes("<strong>Bold</strong>")); assert.ok(html.includes("<em>italic</em>")); assert.ok(html.includes("<pre><code>")); assert.ok(html.includes('href="https://example.com"'));
+  const md="# MZ Smart Tools House\n\n## Features\n\n* Developer Tools\n* Student Tools\n\n**Bold** and *italic* with `code`.\n\n[Example](https://example.com)\n\n```\nconst x = 1;\n```";
+  const html=markdownToSafeHtml(md); assert.ok(html.includes("<h1>MZ Smart Tools House</h1>")); assert.ok(html.includes("<ul>")); assert.ok(html.includes("<strong>Bold</strong>")); assert.ok(html.includes("<em>italic</em>")); assert.ok(html.includes("<pre><code>")); assert.ok(html.includes('href="https://example.com"'));
 });
 test("Markdown raw script is escaped",()=>{
   const html=markdownToSafeHtml('<script>alert(1)</script>'); assert.doesNotMatch(html,/<script>/i); assert.ok(html.includes("&lt;script&gt;"));

@@ -1,4 +1,4 @@
-# MZ Smart Tool House — Dashboard Polish & Verification Report
+# MZ Smart Tools House — Dashboard Polish & Verification Report
 
 Date: 2026-09-23
 

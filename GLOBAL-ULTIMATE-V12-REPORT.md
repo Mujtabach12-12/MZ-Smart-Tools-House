@@ -1,4 +1,4 @@
-# MZ Smart Tool House — Global Ultimate V12 Engineering Report
+# MZ Smart Tools House — Global Ultimate V12 Engineering Report
 
 Date: 2026-09-20
 

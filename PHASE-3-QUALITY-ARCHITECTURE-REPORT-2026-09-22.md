@@ -1,4 +1,4 @@
-# MZ Smart Tool House — Phase 3 Quality Architecture Report
+# MZ Smart Tools House — Phase 3 Quality Architecture Report
 
 Date: 2026-09-22
 

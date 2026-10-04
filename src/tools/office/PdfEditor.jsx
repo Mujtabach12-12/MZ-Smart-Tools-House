@@ -20,6 +20,65 @@ const MAX_FILE_BYTES = 80 * 1024 * 1024;
 const MAX_IMAGE_BYTES = 12 * 1024 * 1024;
 const DOCX_MIME = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
+function EditablePdfTextBlock({ block, active, busy, displayScale, onSelect, onCommit }) {
+  const ref = useRef(null);
+  const focusedRef = useRef(false);
+  const [hovered, setHovered] = useState(false);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node || focusedRef.current) return;
+    if (node.textContent !== block.text) node.textContent = block.text;
+  }, [block.text]);
+
+  const commit = (event) => {
+    onCommit(block.id, { text: event.currentTarget.textContent || "" });
+  };
+
+  const showEditingLayer = active || hovered || block.dirty;
+  const editBackground = block.background && block.background !== "transparent" ? block.background : "#ffffff";
+  const editColor = block.textColor || "#111827";
+
+  return <div
+    ref={ref}
+    role="textbox"
+    aria-label={`Editable PDF text: ${block.originalText}`}
+    aria-multiline="false"
+    contentEditable={!busy}
+    suppressContentEditableWarning
+    spellCheck="false"
+    onFocus={(event) => {
+      focusedRef.current = true;
+      onSelect(block.id);
+      if (event.currentTarget.textContent !== block.text) event.currentTarget.textContent = block.text;
+    }}
+    onBlur={(event) => { focusedRef.current = false; commit(event); }}
+    onInput={() => {
+      // Keep browser-owned contentEditable DOM untouched while typing so the caret never jumps.
+      // The final text is committed on blur; the side-panel editor still updates state directly.
+    }}
+    onPointerEnter={() => setHovered(true)}
+    onPointerLeave={() => setHovered(false)}
+    onKeyDown={(event) => {
+      if (event.key === "Enter") { event.preventDefault(); event.currentTarget.blur(); }
+    }}
+    className={`mz-pdf-editor-text-block ${active ? "is-active" : ""} ${block.dirty ? "is-dirty" : ""}`}
+    style={{
+      left: `${block.leftPct}%`, top: `${block.topPct}%`,
+      width: `${Math.min(100 - block.leftPct, Math.max(block.widthPct, 4))}%`,
+      minHeight: `${Math.max(block.heightPct, 1)}%`,
+      fontSize: `${Math.max(7, block.fontSizeViewport * displayScale)}px`,
+      lineHeight: 1.05,
+      color: showEditingLayer ? editColor : "transparent",
+      WebkitTextFillColor: showEditingLayer ? editColor : "transparent",
+      background: showEditingLayer ? editBackground : "transparent",
+      boxShadow: showEditingLayer ? `0 0 0 2px ${editBackground}` : "none",
+      textShadow: "none",
+      filter: "none",
+    }}
+  />;
+}
+
 async function loadPdfLib() { return import("pdf-lib"); }
 async function loadPdfJs() {
   const pdfjs = await import("pdfjs-dist");
@@ -740,31 +799,17 @@ export default function PdfEditor() {
               <div ref={pageStageRef} className="mz-pdf-editor-page relative mx-auto" style={{ width: pageWidthStyle, maxWidth: zoom <= 100 ? "900px" : "none" }}>
                 <img src={preview} alt={`Preview of page ${selected + 1}`} className="block h-auto w-full select-none bg-white" draggable="false"/>
                 {editMode && selectedBlocks.length ? <div className="absolute inset-0 z-10" aria-label={`Editable text layer for page ${selected + 1}`}>
-                  {selectedBlocks.map((block) => {
-                    const active = selectedBlockId === block.id;
-                    const showText = active || block.dirty;
-                    return <div
+                  {selectedBlocks.map((block) => (
+                    <EditablePdfTextBlock
                       key={block.id}
-                      role="textbox"
-                      aria-label={`Editable PDF text: ${block.originalText}`}
-                      aria-multiline="false"
-                      contentEditable={!busy}
-                      suppressContentEditableWarning
-                      onFocus={(event) => { setSelectedBlockId(block.id); if (!block.dirty && event.currentTarget.textContent !== block.text) event.currentTarget.textContent = block.text; }}
-                      onBlur={(event) => updateBlock(block.id, { text: event.currentTarget.textContent || "" })}
-                      onInput={(event) => updateBlock(block.id, { text: event.currentTarget.textContent || "" })}
-                      className={`mz-pdf-editor-text-block ${active ? "is-active" : ""} ${block.dirty ? "is-dirty" : ""}`}
-                      style={{
-                        left: `${block.leftPct}%`, top: `${block.topPct}%`,
-                        width: `${Math.min(100 - block.leftPct, Math.max(block.widthPct, 4))}%`,
-                        minHeight: `${Math.max(block.heightPct, 1)}%`,
-                        fontSize: `${Math.max(7, block.fontSizeViewport * displayScale)}px`,
-                        lineHeight: 1.05,
-                        color: showText ? block.textColor : "transparent",
-                        background: showText ? block.background : "transparent",
-                      }}
-                    >{block.text}</div>;
-                  })}
+                      block={block}
+                      active={selectedBlockId === block.id}
+                      busy={busy}
+                      displayScale={displayScale}
+                      onSelect={setSelectedBlockId}
+                      onCommit={updateBlock}
+                    />
+                  ))}
                 </div> : null}
               </div>
             </div> : null}

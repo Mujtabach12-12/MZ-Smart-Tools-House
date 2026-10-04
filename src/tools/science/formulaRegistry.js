@@ -66,7 +66,7 @@ const records = [
 export const formulaToolRecords = records.map(([id,name,category,description,icon,keywords,formula]) => ({
   id, name, category, description, icon, keywords, formula,
   aliases: [], tags: ['formula','calculator'], status:'active', processingType:'browser', requiresBackend:false, requiresInternet:false,
-  seoTitle: `${name} Online | MZ Smart Tool House`,
+  seoTitle: `${name} Online | MZ Smart Tools House`,
   seoDescription: `${description} Uses a validated browser-side formula with clear inputs, units and result.`,
 }));
 export const formulaToolIds = formulaToolRecords.map((tool)=>tool.id);

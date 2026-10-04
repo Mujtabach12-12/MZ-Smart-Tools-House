@@ -1,4 +1,4 @@
-# MZ Smart Tool House — Category Registry Audit
+# MZ Smart Tools House — Category Registry Audit
 
 ## Source of truth
 

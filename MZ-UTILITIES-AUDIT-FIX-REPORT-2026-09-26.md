@@ -1,4 +1,4 @@
-# MZ Smart Tool House — Utilities Audit, Fix & Verification Report
+# MZ Smart Tools House — Utilities Audit, Fix & Verification Report
 
 Date: 2026-09-26
 

@@ -3,7 +3,7 @@ setlocal
 cd /d "%~dp0"
 
 echo ============================================================
-echo MZ Smart Tool House - SEO Growth Deployment
+echo MZ Smart Tools House - SEO Growth Deployment
 echo ============================================================
 
 where node >nul 2>&1 || (echo ERROR: Node.js is not installed.& exit /b 1)
@@ -19,7 +19,7 @@ git rev-parse --is-inside-work-tree >nul 2>&1
 if errorlevel 1 (
   echo.
   echo ERROR: This extracted ZIP is not a Git clone.
-  echo Copy these updated files into your existing MZ Smart Tool House GitHub clone,
+  echo Copy these updated files into your existing MZ Smart Tools House GitHub clone,
   echo then run this script from that clone folder.
   echo.
   echo Expected repository:

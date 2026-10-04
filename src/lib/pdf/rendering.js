@@ -7,8 +7,8 @@
  * exhausting browser memory.
  */
 
-export const DEFAULT_MAX_RENDER_PIXELS = 16_000_000;
-export const DEFAULT_MAX_RENDER_DIMENSION = 8192;
+export const DEFAULT_MAX_RENDER_PIXELS = 28_000_000;
+export const DEFAULT_MAX_RENDER_DIMENSION = 10000;
 
 export function getSafeDevicePixelRatio() {
   const dpr = Number(globalThis.window?.devicePixelRatio || 1);

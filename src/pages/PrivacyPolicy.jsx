@@ -6,15 +6,15 @@ export default function PrivacyPolicy() {
     <div className="mz-section max-w-4xl py-14">
       <Seo
         path="/privacy-policy"
-        title="Privacy Policy | MZ Smart Tool House"
-        description="Privacy, cookies, advertising, analytics and browser-based file processing practices for MZ Smart Tool House."
+        title="Privacy Policy | MZ Smart Tools House"
+        description="Privacy, cookies, advertising, analytics and browser-based file processing practices for MZ Smart Tools House."
       />
       <h1 className="text-3xl font-bold text-navy-900 dark:text-navy-50">Privacy Policy</h1>
       <p className="mt-2 text-sm text-navy-500 dark:text-navy-400">Last updated: September 27, 2026</p>
 
       <div className="prose prose-navy mt-6 max-w-none text-navy-600 dark:text-navy-300">
         <p>
-          MZ Smart Tool House is a browser-first productivity platform created and developed by Muhammad Mujtaba.
+          MZ Smart Tools House is a browser-first productivity platform created and developed by Muhammad Mujtaba.
           This policy explains what information may be processed when you use mztoolshouse.com, including our use of
           browser-based tools, analytics, advertising and contact features.
         </p>
@@ -23,7 +23,7 @@ export default function PrivacyPolicy() {
         <p>
           Many PDF, image, document, calculator and utility tools are designed to process data directly in your
           browser. When a tool is described as browser-based or local, the working file or text is not intentionally
-          uploaded to an MZ Smart Tool House server for that processing step. Some features may require an online
+          uploaded to an MZ Smart Tools House server for that processing step. Some features may require an online
           service or browser capability; those features should be presented according to their actual behavior rather
           than as local processing.
         </p>
@@ -47,7 +47,7 @@ export default function PrivacyPolicy() {
 
         <h2>Google AdSense and advertising</h2>
         <p>
-          MZ Smart Tool House uses Google AdSense to display advertising. Google and its advertising partners may use
+          MZ Smart Tools House uses Google AdSense to display advertising. Google and its advertising partners may use
           cookies, local storage or similar technologies to serve, measure and improve ads, including personalized ads
           where permitted and where the necessary choices or consent apply.
         </p>
@@ -58,7 +58,7 @@ export default function PrivacyPolicy() {
           advertising personalization in <a href="https://myadcenter.google.com/" target="_blank" rel="noreferrer">My Ad Center</a>.
         </p>
         <p>
-          Advertising does not unlock core MZ Smart Tool House features, and users are not required to click an ad to
+          Advertising does not unlock core MZ Smart Tools House features, and users are not required to click an ad to
           calculate, convert, create, copy, download, scan, edit or otherwise use a tool. Ad placement is intended to
           remain separate from primary tool controls.
         </p>
@@ -87,7 +87,7 @@ export default function PrivacyPolicy() {
         <p>
           The website may link to or use third-party services such as Google Analytics, Google AdSense or external
           resources. Those services operate under their own terms and privacy policies. A link to another site does not
-          mean MZ Smart Tool House controls that site&apos;s data practices.
+          mean MZ Smart Tools House controls that site&apos;s data practices.
         </p>
 
         <h2>Data security and retention</h2>
@@ -100,7 +100,7 @@ export default function PrivacyPolicy() {
 
         <h2>Children&apos;s privacy</h2>
         <p>
-          MZ Smart Tool House is a general productivity website and is not intentionally designed to collect personal
+          MZ Smart Tools House is a general productivity website and is not intentionally designed to collect personal
           information from young children. If you believe a child has submitted personal information through a contact
           feature, please contact us so the issue can be reviewed.
         </p>

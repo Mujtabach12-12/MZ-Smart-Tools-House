@@ -90,6 +90,7 @@ export default function MzOnlineWord() {
   const [replaceText, setReplaceText] = useState("");
   const [templateOpen, setTemplateOpen] = useState(false);
   const [focusMode, setFocusMode] = useState(false);
+  const [exportFormat, setExportFormat] = useState("docx");
   const [recoveredAt] = useState(initial.savedAt || null);
   const [assignment, setAssignment] = useState({ institute:"", course:"", assignmentTitle:"", studentName:"", rollNumber:"", teacher:"", submissionDate:"" });
 
@@ -293,6 +294,14 @@ export default function MzOnlineWord() {
     } catch (e) { setError(e.message || "Unable to create PDF."); setMessage(""); }
   };
 
+  const runSelectedExport = async () => {
+    if (exportFormat === "docx") return exportDocx();
+    if (exportFormat === "pdf") return exportPdf();
+    if (exportFormat === "html") return exportHtml();
+    if (exportFormat === "txt") return exportTxt();
+    if (exportFormat === "print") return window.print();
+  };
+
   const loadLibraryDocument = (doc) => {
     if (!doc) return;
     setDocumentId(doc.documentId || uid()); setTitle(doc.title || "Untitled Document"); setHtml(doc.html || DEFAULT_HTML); setHeader(doc.header || ""); setFooter(doc.footer || ""); setLineSpacing(Number(doc.lineSpacing) || 1.5); setParagraphSpacing(Number(doc.paragraphSpacing) || 10); setMarginSize(doc.marginSize || "normal"); setPageSize(doc.pageSize || "a4"); setOrientation(doc.orientation || "portrait"); setPageNumbers(doc.pageNumbers !== false); setZoom(Number(doc.zoom) || 100);
@@ -407,7 +416,7 @@ export default function MzOnlineWord() {
 
     {templateOpen ? <section className="mz-card p-5"><div className="flex items-start justify-between gap-3"><div><h3 className="text-lg font-bold">Assignment template</h3><p className="text-sm text-navy-500">Create an editable university assignment cover and starter page.</p></div><button className="mz-btn-ghost" onClick={()=>setTemplateOpen(false)}>Close</button></div><div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{[["institute","University / Institute"],["course","Course"],["assignmentTitle","Assignment Title"],["studentName","Student Name"],["rollNumber","Roll Number"],["teacher","Teacher"],["submissionDate","Submission Date"]].map(([key,label])=><label key={key} className="text-sm font-semibold">{label}<input className="mz-input mt-1.5" type={key==="submissionDate"?"date":"text"} value={assignment[key]} onChange={(e)=>setAssignment((a)=>({...a,[key]:e.target.value}))}/></label>)}</div><button className="mz-btn-primary mt-4" onClick={createAssignment}>Create Assignment</button></section> : null}
 
-    <section className="mz-card p-4"><div className="flex flex-wrap items-center gap-2"><span className="mr-2 text-sm font-bold">Export</span><button className="mz-btn-primary" onClick={exportDocx}><FileDown className="h-4 w-4"/> DOCX</button><button className="mz-btn-secondary" onClick={exportPdf}><FileDown className="h-4 w-4"/> PDF</button><button className="mz-btn-secondary" onClick={exportHtml}>HTML</button><button className="mz-btn-secondary" onClick={exportTxt}>TXT</button><button className="mz-btn-secondary" onClick={()=>window.print()}><Printer className="h-4 w-4"/> Print / Save PDF</button></div><p className="mt-3 text-xs leading-5 text-navy-400">Drafts auto-save in this browser. Direct DOCX/PDF export preserves text and headings; for the closest visual match when using images/tables, use Print / Save PDF or HTML export.</p></section>
+    <section className="mz-card p-4"><div className="flex flex-wrap items-end gap-3"><label className="min-w-[220px] text-sm font-bold">Export document as<select className="mz-input mt-2" value={exportFormat} onChange={(e)=>setExportFormat(e.target.value)}><option value="docx">Word document (.docx)</option><option value="pdf">PDF document (.pdf)</option><option value="html">Web page (.html)</option><option value="txt">Plain text (.txt)</option><option value="print">Print / Save as PDF</option></select></label><button className="mz-btn-primary" onClick={runSelectedExport}><FileDown className="h-4 w-4"/> Export</button><div className="flex flex-wrap gap-2"><button className="mz-btn-secondary" onClick={exportDocx}>Quick DOCX</button><button className="mz-btn-secondary" onClick={exportPdf}>Quick PDF</button></div></div><p className="mt-3 text-xs leading-5 text-navy-400">Choose the required output format before export. Direct DOCX/PDF export preserves text and headings; for the closest visual match with complex images/tables, use Print / Save PDF or HTML.</p></section>
     {error ? <div role="alert" className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900/60 dark:bg-red-950/30 dark:text-red-200">{error}</div> : null}
     {message ? <div role="status" className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800 dark:border-emerald-900/60 dark:bg-emerald-950/30 dark:text-emerald-200">{message}</div> : null}
   </div>;

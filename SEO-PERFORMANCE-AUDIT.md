@@ -1,4 +1,4 @@
-# MZ Smart Tool House — SEO, Mobile & Performance Optimization Audit
+# MZ Smart Tools House — SEO, Mobile & Performance Optimization Audit
 
 ## Scope
 This phase optimizes the existing implementation without replacing tool logic or rebuilding the application.

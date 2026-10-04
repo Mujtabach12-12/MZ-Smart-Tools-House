@@ -6,15 +6,15 @@ export default function Disclaimer() {
     <div className="mz-section max-w-4xl py-14">
       <Seo
         path="/disclaimer"
-        title="Disclaimer | MZ Smart Tool House"
-        description="Important limitations and verification guidance for calculators, documents, coding, finance, health and other MZ Smart Tool House tools."
+        title="Disclaimer | MZ Smart Tools House"
+        description="Important limitations and verification guidance for calculators, documents, coding, finance, health and other MZ Smart Tools House tools."
       />
       <h1 className="text-3xl font-bold text-navy-900 dark:text-navy-50">Disclaimer</h1>
       <p className="mt-2 text-sm text-navy-500 dark:text-navy-400">Last updated: September 27, 2026</p>
 
       <div className="prose prose-navy mt-6 max-w-none text-navy-600 dark:text-navy-300">
         <p>
-          MZ Smart Tool House provides productivity tools and information for convenience. Results should be checked
+          MZ Smart Tools House provides productivity tools and information for convenience. Results should be checked
           before they are used for an important decision, submission, payment, diagnosis, design, deployment or other
           consequential purpose.
         </p>
@@ -56,13 +56,13 @@ export default function Disclaimer() {
         <h2>Third-party advertising and links</h2>
         <p>
           Advertisements displayed through Google AdSense or other third-party services are provided by those
-          advertising services. Their presence does not mean MZ Smart Tool House endorses the advertiser, product or
+          advertising services. Their presence does not mean MZ Smart Tools House endorses the advertiser, product or
           claim. Exercise your own judgment before purchasing or relying on a third-party offer.
         </p>
 
         <h2>No institutional affiliation</h2>
         <p>
-          MZ Smart Tool House is not affiliated with a university, examination board, government authority, financial
+          MZ Smart Tools House is not affiliated with a university, examination board, government authority, financial
           institution, healthcare provider or advertiser unless a specific page clearly states otherwise.
         </p>
 

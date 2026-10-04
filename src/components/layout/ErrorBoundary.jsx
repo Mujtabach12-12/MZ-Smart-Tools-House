@@ -20,7 +20,7 @@ export default class ErrorBoundary extends Component {
 
   componentDidCatch(error, info) {
     // Keep production output friendly while retaining useful diagnostics in development.
-    console.error("MZ Smart Tool House runtime error:", error, info);
+    console.error("MZ Smart Tools House runtime error:", error, info);
     if (isDev) this.setState({ componentStack: String(info?.componentStack || "") });
   }
 

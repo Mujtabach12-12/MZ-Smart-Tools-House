@@ -1,4 +1,4 @@
-# MZ Smart Tool House — Phase 13 Final Production Audit
+# MZ Smart Tools House — Phase 13 Final Production Audit
 
 Creator: Muhammad Mujtaba
 
@@ -77,6 +77,6 @@ The sandbox has no npm registry/DNS access and contains no installed React/Vite/
 
 ## Branding
 
-MZ Smart Tool House
+MZ Smart Tools House
 
 Created & developed by Muhammad Mujtaba

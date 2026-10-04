@@ -12,11 +12,12 @@ import NotFound from "./NotFound";
 import { addRecentTool } from "../lib/localPreferences";
 import { getToolSeo } from "../data/toolSeo";
 import ToolSuccessFeedback from "../components/ui/ToolSuccessFeedback";
+import MzAiRobot from "../components/ai/MzAiRobot";
 
 const FILE_TOOL_CATEGORIES = new Set(["pdf-tools", "image-tools", "scanner-tools", "document-tools", "office-tools"]);
 const APP_WORKSPACES = new Set([
   "mz-online-word", "mz-online-excel", "mz-online-powerpoint", "mz-pdf-editor", "mz-pdf-viewer", "mz-powerpoint-viewer",
-  "smart-document-scanner", "programming-lab",
+  "smart-document-scanner", "programming-lab", "web-development-lab",
 ]);
 
 export default function ToolPage() {
@@ -36,10 +37,10 @@ export default function ToolPage() {
    "@graph": [
      {
        "@type": "WebPage",
-       name: `${tool.name} | MZ Smart Tool House`,
+       name: `${tool.name} | MZ Smart Tools House`,
        description: seo.description || tool.description,
        url: `${BASE_URL}${tool.route}`,
-       isPartOf: { "@type": "WebSite", name: "MZ Smart Tool House", url: BASE_URL },
+       isPartOf: { "@type": "WebSite", name: "MZ Smart Tools House", url: BASE_URL },
      },
      {
        "@type": "WebApplication",
@@ -79,7 +80,7 @@ export default function ToolPage() {
  return <>
    <Seo path={tool.route} title={seo.title} description={seo.description} type="website" schema={schema} robots={isIndexable ? undefined : "noindex,follow"}/>
    <ToolPageLayout tool={tool}>
-    {ActiveComponent ? <ToolWorkspace className={APP_WORKSPACES.has(tool.id) ? "mz-app-workspace" : ""}><Suspense fallback={<div className="mz-tool-loading" role="status">Loading tool workspace…</div>}><ActiveComponent id={tool.id} tool={tool}/></Suspense></ToolWorkspace> :
+    {ActiveComponent ? <ToolWorkspace className={APP_WORKSPACES.has(tool.id) ? "mz-app-workspace" : ""}><Suspense fallback={<div className="mz-tool-loading mz-ai-tool-loading" role="status"><MzAiRobot compact loading label="Loading tool"/><span>Loading tool workspace…</span></div>}><ActiveComponent id={tool.id} tool={tool}/></Suspense></ToolWorkspace> :
       <ToolWorkspace className="min-h-[360px] flex flex-col items-center justify-center text-center">
        <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand-50 text-brand-600 dark:bg-brand-950 dark:text-brand-300"><Construction className="h-7 w-7"/></span>
        <h2 className="mt-5 text-xl font-bold text-navy-900 dark:text-white">{tool.status === "coming-soon" ? "Coming Soon 🚀" : "Tool temporarily unavailable"}</h2>

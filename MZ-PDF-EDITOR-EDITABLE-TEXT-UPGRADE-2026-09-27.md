@@ -1,4 +1,4 @@
-# MZ Smart Tool House — PDF Editor Editable-Text Upgrade
+# MZ Smart Tools House — PDF Editor Editable-Text Upgrade
 
 Date: 2026-09-27
 Status: SOURCE-LEVEL UPGRADE COMPLETE / PRODUCTION BUILD BLOCKED BY MISSING LOCAL DEPENDENCIES
@@ -42,7 +42,7 @@ The prompt remains optional/dismissible and is triggered after meaningful succes
 
 This implementation does **not** claim that an arbitrary PDF becomes a perfect Microsoft Word document.
 
-PDF text is normally stored as positioned drawing commands, not Word-style paragraphs. For selectable PDFs, MZ Smart Tool House extracts positioned text and lets the user edit/repaint changed regions. This works best on normal office PDFs with simple backgrounds. Complex embedded fonts, rotated/transformed text, tables, transparent artwork, and complex backgrounds can need manual adjustment.
+PDF text is normally stored as positioned drawing commands, not Word-style paragraphs. For selectable PDFs, MZ Smart Tools House extracts positioned text and lets the user edit/repaint changed regions. This works best on normal office PDFs with simple backgrounds. Complex embedded fonts, rotated/transformed text, tables, transparent artwork, and complex backgrounds can need manual adjustment.
 
 For scanned PDFs, OCR is best-effort and accuracy depends on scan quality.
 

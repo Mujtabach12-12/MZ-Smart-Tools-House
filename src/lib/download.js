@@ -39,7 +39,7 @@ async function saveNative(data, filename, mimeType) {
     if ((await Share.canShare()).value) {
       await Share.share({
         title: name,
-        text: `MZ Smart Tool House: ${name}`,
+        text: `MZ Smart Tools House: ${name}`,
         files: [result.uri],
         dialogTitle: 'Save or share file',
       });

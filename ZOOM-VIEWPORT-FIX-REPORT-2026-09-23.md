@@ -1,4 +1,4 @@
-# MZ Smart Tool House — Zoom / Viewport Fix
+# MZ Smart Tools House — Zoom / Viewport Fix
 
 Date: 2026-09-23
 

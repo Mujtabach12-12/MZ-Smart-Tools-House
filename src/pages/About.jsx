@@ -7,8 +7,8 @@ export default function About() {
     <div className="mz-section max-w-5xl py-12 sm:py-16">
       <Seo
         path="/about"
-        title="About MZ Smart Tool House"
-        description="Learn about MZ Smart Tool House, created and developed by Muhammad Mujtaba, and get direct contact information."
+        title="About MZ Smart Tools House"
+        description="Learn about MZ Smart Tools House, created and developed by Muhammad Mujtaba, and get direct contact information."
       />
 
       <section className="overflow-hidden rounded-[2rem] border border-brand-100 bg-gradient-to-br from-brand-50 via-white to-cyan-50 p-6 shadow-soft sm:p-10 dark:border-brand-900/50 dark:from-brand-950/30 dark:via-navy-950 dark:to-cyan-950/20">
@@ -18,7 +18,7 @@ export default function About() {
               <Sparkles className="h-3.5 w-3.5" /> About the platform
             </div>
             <h1 className="mt-4 text-3xl font-black tracking-tight text-navy-950 sm:text-5xl dark:text-white">
-              MZ Smart Tool House
+              MZ Smart Tools House
             </h1>
             <p className="mt-4 text-base leading-7 text-navy-600 dark:text-navy-300">
               A browser-first digital productivity platform that brings useful tools for documents, study, programming, calculations, images, science, engineering and everyday work into one focused workspace.
@@ -38,10 +38,10 @@ export default function About() {
 
       <div className="mt-8 grid gap-6 lg:grid-cols-[1.35fr_.65fr]">
         <section className="mz-card p-6 sm:p-8">
-          <h2 className="text-xl font-black text-navy-950 dark:text-white">Why MZ Smart Tool House exists</h2>
+          <h2 className="text-xl font-black text-navy-950 dark:text-white">Why MZ Smart Tools House exists</h2>
           <div className="mt-4 space-y-4 text-sm leading-7 text-navy-600 dark:text-navy-300">
             <p>
-              The platform was created to reduce the need to jump between many unrelated websites for common tasks. Instead, MZ Smart Tool House organizes practical tools in one consistent interface that works across phones, tablets and desktop browsers.
+              The platform was created to reduce the need to jump between many unrelated websites for common tasks. Instead, MZ Smart Tools House organizes practical tools in one consistent interface that works across phones, tablets and desktop browsers.
             </p>
             <p>
               Wherever practical, file-based tools process data locally in the browser. Features that genuinely require online services use explicit server-backed paths rather than pretending a result was created locally.
@@ -50,7 +50,7 @@ export default function About() {
               The project is actively developed and improved with a focus on clear workflows, mobile usability, privacy-conscious processing and dependable exports. The platform is designed for real use rather than demo-only output, and tools should be clear about their limitations.
             </p>
             <p>
-              MZ Smart Tool House is intended to remain broadly accessible. Advertising may help support free access, but advertisements are kept separate from core tool actions. Users do not need to click an ad to calculate, convert, create, copy, download, scan or edit with the platform.
+              MZ Smart Tools House is intended to remain broadly accessible. Advertising may help support free access, but advertisements are kept separate from core tool actions. Users do not need to click an ad to calculate, convert, create, copy, download, scan or edit with the platform.
             </p>
           </div>
           <div className="mt-6 flex items-start gap-3 rounded-2xl bg-emerald-50 p-4 text-sm text-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-200">

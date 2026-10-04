@@ -1,4 +1,4 @@
-# MZ Smart Tool House — Dictionary + Scanner Reliability Fix
+# MZ Smart Tools House — Dictionary + Scanner Reliability Fix
 
 Date: 2026-09-24
 

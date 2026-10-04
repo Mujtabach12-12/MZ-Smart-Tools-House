@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /.netlify/
+Disallow: /tool-health
+Disallow: /settings
 
 Sitemap: https://mztoolshouse.com/sitemap.xml

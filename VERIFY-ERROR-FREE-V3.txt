@@ -1,4 +1,4 @@
-MZ Smart Tool House ERROR FREE V3
+MZ Smart Tools House ERROR FREE V3
 
 This package intentionally uses the minimal Vite 8 configuration.
 There is no manualChunks setting and no custom output chunk configuration.

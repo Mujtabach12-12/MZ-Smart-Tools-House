@@ -1,4 +1,4 @@
-# MZ Smart Tool House — Stabilization Report
+# MZ Smart Tools House — Stabilization Report
 
 Date: 2026-09-20
 Project: existing React/Vite codebase, stabilized in place

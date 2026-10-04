@@ -1,4 +1,4 @@
-# MZ Smart Tool House — AdSense Publisher Readiness Update
+# MZ Smart Tools House — AdSense Publisher Readiness Update
 Date: 2026-09-27
 
 ## Implemented

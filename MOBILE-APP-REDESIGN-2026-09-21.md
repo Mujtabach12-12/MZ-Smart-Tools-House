@@ -1,4 +1,4 @@
-# MZ Smart Tool House — Mobile App Redesign
+# MZ Smart Tools House — Mobile App Redesign
 
 Date: 2026-09-21
 

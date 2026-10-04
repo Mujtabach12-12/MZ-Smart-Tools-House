@@ -71,7 +71,7 @@ export default function PwaManager() {
       setInstallHelp(false);
       setIosHelp(false);
       emitState({ available: false, installed: true });
-      notify('App installed successfully. Open it from your home screen anytime.', { type: 'success', title: 'MZ Smart Tool House' });
+      notify('App installed successfully. Open it from your home screen anytime.', { type: 'success', title: 'MZ Smart Tools House' });
       window.dispatchEvent(new CustomEvent('mz-pwa-install-available', { detail: { available: false } }));
     };
 
@@ -261,7 +261,7 @@ export default function PwaManager() {
         <div className="mz-install-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setIosHelp(false); }}>
           <section className="mz-install-sheet max-w-md" role="dialog" aria-modal="true" aria-label="Install on iPhone or iPad">
             <button className="mz-install-close" onClick={() => setIosHelp(false)} aria-label="Close"><X className="h-5 w-5" /></button>
-            <div className="flex items-start gap-3"><Share2 className="mt-0.5 h-6 w-6 shrink-0 text-brand-600" /><div><h2 className="text-lg font-extrabold">Install on iPhone or iPad</h2><p className="mt-2 text-sm leading-6 text-navy-500 dark:text-navy-400">In Safari, tap <b>Share</b>, choose <b>Add to Home Screen</b>, then tap <b>Add</b>. MZ Smart Tool House will appear like an app on your home screen.</p></div></div>
+            <div className="flex items-start gap-3"><Share2 className="mt-0.5 h-6 w-6 shrink-0 text-brand-600" /><div><h2 className="text-lg font-extrabold">Install on iPhone or iPad</h2><p className="mt-2 text-sm leading-6 text-navy-500 dark:text-navy-400">In Safari, tap <b>Share</b>, choose <b>Add to Home Screen</b>, then tap <b>Add</b>. MZ Smart Tools House will appear like an app on your home screen.</p></div></div>
           </section>
         </div>
       ) : null}
@@ -275,7 +275,7 @@ export default function PwaManager() {
               <div className="flex-1">
                 <h2 className="text-lg font-extrabold">{installed ? 'App is installed' : 'Install from your browser'}</h2>
                 <p className="mt-2 text-sm leading-6 text-navy-500 dark:text-navy-400">
-                  {installed ? 'MZ Smart Tool House is already running in installed/standalone mode on this device.' : 'Open your browser menu (⋮) and choose “Install app” or “Add to Home screen”. On supported Chromium browsers, the one-tap install button will become available automatically when the browser marks the site as installable.'}
+                  {installed ? 'MZ Smart Tools House is already running in installed/standalone mode on this device.' : 'Open your browser menu (⋮) and choose “Install app” or “Add to Home screen”. On supported Chromium browsers, the one-tap install button will become available automatically when the browser marks the site as installable.'}
                 </p>
               </div>
             </div>

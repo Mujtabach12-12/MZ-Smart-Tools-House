@@ -1,4 +1,4 @@
-# MZ Smart Tool House — Mobile Card, GA4 & SEO Update
+# MZ Smart Tools House — Mobile Card, GA4 & SEO Update
 
 Date: 2026-09-23
 

@@ -1,4 +1,4 @@
-# MZ Smart Tool House — Requested Fixes Report
+# MZ Smart Tools House — Requested Fixes Report
 
 Date: 2026-09-22
 

@@ -128,7 +128,7 @@ export const priorityToolSeo = {
   },
   "password-generator": {
     title: "Password Generator – Create Strong Random Passwords",
-    description: "Generate strong random passwords in your browser with configurable length and character options. Generated passwords are not sent to MZ Smart Tool House.",
+    description: "Generate strong random passwords in your browser with configurable length and character options. Generated passwords are not sent to MZ Smart Tools House.",
     intro: "Create a random password locally with the length and character choices you need, then copy it into your password manager or account setup form.",
     howTo: ["Choose the desired password length.", "Select the character groups you want included.", "Generate a random password.", "Copy it securely and store it in a trusted password manager when appropriate."],
     features: ["Random password generation", "Configurable length", "Character-set options", "Local browser workflow"],
@@ -136,13 +136,13 @@ export const priorityToolSeo = {
     related: ["uuid-generator", "hash-generator", "base64-encoder", "url-encoder"],
   },
   "smart-document-scanner": {
-    title: "Document Scanner Online – Scan Photos to PDF",
-    description: "Scan documents from camera photos or uploaded images, adjust page corners, enhance pages, reorder multiple scans and export a PDF in your browser.",
+    title: "Free Document Scanner Online – Auto Crop Photos to PDF",
+    description: "Scan documents online from camera photos or images with automatic edge detection, precise corner cropping, perspective correction, high-quality export, OCR and multi-page PDF creation.",
     intro: "Turn document photos into a cleaner multi-page scan with manual corner control, enhancement choices and PDF export while keeping the workflow in your browser where supported.",
     howTo: ["Capture a document with the camera or choose an existing photo.", "Check and adjust the detected page corners.", "Apply the enhancement mode that best preserves readability.", "Add or reorder pages, then export the scan as PDF."],
-    features: ["Camera or file input", "Corner adjustment", "Perspective correction", "Enhancement modes", "Multi-page PDF export"],
+    features: ["Camera or file input", "Automatic document edge detection", "Precise corner adjustment", "Perspective correction", "Original-resolution, 1080p, 1440p and 4K image export", "OCR and multi-page PDF export"],
     useCases: ["Assignments and notes", "Receipts and forms", "Multi-page document scans", "Creating a PDF from phone photos"],
-    supportedFormats: ["Input: supported camera/image formats", "Output: PDF"],
+    supportedFormats: ["Input: JPG, PNG, WebP or camera capture", "Output: PDF, searchable PDF, JPG, PNG, TXT"],
     related: ["pdf-ocr", "scanned-pdf-to-searchable-pdf", "jpg-to-pdf", "pdf-compressor"],
   },
   "pdf-ocr": {

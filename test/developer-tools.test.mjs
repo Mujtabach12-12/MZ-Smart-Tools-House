@@ -17,7 +17,7 @@ function throws(name, fn, pattern) { test(name, () => assert.throws(fn, pattern)
 const sample = '{"name":"Mujtaba","age":22,"skills":["Python","JavaScript"],"active":true}';
 test("JSON parses real structure", () => { const v=parseJson(sample); assert.equal(v.name,"Mujtaba"); assert.equal(v.age,22); assert.deepEqual(v.skills,["Python","JavaScript"]); assert.equal(v.active,true); });
 test("JSON formatter returns valid readable JSON", () => { const out=formatJson(sample); assert.ok(out.includes('\n  "name"')); assert.deepEqual(JSON.parse(out),JSON.parse(sample)); });
-test("JSON nested objects survive formatting", () => { const input='{"user":{"name":"Mujtaba","profile":{"country":"Pakistan"}},"projects":[{"name":"MZ Smart Tool House"}]}'; assert.deepEqual(JSON.parse(formatJson(input)),JSON.parse(input)); });
+test("JSON nested objects survive formatting", () => { const input='{"user":{"name":"Mujtaba","profile":{"country":"Pakistan"}},"projects":[{"name":"MZ Smart Tools House"}]}'; assert.deepEqual(JSON.parse(formatJson(input)),JSON.parse(input)); });
 throws("JSON trailing comma rejected", () => formatJson('{"name":"Mujtaba",}'), /Invalid JSON/);
 throws("JSON single quotes rejected", () => validateJson("{'name':'Mujtaba'}"), /Invalid JSON/);
 test("JSON null zero false and empty remain distinct", () => { const v=parseJson('{"value":null,"number":0,"boolean":false,"empty":""}'); assert.equal(v.value,null); assert.equal(v.number,0); assert.equal(v.boolean,false); assert.equal(v.empty,""); });
@@ -39,7 +39,7 @@ throws("Invalid Base64 characters rejected", () => decodeBase64Text("%%%INVALID%
 throws("Malformed Base64 length rejected", () => decodeBase64Text("A"), /Invalid Base64 length/);
 
 // URL
-const urlText="MZ Smart Tool House 🌍";
+const urlText="MZ Smart Tools House 🌍";
 test("URL component spaces",()=>assert.equal(encodeUrl("hello world"),"hello%20world"));
 test("URL component reserved chars",()=>assert.equal(decodeUrl(encodeUrl("hello world & test")),"hello world & test"));
 test("URL Unicode roundtrip",()=>assert.equal(decodeUrl(encodeUrl(urlText)),urlText));
