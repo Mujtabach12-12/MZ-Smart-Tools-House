@@ -1,0 +1,149 @@
+/* Final MZ robotic startup + document camera UX overrides.
+   Visual only: tool logic, URLs and processing pipelines remain unchanged. */
+
+/* Ensure the existing MZ AI startup overlay is visible on both website and installed app. */
+.mz-web-startup-seen #mz-native-startup{display:flex!important}
+.mz-native-startup{display:flex!important}
+.mz-native-startup.is-hidden{display:none!important}
+
+/* Lightweight robotic ambience without changing layout or interaction. */
+.mz-app-shell::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  opacity:.48;
+  background:
+    radial-gradient(circle at 8% 24%,color-mix(in srgb,var(--mz-brand) 18%,transparent) 0 2px,transparent 3px),
+    radial-gradient(circle at 92% 38%,color-mix(in srgb,var(--mz-brand) 16%,transparent) 0 2px,transparent 3px),
+    linear-gradient(112deg,transparent 0 17%,color-mix(in srgb,var(--mz-brand) 8%,transparent) 17.1% 17.25%,transparent 17.35% 100%),
+    linear-gradient(68deg,transparent 0 81%,color-mix(in srgb,var(--mz-brand) 7%,transparent) 81.1% 81.25%,transparent 81.35% 100%);
+  background-size:100% 100%;
+  animation:mz-robotic-ambient 9s ease-in-out infinite;
+}
+@keyframes mz-robotic-ambient{0%,100%{opacity:.28;filter:saturate(.9)}50%{opacity:.58;filter:saturate(1.15)}}
+
+/* Full-screen scanner camera. Modern browsers support :has(); older browsers still
+   get the fixed camera stage even if page-scroll locking is unavailable. */
+html:has(.mz-scanner-camera-stage),body:has(.mz-scanner-camera-stage){
+  overflow:hidden!important;
+  overscroll-behavior:none!important;
+}
+body:has(.mz-scanner-camera-stage) .mz-ai-floating-assistant{display:none!important}
+
+.mz-scanner-camera-stage{
+  position:fixed!important;
+  inset:0!important;
+  z-index:2147482500!important;
+  width:100vw!important;
+  height:100dvh!important;
+  min-height:100dvh!important;
+  max-width:none!important;
+  margin:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:#020617!important;
+  box-shadow:none!important;
+  overflow:hidden!important;
+  touch-action:none;
+}
+.mz-scanner-camera-stage video{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  max-height:none!important;
+  aspect-ratio:auto!important;
+  object-fit:contain!important;
+  background:#020617!important;
+}
+.mz-scanner-camera-scrim{
+  background:linear-gradient(180deg,rgba(2,6,23,.74),transparent 18%,transparent 72%,rgba(2,6,23,.84))!important;
+}
+.mz-scanner-camera-topbar{
+  top:0!important;
+  padding:max(.8rem,env(safe-area-inset-top)) max(.8rem,env(safe-area-inset-right)) .8rem max(.8rem,env(safe-area-inset-left))!important;
+}
+.mz-scanner-camera-guide{
+  left:50%!important;
+  top:50%!important;
+  right:auto!important;
+  bottom:auto!important;
+  width:min(86vw,calc((100dvh - 220px) * .7071),620px)!important;
+  aspect-ratio:210/297!important;
+  transform:translate(-50%,-50%)!important;
+  border:0!important;
+  border-radius:.85rem!important;
+  box-shadow:none!important;
+}
+.mz-scanner-camera-guide::before{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  border:1px solid rgba(255,255,255,.38)!important;
+  border-radius:.85rem!important;
+  box-shadow:0 0 0 9999px rgba(2,6,23,.30)!important;
+}
+.mz-scanner-camera-guide i{width:38px!important;height:38px!important}
+.mz-scanner-camera-guide>span{
+  position:absolute!important;
+  left:50%!important;
+  top:-3rem!important;
+  transform:translateX(-50%)!important;
+  width:max-content!important;
+  max-width:88vw!important;
+  margin:0!important;
+  border:1px solid rgba(255,255,255,.2)!important;
+  border-radius:999px!important;
+  background:rgba(2,6,23,.74)!important;
+  padding:.44rem .72rem!important;
+  color:#fff!important;
+  font-size:0!important;
+  font-weight:900!important;
+  text-align:center!important;
+  backdrop-filter:blur(10px)!important;
+}
+.mz-scanner-camera-guide>span::after{
+  content:"Fit ALL 4 page corners inside this frame";
+  font-size:.68rem;
+  letter-spacing:.01em;
+}
+.mz-scanner-camera-guide>span::before{
+  content:"";
+  position:absolute;
+  left:14%;
+  right:14%;
+  top:calc(3rem + 9vh);
+  height:2px;
+  border-radius:999px;
+  background:linear-gradient(90deg,transparent,#67e8f9,#60a5fa,transparent);
+  box-shadow:0 0 14px rgba(34,211,238,.72);
+  animation:mz-scanner-guide-scan 2.8s ease-in-out infinite;
+}
+@keyframes mz-scanner-guide-scan{
+  0%,100%{transform:translateY(0);opacity:.4}
+  50%{transform:translateY(min(45vh,360px));opacity:1}
+}
+.mz-scanner-camera-dock{
+  padding:1rem max(1rem,env(safe-area-inset-right)) max(1rem,env(safe-area-inset-bottom)) max(1rem,env(safe-area-inset-left))!important;
+  background:linear-gradient(180deg,transparent,rgba(2,6,23,.76))!important;
+}
+.mz-scanner-camera-quality span{font-size:0!important}
+.mz-scanner-camera-quality span::after{content:"FULL RES";font-size:.64rem}
+.mz-scanner-camera-quality small{font-size:0!important}
+.mz-scanner-camera-quality small::after{content:"Auto-crop next";font-size:.58rem}
+
+@media(max-width:767px){
+  .mz-scanner-camera-stage{width:100vw!important;height:100dvh!important;min-height:100dvh!important;margin:0!important;border-radius:0!important}
+  .mz-scanner-camera-guide{width:min(88vw,calc((100dvh - 210px) * .7071),520px)!important}
+  .mz-scanner-camera-dock{grid-template-columns:1fr 86px 1fr!important}
+  .mz-scanner-shutter{width:76px!important;height:76px!important}
+  .mz-scanner-camera-quality small{display:block!important}
+}
+@media(orientation:landscape) and (max-height:700px){
+  .mz-scanner-camera-guide{width:min(68vw,760px)!important;aspect-ratio:297/210!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .mz-app-shell::after,.mz-scanner-camera-guide>span::before{animation:none!important}
+}

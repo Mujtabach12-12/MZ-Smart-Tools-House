@@ -107,7 +107,7 @@ function replaceCanonical(html, url) {
   return rx.test(html) ? html.replace(rx, tag) : html.replace("</head>", `${tag}\n</head>`);
 }
 function buildPageSchema(record, canonicalUrl) {
-  const graph=[{"@type":"WebPage","@id":`${canonicalUrl}#webpage`,url:canonicalUrl,name:record.title,description:record.description,inLanguage:"en",isPartOf:{"@id":`${BASE_URL}/#website`},primaryImageOfPage:{"@type":"ImageObject",url:DEFAULT_IMAGE}}];
+  const graph=[{"@type":"WebPage","@id":`${canonicalUrl}#webpage`,url:canonicalUrl,name:record.title,description:record.description,author:{"@type":"Person",name:"Muhammad Mujtaba"},publisher:{"@id":`${BASE_URL}/#organization`},inLanguage:"en",isPartOf:{"@id":`${BASE_URL}/#website`},primaryImageOfPage:{"@type":"ImageObject",url:DEFAULT_IMAGE}}];
   if(record.kind==="tool"&&record.tool){graph.push({"@type":"SoftwareApplication","@id":`${canonicalUrl}#app`,name:record.tool.name,url:canonicalUrl,applicationCategory:"WebApplication",operatingSystem:"Any",offers:{"@type":"Offer",price:"0",priceCurrency:"USD"},description:record.description});const faq=Array.isArray(record.seo?.faq)?record.seo.faq:[];if(faq.length)graph.push({"@type":"FAQPage",mainEntity:faq.slice(0,8).map(([q,a])=>({"@type":"Question",name:String(q),acceptedAnswer:{"@type":"Answer",text:String(a)}}))});}
   return JSON.stringify({"@context":"https://schema.org","@graph":graph}).replace(/</g,"\\u003c");
 }

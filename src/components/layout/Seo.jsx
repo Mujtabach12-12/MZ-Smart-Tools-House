@@ -124,6 +124,8 @@ export default function Seo({
       url: canonicalUrl,
       name: fullTitle,
       description: metaDescription,
+      author: { "@type": "Person", name: "Muhammad Mujtaba" },
+      publisher: { "@id": `${BASE_URL}/#organization` },
       inLanguage: "en",
       isPartOf: { "@id": `${BASE_URL}/#website` },
       primaryImageOfPage: { "@type": "ImageObject", url: image },

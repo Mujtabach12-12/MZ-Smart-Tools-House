@@ -17,9 +17,10 @@ const html = read('index.html');
 
 const appMs = Number(startup.match(/APP_STARTUP_MS\s*=\s*(\d+)/)?.[1]);
 const webMs = Number(startup.match(/WEB_STARTUP_MS\s*=\s*(\d+)/)?.[1]);
-assert.ok(appMs >= 500 && appMs <= 2000, `installed/native startup should stay brief, got ${appMs}`);
-assert.equal(webMs, 0, `normal web startup must not be artificially delayed, got ${webMs}`);
-assert.ok(startup.includes("startup.remove();"), "normal web startup must be removed immediately");
+assert.ok(appMs >= 5000 && appMs <= 7000, `installed/native MZ AI startup should run 5-7 seconds, got ${appMs}`);
+assert.ok(webMs >= 5000 && webMs <= 7000, `website MZ AI startup should run 5-7 seconds, got ${webMs}`);
+assert.ok(startup.includes("appLike ? APP_STARTUP_MS : WEB_STARTUP_MS"), "website and app startup durations must both be explicit");
+assert.ok(!startup.includes("if (!appLike)"), "normal web startup must not be removed immediately");
 for (const name of ['PDF Tools','Image Tools','Document Scanner','Calculators','Developer Tools','Converters']) {
   assert.ok(startup.includes(`"${name}"`), `startup step missing ${name}`);
 }
