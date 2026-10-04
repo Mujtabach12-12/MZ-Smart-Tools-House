@@ -11,7 +11,7 @@ import { universityPolicies } from "../src/data/universities/policies.js";
 import { getToolSeo } from "../src/data/toolSeo.js";
 import { getCategorySeo } from "../src/data/categorySeo.js";
 import { getActiveToolsByCategory } from "../src/data/tools.js";
-import { hasRichSeo } from "./seo-index-plan.js";
+import { hasRichSeo, getSearchFocusedTools } from "./seo-index-plan.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DIST_DIR = resolve(__dirname, "../dist");
@@ -39,9 +39,13 @@ const utilityPages = [
   ["/tool-health", "Tool Health", "Internal tool-health and implementation status view.", "noindex,follow"],
 ];
 
+const focusedTools = getSearchFocusedTools(tools);
 const records = new Map();
+function normalizeLegacyBrand(value) {
+  return String(value || "").replace(/\bMZ Smart Tool House\b/gi, SITE_NAME);
+}
 function buildFullTitle(title) {
-  const clean = String(title || "").trim();
+  const clean = normalizeLegacyBrand(title).trim();
   if (!clean) return `${SITE_NAME} – Free Online Tools for Work & Study`;
   if (clean.includes(SITE_NAME)) return clean;
   const branded = `${clean} | ${SITE_NAME}`;
@@ -125,7 +129,22 @@ function renderShell(template, record) {
   const list=(title,items)=>Array.isArray(items)&&items.length?`<section><h2>${escapeHtml(title)}</h2><ul>${items.slice(0,8).map((x)=>`<li>${escapeHtml(x)}</li>`).join("")}</ul></section>`:"";
   const faq=Array.isArray(seo.faq)&&seo.faq.length?`<section><h2>Frequently asked questions</h2>${seo.faq.slice(0,6).map(([q,a])=>`<h3>${escapeHtml(q)}</h3><p>${escapeHtml(a)}</p>`).join("")}</section>`:"";
   const detail=record.kind==="tool"?`${seo.intro?`<p>${escapeHtml(seo.intro)}</p>`:""}${seo.formula?`<section><h2>How it works</h2><p>${escapeHtml(seo.formula)}</p></section>`:""}${seo.example?`<section><h2>Example</h2><p>${escapeHtml(seo.example)}</p></section>`:""}${list("How to use",seo.howTo)}${list("Key features",seo.features)}${list("Common uses",seo.useCases)}${list("Supported formats",seo.supportedFormats)}${faq}`:"";
-  const crawlSummary = `<main data-prerender-content style="max-width:980px;margin:48px auto;padding:0 20px;font:16px/1.65 system-ui;color:#172033"><nav aria-label="Breadcrumb"><a href="/">Home</a> › <a href="/tools">Tools</a></nav><h1 style="font-size:32px;line-height:1.2;margin:12px 0">${escapeHtml(record.title.replace(/\s*\|\s*MZ Smart Tools House$/i, ""))}</h1><p>${escapeHtml(record.description)}</p>${detail}<section><h2>Explore more tools</h2><p><a href="/tools">Browse all tools</a> · <a href="/pdf-tools">PDF tools</a> · <a href="/image-tools">Image tools</a> · <a href="/student-tools">Student tools</a> · <a href="/developer-tools">Developer tools</a></p></section></main>`;
+  const relatedTools = record.kind==="tool" && record.tool
+    ? focusedTools.filter((item)=>item.category===record.tool.category && item.id!==record.tool.id).slice(0,8)
+    : [];
+  const categoryTools = record.kind==="category" && record.category
+    ? focusedTools.filter((item)=>item.category===record.category.slug).slice(0,12)
+    : [];
+  const relatedLinks = relatedTools.length
+    ? `<section><h2>Related tools</h2><ul>${relatedTools.map((item)=>`<li><a href="${escapeAttr(item.route||`/tools/${item.id}`)}">${escapeHtml(item.name)}</a></li>`).join("")}</ul></section>`
+    : "";
+  const categoryToolLinks = categoryTools.length
+    ? `<section><h2>Tools in this category</h2><ul>${categoryTools.map((item)=>`<li><a href="${escapeAttr(item.route||`/tools/${item.id}`)}">${escapeHtml(item.name)}</a></li>`).join("")}</ul></section>`
+    : "";
+  const discoveryLinks = categories.filter((item)=>item.seoIndexable!==false).slice(0,12)
+    .map((item)=>`<a href="${escapeAttr(item.route||`/categories/${item.slug}`)}">${escapeHtml(item.name)}</a>`)
+    .join(" · ");
+  const crawlSummary = `<main data-prerender-content style="max-width:980px;margin:48px auto;padding:0 20px;font:16px/1.65 system-ui;color:#172033"><nav aria-label="Breadcrumb"><a href="/">Home</a> › <a href="/tools">Tools</a></nav><h1 style="font-size:32px;line-height:1.2;margin:12px 0">${escapeHtml(record.title.replace(/\\s*\\|\\s*MZ Smart Tools House$/i, ""))}</h1><p>${escapeHtml(record.description)}</p>${detail}${relatedLinks}${categoryToolLinks}<section><h2>Explore tool categories</h2><p>${discoveryLinks}</p></section></main>`;
   html = html.replace('<div id="root"></div>', `<div id="root">${crawlSummary}</div>`);
   return html;
 }

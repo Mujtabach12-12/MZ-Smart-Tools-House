@@ -40,6 +40,7 @@ const seoComponent = fs.readFileSync("src/components/layout/Seo.jsx", "utf8");
 assert.ok(seoComponent.includes("buildFullTitle"), "SEO title normalization missing");
 assert.ok(seoComponent.includes("normalizeCanonicalPath"), "Canonical path normalization missing");
 assert.ok(seoComponent.includes("branded.length <= 70"), "Long title protection missing");
+assert.ok(seoComponent.includes("MZ Smart Tool House"), "Legacy brand normalization protection missing");
 
 const toolPage = fs.readFileSync("src/pages/ToolPage.jsx", "utf8");
 assert.ok(toolPage.includes('robots={isIndexable ? undefined : "noindex,follow"}'), "Unavailable tools must be noindex");
@@ -51,5 +52,9 @@ assert.ok(analytics.includes('window.gtag("event", "tool_success"'), "Unified to
 const prerender = fs.readFileSync("scripts/prerender-seo.js", "utf8");
 assert.ok(prerender.includes("getCategorySeo"), "Prerender must use category SEO data");
 assert.ok(prerender.includes("Free Online Tools for Work & Study"), "Homepage prerender title not updated");
+assert.ok(prerender.includes("Related tools") && prerender.includes("Tools in this category"), "Prerender internal-link discovery missing");
+const sitemapGenerator = fs.readFileSync("scripts/generate-sitemap.js", "utf8");
+assert.ok(!sitemapGenerator.includes("const today=new Date()"), "Sitemap must not fake lastmod on every build");
+assert.ok(!sitemapGenerator.includes("<changefreq>") && !sitemapGenerator.includes("<priority>"), "Ignored sitemap hints should stay out of generated XML");
 
 console.log(`SEO growth regression checks passed for ${priorityIds.length} priority tools.`);

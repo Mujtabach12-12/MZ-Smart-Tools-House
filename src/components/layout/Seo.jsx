@@ -50,8 +50,12 @@ function removeJsonLd(id) {
   document.head.querySelector(`script[data-seo-schema="${id}"]`)?.remove();
 }
 
+function normalizeLegacyBrand(value) {
+  return String(value || "").replace(/\bMZ Smart Tool House\b/gi, SITE_NAME);
+}
+
 function buildFullTitle(title) {
-  const clean = String(title || "").trim();
+  const clean = normalizeLegacyBrand(title).trim();
   if (!clean) return `${SITE_NAME} – Free Online Tools for Work & Study`;
   if (clean.includes(SITE_NAME)) return clean;
   const branded = `${clean} | ${SITE_NAME}`;
