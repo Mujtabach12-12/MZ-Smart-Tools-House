@@ -40,7 +40,7 @@ check('single-language SEO avoids redundant hreflang alternates', !seo.includes(
 check('site-level structured data is in initial HTML', index.includes('mz-site-structured-data') && index.includes('SearchAction'));
 check('route-specific prerender shell generator exists', prerender.includes('SEO route shells written') && prerender.includes('data-prerender-schema="page"'));
 check('postbuild runs SEO route shell generator', pkg.scripts.postbuild.includes('prerender-seo.js'));
-check('unfinished blog is noindex', blog.includes('robots="noindex,follow"'));
-check('unfinished blog is not forced into sitemap static routes', !/staticRoutes=\[[^\]]*"\/blog"/.test(sitemap));
+check('published guide hub is indexable', !blog.includes('robots="noindex') && blog.includes('guides.map'));
+check('published guide hub and guide routes are included in sitemap generation', sitemap.includes('"/blog"') && sitemap.includes('guideRoutes'));
 
 console.log(`analytics/mobile/SEO regression: ${checks.length}/${checks.length} PASS`);
