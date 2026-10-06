@@ -187,7 +187,7 @@ await test("reads title/author/subject when present", async () => {
 await test("shows placeholder for missing metadata", async () => {
   const pdf = await makePdf(1);
   const meta = await getPdfMetadata(pdf);
-  assert.equal(meta.title, "—");
+  assert.equal(meta.title, "Not provided");
 });
 
 console.log("Compress PDF");
