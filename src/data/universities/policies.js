@@ -6,15 +6,15 @@ const bands = (rows) => rows.map(([letter, minPercentage, maxPercentage, gradePo
 
 export const universityPolicies = [
   {
-    id: "uol", name: "University of Lahore", shortName: "UOL", country: "Pakistan", city: "Lahore", scale: 4,
+    id: "uol", name: "University of Lahore", shortName: "UOL", country: "Pakistan", city: "Lahore", verified: true, scale: 4,
     gradingType: "absolute", maxGPA: 4, minimumPassingGrade: "D", minimumPassingPoint: 1,
     grades: bands([["A",85,100,4], ["A-",80,84,3.75], ["B+",75,79,3.5], ["B",70,74,3], ["C+",65,69,2.5], ["C",60,64,2], ["D+",55,59,1.5], ["D",50,54,1], ["F",0,49,0]]),
     specialGrades: [{letter:"I",label:"Incomplete",countsInGpa:false},{letter:"W",label:"Withdrawal",countsInGpa:false}],
     repeatPolicy: "For undergraduate students, the 2024 handbook says a repeated course below C may be repeated and the better grade is used in CGPA calculation.",
     repeatRule: "better",
     gradeReplacementPolicy: "Verify against the student's program/batch regulations before applying a repeat/improvement rule.",
-    sourceUrl: "https://uol.edu.pk/wp-content/uploads/2025/06/Student-Handbook-2024_compressed.pdf", sourceTitle: "UOL Student Handbook 2024 — Semester Rules & Regulations", lastVerified: verifiedDate,
-    notes: "Absolute grading. The published policy states the percentage bands and 4-point conversion shown here.",
+    sourceUrl: "https://uol.edu.pk/wp-content/uploads/2025/06/Student-Handbook-2024_compressed.pdf", sourceTitle: "UOL Student Handbook 2024 — Semester Rules & Regulations", lastVerified: "2026-10-06",
+    notes: "Official UOL Student Handbook 2024 verified on 2026-10-06. It publishes the absolute percentage bands, 4-point conversion and undergraduate better-grade repeat rule represented here.",
   },
   {
     id: "ucp", name: "University of Central Punjab", shortName: "UCP", country: "Pakistan", city: "Lahore", scale: 4,

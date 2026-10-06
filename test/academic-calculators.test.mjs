@@ -67,10 +67,19 @@ test("configured source alone never counts as verified", () => {
 test("verifiedUniversities contains only explicitly verified records", () => {
   assert.ok(verifiedUniversities.every((policy) => policy.verified === true && isUniversityPolicyVerified(policy)));
 });
-test("current UOL record is blocked until explicitly verified", () => {
+test("current UOL record is explicitly verified against the official Student Handbook 2024", () => {
   const uol = getUniversityPolicy("uol");
-  assert.equal(isPolicyUsable(uol), false);
-  assert.throws(() => calculateGpa([{ name: "Programming", creditHours: 3, mode: "grade", grade: "A" }], uol), /not been verified/i);
+  assert.equal(isUniversityPolicyVerified(uol), true);
+  assert.equal(isPolicyUsable(uol), true);
+  assert.equal(uol.lastVerified, "2026-10-06");
+  assert.match(uol.sourceUrl, /^https:\/\/uol\.edu\.pk\//i);
+  assert.equal(gradeForMarks(uol, 85).gradePoint, 4);
+  assert.equal(gradeForMarks(uol, 80).gradePoint, 3.75);
+  assert.equal(gradeForMarks(uol, 50).gradePoint, 1);
+  assert.equal(gradeForMarks(uol, 49).gradePoint, 0);
+  assert.match(uol.repeatPolicy, /better grade/i);
+  const result = calculateGpa([{ name: "Programming", creditHours: 3, mode: "grade", grade: "A" }], uol);
+  assert.equal(result.gpa, 4);
 });
 
 test("custom scale is usable but remains explicitly custom", () => {
