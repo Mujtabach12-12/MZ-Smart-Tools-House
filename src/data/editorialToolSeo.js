@@ -4,6 +4,18 @@
  * actual inputs, units and formulas used by the calculators.
  */
 export const editorialToolSeo = {
+  "universal-conversion-hub": {
+    title: "Universal Converter – Units, Science, Data & More",
+    description: "Search and use conversion tools for everyday units, science, engineering, developer data, health, finance and Pakistan-focused measurements from one organized hub.",
+    directAnswer: ["What is the Universal Conversion Hub?", "It is a searchable collection of MZ Smart Tools House converters. Static formula-based conversions run in the browser, while converters that need live rates clearly require an internet connection."],
+    intro: "The Universal Conversion Hub brings the site's conversion tools into one searchable workspace instead of making users hunt through separate pages. It groups everyday, student, developer, science, engineering, health, finance and Pakistan-focused converters while keeping each converter's real formula and requirements explicit.",
+    howTo: ["Search for a conversion or choose a category such as Everyday, Engineering, Science or Pakistan.", "Open the converter that matches the units or quantity you need.", "Enter the source value and choose the from/to units supported by that converter.", "Review the calculated result and use swap, precision, favorites or recent-history options where that converter provides them."],
+    features: ["Searchable converter registry", "Category filters for multiple conversion domains", "Browser-first static unit calculations", "Favorites and recent conversion history", "Clear internet requirement for live-rate conversions"],
+    useCases: ["Everyday length, mass, temperature, area and volume conversion", "Engineering and science unit checks", "Developer data-size and data-speed conversion", "Health-related unit conversion", "Pakistan land-area conversion such as Marla and Kanal"],
+    limitations: "The hub organizes many different conversion types, so the exact formula, units and supported features depend on the converter you open. Static unit conversions use deterministic formulas, while live-rate tools such as currency or crypto depend on internet access and the availability and freshness of their data source.",
+    faq: [["Does every converter need the internet?", "No. Static formula-based converters are designed to run in the browser. Live-rate conversions clearly require internet access."], ["Does the hub use one formula for every conversion?", "No. Each converter uses the formula or conversion factors appropriate to its quantity; specialized converters use their own validated calculation logic."], ["Can I search instead of browsing categories?", "Yes. The hub provides search across converter names, descriptions, aliases and keywords."]],
+    related: ["length-converter", "temperature-converter", "data-unit-converter", "currency-converter"],
+  },
   "work-calculator": {
     title: "Work Calculator – Force, Distance & Angle",
     description: "Calculate mechanical work from force, displacement and angle using W = F × d × cos(θ), with force in newtons and distance in metres.",
