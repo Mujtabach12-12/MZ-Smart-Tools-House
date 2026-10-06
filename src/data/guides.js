@@ -242,7 +242,14 @@ export const guides = [
       {
         heading: "Ratio vs percentage",
         paragraphs: [
-          "A ratio such as 1:4 compares two quantities. A percentage expresses a part relative to a whole out of 100. They can be related, but the conversion depends on what the terms represent. If one part is 1 out of a total of 4 equal parts, that share is 25%; the ratio notation itself does not automatically mean 25% without the part-to-whole interpretation."
+          "A ratio and a percentage are not automatically interchangeable because the meaning of each term matters. If 1:4 means part-to-whole, the first quantity is 1/4 of the whole, which is 25%. But if 1:4 means one group compared with another group, the combined total is 1 + 4 = 5 parts, so the first group is 1/5 of the total, or 20%.",
+          "Before converting a ratio to a percentage, decide whether the second term represents the whole or another part. This small interpretation step prevents a common mistake in mixture, class-composition and probability examples."
+        ],
+        bullets: [
+          "Part-to-whole 1:4 means 1 ÷ 4 = 25%.",
+          "Part-to-part 1:4 means the first part is 1 ÷ (1 + 4) = 20% of the combined total.",
+          "Keep units consistent before simplifying or solving a proportion.",
+          "Write down what each term represents before converting to a percentage."
         ]
       }
     ]

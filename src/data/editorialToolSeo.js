@@ -115,13 +115,16 @@ export const editorialToolSeo = {
     faq: [["Can I use different units for a and b?", "No. Convert both sides to the same unit before calculating."], ["Does this work for non-right triangles?", "No. The Pythagorean theorem applies to right triangles."]],
   },
   "speaking-time-calculator": {
-    title: "Speaking Time Calculator – Estimate Time from Word Count",
-    description: "Estimate speaking duration from word count using the tool's configured speaking-rate calculation.",
-    intro: "Speaking-time estimates are useful for presentations and scripts, but real delivery varies with pauses, emphasis and audience interaction. Treat the result as a planning estimate rather than a stopwatch guarantee.",
-    howTo: ["Enter or paste the text or word count required by the tool.", "Review the speaking-rate option if the interface provides one.", "Calculate the estimated duration.", "Leave extra time for pauses, questions and emphasis when planning a live talk."],
-    features: ["Fast script-duration estimate", "Useful for presentation planning", "Works from actual text or word count supported by the tool", "Estimate clearly separated from guaranteed timing"],
-    useCases: ["Presentation rehearsal", "Speech planning", "Video script timing"],
-    faq: [["Will my real speech take exactly this long?", "No. Speaking speed, pauses and emphasis can change the actual duration."], ["Should I plan extra time?", "Yes, especially for live presentations with pauses, questions or transitions."]],
+    title: "Speaking Time Calculator – Estimate at 130 Words/Minute",
+    description: "Estimate speaking duration from pasted text using the tool's fixed planning rate of 130 words per minute.",
+    intro: "This speaking-time helper counts the words in the text you paste and estimates the duration at 130 words per minute. It is a planning estimate, not a promise that a live speech will take exactly that long.",
+    formula: "Estimated minutes = ceil(word count ÷ 130), with a minimum displayed estimate of 1 minute.",
+    example: "A 260-word script gives ceil(260 ÷ 130) = 2 minutes at the tool's fixed 130-WPM planning rate.",
+    howTo: ["Paste the speech, presentation script or narration into the text box.", "The tool counts the words in the pasted text.", "Review the duration estimated at 130 words per minute.", "Allow extra time for pauses, slide changes, questions and emphasis in a real presentation."],
+    features: ["Text-based word counting", "Fixed 130-WPM planning rate", "Simple browser calculation", "Copy/download workflow shared with the text toolkit"],
+    useCases: ["Presentation rehearsal", "Speech planning", "Video narration planning", "Checking whether a script roughly fits a time limit"],
+    limitations: "Real speaking speed varies by speaker, language, pauses, emphasis and audience interaction. The current implementation uses one fixed 130-WPM planning rate and rounds the estimate up to whole minutes.",
+    faq: [["Does it measure my real speaking speed?", "No. It uses a fixed 130-words-per-minute planning rate."], ["Why can the real speech be longer?", "Pauses, questions, slide changes and emphasis add time that a word-count estimate cannot predict."]],
   },
 };
 
