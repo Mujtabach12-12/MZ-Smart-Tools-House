@@ -8,6 +8,7 @@ import ErrorBoundary from "./ErrorBoundary";
 import ViewportLock from "./ViewportLock";
 import AnalyticsTracker from "../analytics/AnalyticsTracker";
 import MzAiRobot from "../ai/MzAiRobot";
+import NetworkStatusOverlay from "../network/NetworkStatusOverlay";
 
 export default function Layout() {
   const { pathname } = useLocation();
@@ -20,6 +21,7 @@ export default function Layout() {
     <div className="mz-app-shell flex min-h-screen flex-col bg-white text-navy-900 dark:bg-navy-950 dark:text-navy-50">
       <ViewportLock />
       <AnalyticsTracker />
+      <NetworkStatusOverlay />
       <Header />
       <main className="flex-1">
         <ErrorBoundary><Outlet /></ErrorBoundary>

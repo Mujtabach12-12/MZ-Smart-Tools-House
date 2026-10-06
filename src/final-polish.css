@@ -1,0 +1,67 @@
+/* AdSense-readiness/mobile-home/network UX consolidation — loaded after the main theme. */
+
+.mz-brand-wordmark{display:block!important;min-width:0;max-width:min(52vw,250px)}
+.mz-brand-wordmark strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:clamp(.78rem,2.8vw,.98rem)!important;line-height:1.05;letter-spacing:-.035em!important}
+@media(max-width:359px){
+  .mz-brand-wordmark{max-width:43vw}
+  .mz-brand-wordmark strong{font-size:.72rem!important;letter-spacing:-.045em!important}
+}
+
+/* Premium mobile feature strip with the same MZ AI visual language as the floating assistant. */
+.mz-mobile-ai-strip{
+  position:relative;display:grid;grid-template-columns:minmax(0,1fr) 74px;align-items:center;gap:.5rem;
+  width:100%;min-width:0;margin-bottom:12px;padding:.72rem .72rem .72rem .78rem;overflow:hidden;
+  border:1px solid rgba(147,197,253,.68);border-radius:20px;
+  background:linear-gradient(135deg,rgba(255,255,255,.86),rgba(239,246,255,.88) 52%,rgba(236,254,255,.76));
+  box-shadow:0 14px 34px rgba(37,99,235,.09),inset 0 1px rgba(255,255,255,.95);
+  backdrop-filter:blur(16px);
+}
+.mz-mobile-ai-strip-grid{position:absolute;inset:0;pointer-events:none;opacity:.36;background-image:linear-gradient(rgba(37,99,235,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(6,182,212,.06) 1px,transparent 1px);background-size:24px 24px;mask-image:linear-gradient(90deg,#000,transparent 78%)}
+.mz-mobile-ai-stats{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.38rem;min-width:0}
+.mz-mobile-ai-stats>span{display:grid;grid-template-columns:16px minmax(0,1fr);grid-template-rows:auto auto;align-items:center;column-gap:.32rem;min-width:0}
+.mz-mobile-ai-stats svg{grid-row:1/3;width:15px;height:15px;color:#2563eb}
+.mz-mobile-ai-stats strong{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.72rem;line-height:.8rem;color:#0f172a}
+.mz-mobile-ai-stats small{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.54rem;line-height:.72rem;color:#64748b}
+.mz-mobile-ai-robot-wrap{position:relative;z-index:1;display:flex;min-width:0;flex-direction:column;align-items:center;justify-content:center}
+.mz-mobile-ai-robot-wrap .mz-ai-robot{width:68px;min-height:72px;transform:scale(.68);transform-origin:center;animation-duration:3.8s}
+.mz-mobile-ai-robot-wrap .mz-ai-body{font-size:8px}
+.mz-mobile-ai-robot-wrap>b{margin-top:-13px;font-size:.52rem;letter-spacing:.08em;color:#0369a1}
+.dark .mz-mobile-ai-strip{border-color:rgba(59,130,246,.3);background:linear-gradient(135deg,rgba(15,27,48,.92),rgba(8,30,55,.88),rgba(8,47,73,.72));box-shadow:0 16px 36px rgba(0,0,0,.22)}
+.dark .mz-mobile-ai-stats strong{color:#f8fafc}.dark .mz-mobile-ai-stats small{color:#94a3b8}.dark .mz-mobile-ai-robot-wrap>b{color:#7dd3fc}
+@media(max-width:359px){
+  .mz-mobile-ai-strip{grid-template-columns:minmax(0,1fr) 62px;padding:.62rem}
+  .mz-mobile-ai-stats{gap:.2rem}
+  .mz-mobile-ai-stats>span{grid-template-columns:13px minmax(0,1fr);column-gap:.22rem}
+  .mz-mobile-ai-stats svg{width:12px;height:12px}
+  .mz-mobile-ai-stats strong{font-size:.64rem}.mz-mobile-ai-stats small{font-size:.48rem}
+  .mz-mobile-ai-robot-wrap .mz-ai-robot{transform:scale(.58)}
+}
+
+/* Keep the mobile Home page light/premium even when subtle robotic ambience is present. */
+@media(max-width:767px){
+  .mz-mobile-home{background:radial-gradient(circle at 92% 2%,rgba(56,189,248,.12),transparent 14rem),linear-gradient(180deg,#f7fbff 0%,#fff 34%,#fff 100%)!important}
+  .dark .mz-mobile-home{background:linear-gradient(180deg,#07101f 0%,#081425 32%,#07101f 100%)!important}
+  .mz-mobile-hero-card{padding-top:20px}
+}
+
+/* Offline/weak connection MZ AI experience. */
+.mz-network-state{position:fixed;inset:0;z-index:2147482600;display:grid;place-items:center;padding:18px;pointer-events:none;background:rgba(2,6,23,.24);backdrop-filter:blur(4px)}
+.mz-network-state.is-weak{inset:auto 12px calc(78px + env(safe-area-inset-bottom)) auto;display:block;padding:0;background:transparent;backdrop-filter:none}
+.mz-network-card{pointer-events:auto;display:grid;grid-template-columns:96px minmax(0,1fr);align-items:center;gap:1rem;width:min(94vw,520px);border:1px solid rgba(147,197,253,.72);border-radius:24px;padding:1rem;background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(239,246,255,.96));box-shadow:0 28px 80px rgba(15,23,42,.22)}
+.is-weak .mz-network-card{grid-template-columns:72px minmax(0,1fr);width:min(92vw,430px);padding:.75rem;border-radius:19px;box-shadow:0 18px 48px rgba(15,23,42,.18)}
+.mz-network-robot{display:grid;place-items:center;min-width:0}
+.mz-network-robot .mz-ai-robot{transform:scale(.78);transform-origin:center}
+.is-weak .mz-network-robot .mz-ai-robot{transform:scale(.62)}
+.mz-network-kicker{display:inline-flex;align-items:center;gap:.35rem;font-size:.58rem;font-weight:950;letter-spacing:.12em;color:#2563eb}.mz-network-kicker svg{width:14px;height:14px}
+.mz-network-copy h2{margin:.25rem 0 0;font-size:1.12rem;font-weight:950;letter-spacing:-.025em;color:#0f172a}
+.mz-network-copy p{margin:.35rem 0 0;font-size:.75rem;line-height:1.2rem;color:#64748b}
+.mz-network-actions{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.72rem}.mz-network-actions .mz-btn-primary,.mz-network-actions .mz-btn-secondary{min-height:40px;padding:.55rem .72rem;font-size:.7rem}
+.dark .mz-network-card{border-color:#1e3a5f;background:linear-gradient(145deg,#0f1b30,#091426);box-shadow:0 28px 80px rgba(0,0,0,.4)}
+.dark .mz-network-copy h2{color:#fff}.dark .mz-network-copy p{color:#a8b4c7}
+@media(max-width:520px){
+  .mz-network-card{grid-template-columns:78px minmax(0,1fr);gap:.72rem;padding:.85rem}
+  .mz-network-copy h2{font-size:.98rem}.mz-network-copy p{font-size:.7rem;line-height:1.08rem}
+  .mz-network-actions{display:grid;grid-template-columns:1fr 1fr}.mz-network-actions>*{width:100%;justify-content:center}
+  .mz-network-state.is-weak{left:10px;right:10px}.is-weak .mz-network-card{width:100%}
+}
+@media(prefers-reduced-motion:reduce){.mz-mobile-ai-robot-wrap .mz-ai-robot,.mz-network-robot .mz-ai-robot{animation:none!important}}

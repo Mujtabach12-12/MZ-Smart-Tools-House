@@ -2,6 +2,7 @@ import financeToolSeo from './financeToolSeo.js';
 import developerToolSeo from './developerToolSeo.js';
 import studentDocumentSeo from './studentDocumentSeo.js';
 import priorityToolSeo from './seoGrowth.js';
+import editorialToolSeo from './editorialToolSeo.js';
 const featured = {
   "bmi-calculator": {
     title: "BMI Calculator – Free Online BMI Calculator",
@@ -233,6 +234,7 @@ export function getToolSeo(tool) {
   const item = {
     ...(featured[tool.id] || {}),
     ...(priorityToolSeo[tool.id] || {}),
+    ...(editorialToolSeo[tool.id] || {}),
   };
   const registryTitle = tool.seoTitle && tool.seoTitle !== tool.name ? tool.seoTitle : null;
   const registryDescription = tool.seoDescription && tool.seoDescription !== tool.description ? tool.seoDescription : null;
@@ -241,4 +243,27 @@ export function getToolSeo(tool) {
     description: item.description || registryDescription || fallbackDescription(tool),
     ...item,
   };
+}
+
+
+export const CORE_SEARCH_TOOL_IDS = new Set([
+  "pdf-compressor","mz-pdf-editor","mz-pdf-viewer","smart-document-scanner","pdf-merger","pdf-splitter","pdf-to-word","word-to-pdf","pdf-to-jpg","jpg-to-pdf","pdf-ocr",
+  "image-compressor","image-resizer","image-cropper","jpg-to-png","png-to-jpg","mz-online-word","mz-online-excel","mz-online-powerpoint","mz-dictionary",
+  "gpa-calculator","cgpa-calculator","attendance-calculator","marks-calculator","grade-calculator","programming-lab","json-formatter","json-validator","regex-tester","base64-encoder","url-encoder","uuid-generator","password-generator",
+  "percentage-calculator","age-calculator","discount-calculator","average-calculator","emi-calculator"
+]);
+
+export function hasRichSeo(tool) {
+  if (!tool || tool.status !== "active" || tool.seoIndexable === false) return false;
+  const seo = getToolSeo(tool);
+  const sections = [seo.intro, seo.formula, seo.example, seo.howTo, seo.features, seo.useCases, seo.supportedFormats, seo.faq].filter((value) =>
+    Array.isArray(value) ? value.length > 0 : Boolean(String(value || "").trim())
+  );
+  const hasIntro = Boolean(String(seo.intro || "").trim());
+  if (CORE_SEARCH_TOOL_IDS.has(tool.id)) return sections.length >= 2;
+  return hasIntro && sections.length >= 3;
+}
+
+export function getSearchFocusedTools(tools) {
+  return tools.filter((tool) => hasRichSeo(tool));
 }

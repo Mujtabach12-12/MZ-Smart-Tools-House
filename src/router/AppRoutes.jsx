@@ -8,6 +8,7 @@ import ToolPage from "../pages/ToolPage";
 import OfficeHub from "../pages/OfficeHub";
 import StudentHub from "../pages/StudentHub";
 import Blog from "../pages/Blog";
+import GuideArticle from "../pages/GuideArticle";
 import About from "../pages/About";
 import Contact from "../pages/Contact";
 import PrivacyPolicy from "../pages/PrivacyPolicy";
@@ -46,6 +47,7 @@ export default function AppRoutes() {
     <Route path="categories/:slug" element={<CategoryPage />} />
     {CATEGORY_ALIASES.map(([path,slug])=><Route key={path} path={path} element={<CategoryPage slugOverride={slug} />} />)}
     <Route path="blog" element={<Blog />} />
+    <Route path="blog/:slug" element={<GuideArticle />} />
     <Route path="about" element={<About />} />
     <Route path="contact" element={<Contact />} />
     <Route path="settings" element={<Settings />} />

@@ -77,8 +77,7 @@ export default function Header() {
           >
             <BrandMark compact className="shrink-0" />
             <span className="mz-brand-wordmark min-w-0">
-              <strong>MZ</strong>
-              <span>Smart Tools House</span>
+              <strong>MZ Smart Tools House</strong>
             </span>
           </Link>
 

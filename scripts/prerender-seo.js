@@ -12,6 +12,7 @@ import { getToolSeo } from "../src/data/toolSeo.js";
 import { getCategorySeo } from "../src/data/categorySeo.js";
 import { getActiveToolsByCategory } from "../src/data/tools.js";
 import { hasRichSeo, getSearchFocusedTools } from "./seo-index-plan.js";
+import { guides } from "../src/data/guides.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DIST_DIR = resolve(__dirname, "../dist");
@@ -21,7 +22,7 @@ const DEFAULT_IMAGE = `${BASE_URL}/assets/mz-og-1200x630.webp`;
 const INDEX_ROBOTS = "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1";
 
 const staticPages = [
-  ["/", "Free Online PDF, Image, Document & Student Tools", "Free online PDF, image, document, scanner, student, calculator and developer tools. Edit, convert, compress, scan and create files in one fast browser workspace."],
+  ["/", "Free Online Tools for Work & Study", "Use free online tools for PDF, documents, images, study, coding, calculators and everyday work in one browser-based MZ Smart Tools House workspace."],
   ["/tools", "Free Online Tools – PDF, Image, Student, Developer & More", "Browse active online tools for PDF, images, documents, students, developers, calculators, converters, business, science and everyday productivity."],
   ["/categories", "Online Tool Categories – PDF, Image, Student, Developer & More", "Browse online tool categories for PDF, images, documents, students, developers, calculators, converters, finance, science and productivity."],
   ["/office", "Online Office Suite – Word, Excel, PowerPoint & PDF", "Create documents, spreadsheets and presentations, view or edit PDFs, and export real files from one browser-based office workspace."],
@@ -31,7 +32,7 @@ const staticPages = [
   ["/privacy-policy", "Privacy Policy", "How MZ Smart Tools House handles your data, files and website analytics."],
   ["/terms", "Terms & Conditions", "Terms and conditions for using MZ Smart Tools House."],
   ["/disclaimer", "Disclaimer", "Disclaimer for calculators and tools on MZ Smart Tools House."],
-  ["/blog", "Blog", "Guides and articles for students, study, productivity and tool workflows.", "noindex,follow"],
+  ["/blog", "Practical Guides for PDFs, Study & Online Tools", "Read original MZ Smart Tools House guides about PDF compression, document scanning, GPA calculations, browser privacy, ratios and practical tool workflows."],
 ];
 
 const utilityPages = [
@@ -68,6 +69,9 @@ for (const tool of tools.filter((item) => item.status === "active")) {
   const seo = getToolSeo(tool);
   const indexable = tool.seoIndexable !== false && hasRichSeo(tool);
   add(tool.route || `/tools/${tool.id}`, seo.title, seo.description || tool.description, indexable ? INDEX_ROBOTS : "noindex,follow", { kind: "tool", tool, seo });
+}
+for (const guide of guides) {
+  add(`/blog/${guide.slug}`, guide.title, guide.description, INDEX_ROBOTS, { kind: "guide", guide });
 }
 for (const university of universityPolicies) {
   const verified = university.verified === true;
@@ -108,6 +112,7 @@ function replaceCanonical(html, url) {
 }
 function buildPageSchema(record, canonicalUrl) {
   const graph=[{"@type":"WebPage","@id":`${canonicalUrl}#webpage`,url:canonicalUrl,name:record.title,description:record.description,author:{"@type":"Person",name:"Muhammad Mujtaba"},publisher:{"@id":`${BASE_URL}/#organization`},inLanguage:"en",isPartOf:{"@id":`${BASE_URL}/#website`},primaryImageOfPage:{"@type":"ImageObject",url:DEFAULT_IMAGE}}];
+  if(record.kind==="guide"&&record.guide){graph.push({"@type":"BlogPosting","@id":`${canonicalUrl}#article`,headline:record.guide.title,description:record.guide.description,datePublished:record.guide.updated,dateModified:record.guide.updated,author:{"@type":"Person",name:"Muhammad Mujtaba"},publisher:{"@id":`${BASE_URL}/#organization`},mainEntityOfPage:{"@id":`${canonicalUrl}#webpage`},inLanguage:"en"});}
   if(record.kind==="tool"&&record.tool){graph.push({"@type":"SoftwareApplication","@id":`${canonicalUrl}#app`,name:record.tool.name,url:canonicalUrl,applicationCategory:"WebApplication",operatingSystem:"Any",offers:{"@type":"Offer",price:"0",priceCurrency:"USD"},description:record.description});const faq=Array.isArray(record.seo?.faq)?record.seo.faq:[];if(faq.length)graph.push({"@type":"FAQPage",mainEntity:faq.slice(0,8).map(([q,a])=>({"@type":"Question",name:String(q),acceptedAnswer:{"@type":"Answer",text:String(a)}}))});}
   return JSON.stringify({"@context":"https://schema.org","@graph":graph}).replace(/</g,"\\u003c");
 }
@@ -129,6 +134,9 @@ function renderShell(template, record) {
   const list=(title,items)=>Array.isArray(items)&&items.length?`<section><h2>${escapeHtml(title)}</h2><ul>${items.slice(0,8).map((x)=>`<li>${escapeHtml(x)}</li>`).join("")}</ul></section>`:"";
   const faq=Array.isArray(seo.faq)&&seo.faq.length?`<section><h2>Frequently asked questions</h2>${seo.faq.slice(0,6).map(([q,a])=>`<h3>${escapeHtml(q)}</h3><p>${escapeHtml(a)}</p>`).join("")}</section>`:"";
   const detail=record.kind==="tool"?`${seo.intro?`<p>${escapeHtml(seo.intro)}</p>`:""}${seo.formula?`<section><h2>How it works</h2><p>${escapeHtml(seo.formula)}</p></section>`:""}${seo.example?`<section><h2>Example</h2><p>${escapeHtml(seo.example)}</p></section>`:""}${list("How to use",seo.howTo)}${list("Key features",seo.features)}${list("Common uses",seo.useCases)}${list("Supported formats",seo.supportedFormats)}${faq}`:"";
+  const guideDetail=record.kind==="guide"&&record.guide
+    ? `<p>${escapeHtml(record.guide.intro)}</p>${record.guide.sections.map((section)=>`<section><h2>${escapeHtml(section.heading)}</h2>${(section.paragraphs||[]).map((p)=>`<p>${escapeHtml(p)}</p>`).join("")}${Array.isArray(section.bullets)&&section.bullets.length?`<ul>${section.bullets.map((item)=>`<li>${escapeHtml(item)}</li>`).join("")}</ul>`:""}</section>`).join("")}`
+    : "";
   const relatedTools = record.kind==="tool" && record.tool
     ? focusedTools.filter((item)=>item.category===record.tool.category && item.id!==record.tool.id).slice(0,8)
     : [];
@@ -144,7 +152,7 @@ function renderShell(template, record) {
   const discoveryLinks = categories.filter((item)=>item.seoIndexable!==false).slice(0,12)
     .map((item)=>`<a href="${escapeAttr(item.route||`/categories/${item.slug}`)}">${escapeHtml(item.name)}</a>`)
     .join(" · ");
-  const crawlSummary = `<main data-prerender-content style="max-width:980px;margin:48px auto;padding:0 20px;font:16px/1.65 system-ui;color:#172033"><nav aria-label="Breadcrumb"><a href="/">Home</a> › <a href="/tools">Tools</a></nav><h1 style="font-size:32px;line-height:1.2;margin:12px 0">${escapeHtml(record.title.replace(/\\s*\\|\\s*MZ Smart Tools House$/i, ""))}</h1><p>${escapeHtml(record.description)}</p>${detail}${relatedLinks}${categoryToolLinks}<section><h2>Explore tool categories</h2><p>${discoveryLinks}</p></section></main>`;
+  const crawlSummary = `<main data-prerender-content style="max-width:980px;margin:48px auto;padding:0 20px;font:16px/1.65 system-ui;color:#172033"><nav aria-label="Breadcrumb"><a href="/">Home</a> › <a href="/tools">Tools</a></nav><h1 style="font-size:32px;line-height:1.2;margin:12px 0">${escapeHtml(record.title.replace(/\\s*\\|\\s*MZ Smart Tools House$/i, ""))}</h1><p>${escapeHtml(record.description)}</p>${detail}${guideDetail}${relatedLinks}${categoryToolLinks}<section><h2>Explore tool categories</h2><p>${discoveryLinks}</p></section></main>`;
   html = html.replace('<div id="root"></div>', `<div id="root">${crawlSummary}</div>`);
   return html;
 }

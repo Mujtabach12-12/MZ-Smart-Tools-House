@@ -13,6 +13,7 @@ import {
 import SearchBar from "../ui/SearchBar";
 import ToolIcon from "../ui/ToolIcon";
 import Tool3DIcon from "../ui/Tool3DIcon";
+import MobileAiFeatureStrip from "./MobileAiFeatureStrip";
 import { categories } from "../../data/categories";
 import { getActiveTools, getPopularTools, getToolById } from "../../data/tools";
 import { getFavoriteTools, getRecentTools } from "../../lib/localPreferences";
@@ -74,6 +75,7 @@ export default function MobileHome() {
 
   return (
     <div className="mz-mobile-home md:hidden">
+      <MobileAiFeatureStrip toolCount={toolCount} categoryCount={categoryCount} />
       <section className="mz-mobile-hero-card">
         <div className="mz-mobile-hero-glow" aria-hidden="true" />
         <div className="relative z-10">
@@ -98,13 +100,6 @@ export default function MobileHome() {
                 </Link>
               );
             })}
-          </div>
-          <div className="mz-mobile-stats">
-            <span><b>{toolCount}</b> active tools</span>
-            <i />
-            <span><b>{categoryCount}</b> categories</span>
-            <i />
-            <span>Browser-first</span>
           </div>
         </div>
       </section>

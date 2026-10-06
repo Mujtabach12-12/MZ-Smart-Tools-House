@@ -10,7 +10,7 @@ import { getCategoryBySlug } from "../data/categories";
 import toolComponents from "../tools";
 import NotFound from "./NotFound";
 import { addRecentTool } from "../lib/localPreferences";
-import { getToolSeo } from "../data/toolSeo";
+import { getToolSeo, hasRichSeo } from "../data/toolSeo";
 import ToolSuccessFeedback from "../components/ui/ToolSuccessFeedback";
 import MzAiRobot from "../components/ai/MzAiRobot";
 
@@ -31,7 +31,7 @@ export default function ToolPage() {
  const categoryRoute = category?.route || tool.categoryRoute || `/categories/${tool.category}`;
  const faq = (seo.faq || []).map(([q,a]) => ({q,a}));
  const howTo = seo.howTo || [`Open ${tool.name}.`, "Enter the required information and review the options.", "Run the tool and review, copy or download the result."];
- const isIndexable = tool.status === "active" && Boolean(ActiveComponent) && tool.seoIndexable !== false;
+ const isIndexable = tool.status === "active" && Boolean(ActiveComponent) && hasRichSeo(tool);
  const schema = {
    "@context": "https://schema.org",
    "@graph": [
@@ -40,7 +40,9 @@ export default function ToolPage() {
        name: `${tool.name} | MZ Smart Tools House`,
        description: seo.description || tool.description,
        url: `${BASE_URL}${tool.route}`,
-       isPartOf: { "@type": "WebSite", name: "MZ Smart Tools House", url: BASE_URL },
+       author: { "@type": "Person", name: "Muhammad Mujtaba" },
+       publisher: { "@id": `${BASE_URL}/#organization` },
+       isPartOf: { "@id": `${BASE_URL}/#website` },
      },
      {
        "@type": "WebApplication",
