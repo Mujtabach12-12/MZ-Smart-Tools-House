@@ -5,6 +5,7 @@
 .mz-web-startup-seen #mz-native-startup{display:flex!important}
 .mz-native-startup{display:flex!important}
 .mz-native-startup.is-hidden{display:none!important}
+html.mz-startup-skip #mz-native-startup{display:none!important}
 
 /* Lightweight robotic ambience without changing layout or interaction. */
 .mz-app-shell::after{

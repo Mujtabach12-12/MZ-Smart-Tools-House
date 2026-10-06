@@ -3,6 +3,7 @@ import { Capacitor } from "@capacitor/core";
 
 const APP_STARTUP_MS = 5200;
 const WEB_STARTUP_MS = 5200;
+const STARTUP_SESSION_KEY = "mz-startup-seen-v3";
 const STARTUP_STEPS = [
   "PDF Tools",
   "Image Tools",
@@ -16,6 +17,16 @@ export default function StartupWelcome() {
   useEffect(() => {
     const startup = document.getElementById("mz-native-startup");
     if (!startup) return undefined;
+
+    try {
+      if (window.sessionStorage.getItem(STARTUP_SESSION_KEY) === "1") {
+        document.documentElement.classList.add("mz-startup-skip");
+        startup.remove();
+        return undefined;
+      }
+    } catch {
+      // sessionStorage can be unavailable in restrictive privacy modes.
+    }
 
     const installedWebApp =
       window.matchMedia?.("(display-mode: standalone)").matches ||
@@ -45,6 +56,8 @@ export default function StartupWelcome() {
       Math.max(520, duration - 360),
     );
     const hideTimer = window.setTimeout(() => {
+      try { window.sessionStorage.setItem(STARTUP_SESSION_KEY, "1"); } catch { /* best effort */ }
+      document.documentElement.classList.add("mz-startup-skip");
       startup.classList.add("is-hidden");
       window.setTimeout(() => startup.remove(), 220);
     }, duration);

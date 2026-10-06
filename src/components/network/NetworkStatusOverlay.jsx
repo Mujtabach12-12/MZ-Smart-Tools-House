@@ -52,7 +52,7 @@ export default function NetworkStatusOverlay() {
   if (hidden) return null;
 
   return (
-    <div className={`mz-network-state is-${status}`} role={status === "offline" ? "alertdialog" : "status"} aria-live="polite">
+    <div className={`mz-network-state is-${status}`} role={status === "offline" ? "alert" : "status"} aria-live={status === "offline" ? "assertive" : "polite"}>
       <div className="mz-network-card">
         <div className="mz-network-robot"><MzAiRobot compact loading label={status === "offline" ? "Waiting for internet" : "Connection is weak"} /></div>
         <div className="mz-network-copy">

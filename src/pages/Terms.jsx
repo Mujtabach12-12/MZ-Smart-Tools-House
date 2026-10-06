@@ -51,8 +51,7 @@ export default function Terms() {
         <h2>Advertising</h2>
         <p>
           The site may display advertising through Google AdSense or other clearly identified advertising services.
-          Advertising helps support free access to the platform. An advertisement is not an endorsement by MZ Smart
-          Tool House, and users are not required to click an advertisement to access the normal operation of a tool.
+          Advertising helps support free access to the platform. An advertisement is not an endorsement by MZ Smart Tools House, and users are not required to click an advertisement to access the normal operation of a tool.
         </p>
         <p>
           Do not intentionally generate invalid ad impressions or clicks. Advertising providers may apply their own

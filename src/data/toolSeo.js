@@ -256,7 +256,7 @@ export const CORE_SEARCH_TOOL_IDS = new Set([
 export function hasRichSeo(tool) {
   if (!tool || tool.status !== "active" || tool.seoIndexable === false) return false;
   const seo = getToolSeo(tool);
-  const sections = [seo.intro, seo.formula, seo.example, seo.howTo, seo.features, seo.useCases, seo.supportedFormats, seo.faq].filter((value) =>
+  const sections = [seo.directAnswer, seo.intro, seo.formula, seo.example, seo.howTo, seo.features, seo.useCases, seo.supportedFormats, seo.limitations, seo.faq].filter((value) =>
     Array.isArray(value) ? value.length > 0 : Boolean(String(value || "").trim())
   );
   const hasIntro = Boolean(String(seo.intro || "").trim());

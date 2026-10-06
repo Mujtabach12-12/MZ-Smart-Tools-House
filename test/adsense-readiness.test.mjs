@@ -46,4 +46,14 @@ assert.ok(routes.includes('path="blog/:slug"'), "Guide article route missing");
 const sitemap = fs.readFileSync("scripts/generate-sitemap.js", "utf8");
 assert.ok(sitemap.includes("guideRoutes"), "Editorial guide sitemap routes missing");
 
+const toolsSource = fs.readFileSync("src/data/tools.js", "utf8");
+assert.ok(/id: "ai-writing-assistant"[\s\S]*?status: "coming-soon"/.test(toolsSource), "Unfinished AI assistant must not be advertised as an active production tool");
+
+const extras = fs.readFileSync("src/components/tools/ToolExtras.jsx", "utf8");
+assert.ok(extras.includes("Limitations to know"), "Tool limitations must be visible when editorial data provides them");
+assert.ok(extras.includes("seo.directAnswer"), "Tool direct answers must be visible publisher content");
+
+const startup = fs.readFileSync("src/components/pwa/StartupWelcome.jsx", "utf8");
+assert.ok(startup.includes("STARTUP_SESSION_KEY"), "5-7 second startup should be limited to the first open in a session");
+
 console.log(`AdSense readiness source audit passed: ${focused.length} curated tool pages + ${guides.length} editorial guides.`);

@@ -19,6 +19,12 @@ export default function ToolExtras({ toolId, category, howTo = [], faq = [], sho
   return (
     <div className="mt-10 grid gap-8 lg:grid-cols-3">
       <div className="lg:col-span-2">
+        {seo.directAnswer?.length === 2 ? (
+          <section className="mb-7 rounded-2xl border border-brand-100 bg-brand-50/60 p-4 dark:border-brand-900/50 dark:bg-brand-950/20">
+            <h2 className="text-sm font-bold text-navy-900 dark:text-white">{seo.directAnswer[0]}</h2>
+            <p className="mt-2 text-sm leading-6 text-navy-600 dark:text-navy-300">{seo.directAnswer[1]}</p>
+          </section>
+        ) : null}
         {seo.intro && <section className="mb-7"><h2 className="text-lg font-bold">About this tool</h2><p className="mt-2 text-sm leading-6 text-navy-500 dark:text-navy-400">{seo.intro}</p></section>}
         {howTo.length > 0 && (
           <>
@@ -31,13 +37,20 @@ export default function ToolExtras({ toolId, category, howTo = [], faq = [], sho
           </>
         )}
 
-        {(seo.formula || seo.example) && <section className="mt-7 grid gap-3 sm:grid-cols-2"><div className="mz-card p-4"><h2 className="text-sm font-bold">Formula / method</h2><p className="mt-2 text-sm leading-5 text-navy-500 dark:text-navy-400">{seo.formula}</p></div><div className="mz-card p-4"><h2 className="text-sm font-bold">Example</h2><p className="mt-2 text-sm leading-5 text-navy-500 dark:text-navy-400">{seo.example}</p></div></section>}
+        {(seo.formula || seo.example) && <section className="mt-7 grid gap-3 sm:grid-cols-2">{seo.formula ? <div className="mz-card p-4"><h2 className="text-sm font-bold">Formula / method</h2><p className="mt-2 text-sm leading-5 text-navy-500 dark:text-navy-400">{seo.formula}</p></div> : null}{seo.example ? <div className="mz-card p-4"><h2 className="text-sm font-bold">Example</h2><p className="mt-2 text-sm leading-5 text-navy-500 dark:text-navy-400">{seo.example}</p></div> : null}</section>}
 
         {(seo.features?.length || seo.useCases?.length || seo.supportedFormats?.length) ? (
           <section className="mt-7 grid gap-3 md:grid-cols-3">
             {seo.features?.length ? <div className="mz-card p-4"><h2 className="text-sm font-bold">Key features</h2><ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-5 text-navy-500 dark:text-navy-400">{seo.features.map((item) => <li key={item}>{item}</li>)}</ul></div> : null}
             {seo.useCases?.length ? <div className="mz-card p-4"><h2 className="text-sm font-bold">Common uses</h2><ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-5 text-navy-500 dark:text-navy-400">{seo.useCases.map((item) => <li key={item}>{item}</li>)}</ul></div> : null}
             {seo.supportedFormats?.length ? <div className="mz-card p-4"><h2 className="text-sm font-bold">Supported formats</h2><ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-5 text-navy-500 dark:text-navy-400">{seo.supportedFormats.map((item) => <li key={item}>{item}</li>)}</ul></div> : null}
+          </section>
+        ) : null}
+
+        {seo.limitations ? (
+          <section className="mt-7 rounded-2xl border border-amber-200 bg-amber-50 p-4 dark:border-amber-900/50 dark:bg-amber-950/20">
+            <h2 className="text-sm font-bold text-amber-950 dark:text-amber-100">Limitations to know</h2>
+            <p className="mt-2 text-sm leading-6 text-amber-900/80 dark:text-amber-200/80">{seo.limitations}</p>
           </section>
         ) : null}
 
@@ -75,7 +88,7 @@ export default function ToolExtras({ toolId, category, howTo = [], faq = [], sho
               <h3 className="text-sm font-semibold">Privacy</h3>
             </div>
             <p className="mt-2 text-sm text-navy-500 dark:text-navy-400">
-              This tool processes files locally in your browser. No server upload is required for its core processing.
+              Core processing for this tool is designed to run in your browser without uploading the working file to an MZ Smart Tools House server. Features that explicitly say they use an online service are separate.
             </p>
           </div>
         )}
