@@ -43,7 +43,7 @@ for (const token of ["mz-online-word-library-v1", "mz-online-excel-workbook-v1",
 const toolPage = read("src/pages/ToolPage.jsx");
 assert.ok(toolPage.includes("APP_WORKSPACES") && toolPage.includes("mz-app-workspace"), "major apps must use an application workspace layout");
 for (const id of ["mz-online-word", "mz-online-excel", "mz-online-powerpoint", "mz-pdf-editor", "mz-pdf-viewer", "mz-powerpoint-viewer", "smart-document-scanner", "programming-lab"]) assert.ok(toolPage.includes(`"${id}"`), `application workspace set missing ${id}`);
-assert.ok(toolPage.includes("url: BASE_URL") && !toolPage.includes('url: "https://www.mzsolutions.app"'), "tool schema must use the configured site URL");
+assert.ok(toolPage.includes('import Seo, { BASE_URL }') && toolPage.includes('url: `${BASE_URL}${tool.route}`') && toolPage.includes('publisher: { "@id": `${BASE_URL}/#organization` }') && !toolPage.includes('https://www.mzsolutions.app'), "tool schema must use the configured site URL for canonical tool URLs and publisher references");
 
 const dictionary = read("src/services/dictionary.js");
 assert.ok(dictionary.includes("REQUEST_TIMEOUT_MS = 3500") && dictionary.includes("temporarily unavailable") && dictionary.includes("responding slowly"), "dictionary must have bounded per-source timeouts and actionable errors");
