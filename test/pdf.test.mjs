@@ -252,7 +252,7 @@ await test("rejects unsupported image type with clear message", async () => {
 });
 await test("browser compressor preserves its source buffer for pdf-lib", async () => {
   const source = fs.readFileSync(new URL("../src/tools/pdf/CompressPdf.jsx", import.meta.url), "utf8");
-  assert.match(source, /getDocument\(\{ data: bytes\.slice\(\) \}\)/);
+  assert.match(source, /getDocument\(\{\s*data:\s*bytes\.slice\(\)\s*\}\)/);
 });
 
 console.log(`\n${passed} tests passed.`);
