@@ -18,7 +18,7 @@ function Highlight({ text, query }) {
 export default function SearchBar({ size = "lg", placeholder = "What do you need?" }) {
   const [query,setQuery]=useState(""); const [open,setOpen]=useState(false); const [activeIndex,setActiveIndex]=useState(-1); const [recent,setRecent]=useState([]);
   const containerRef=useRef(null); const navigate=useNavigate(); const listId=useId();
-  const results=query.trim()?searchTools(query).slice(0,8):[];
+  const results=query.trim()?searchTools(query).filter((tool) => tool.status === "active").slice(0,8):[];
   const popular=getPopularTools().slice(0,5);
   const categorySuggestions = query.trim()
     ? categories.filter((category) => `${category.name} ${category.description}`.toLowerCase().includes(query.trim().toLowerCase())).slice(0, 4)

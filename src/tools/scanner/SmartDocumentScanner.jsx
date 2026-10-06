@@ -152,7 +152,21 @@ export default function SmartDocumentScanner() {
   };
 
   useEffect(() => { pagesRef.current = pages; }, [pages]);
+  useEffect(() => {
+    if (!camera) return undefined;
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousBodyOverscroll = document.body.style.overscrollBehavior;
+    document.documentElement.classList.add("mz-scanner-camera-open");
+    document.body.style.overflow = "hidden";
+    document.body.style.overscrollBehavior = "none";
+    return () => {
+      document.documentElement.classList.remove("mz-scanner-camera-open");
+      document.body.style.overflow = previousBodyOverflow;
+      document.body.style.overscrollBehavior = previousBodyOverscroll;
+    };
+  }, [camera]);
   useEffect(() => () => {
+    document.documentElement.classList.remove("mz-scanner-camera-open");
     stop();
     pagesRef.current.forEach(revokePageUrls);
   }, []);
@@ -789,12 +803,12 @@ export default function SmartDocumentScanner() {
               </button>
             </div>
           ) : (
-            <div className="mz-scanner-camera-stage">
+            <div className="mz-scanner-camera-stage" role="dialog" aria-modal="true" aria-label="Document camera">
               <video ref={video} autoPlay playsInline muted />
               <div className="mz-scanner-camera-scrim" aria-hidden="true" />
               <div className="mz-scanner-camera-topbar">
                 <button type="button" onClick={() => stop(true)} className="mz-scanner-camera-round" aria-label="Close camera"><CameraOff /></button>
-                <div className="mz-scanner-camera-title"><strong>Document Camera</strong><span>{cameraReady ? "Ready · no filter applied" : "Starting camera…"}</span></div>
+                <div className="mz-scanner-camera-title"><strong>Document Camera</strong><span>{cameraReady ? "Ready · fit the whole page inside the frame" : "Starting camera…"}</span></div>
                 <div className="mz-scanner-camera-tools">
                   {torchSupported ? <button type="button" className={torchOn ? "is-active" : ""} onClick={toggleTorch} aria-label={torchOn ? "Turn flash off" : "Turn flash on"} title="Flash"><Zap /></button> : <span className="mz-scanner-camera-tool-spacer" />}
                   {canSwitchCamera ? <button type="button" onClick={switchCamera} aria-label="Switch camera" title="Switch camera"><SwitchCamera /></button> : null}
@@ -802,13 +816,13 @@ export default function SmartDocumentScanner() {
               </div>
               <div className="mz-scanner-camera-guide" aria-hidden="true">
                 <i className="tl" /><i className="tr" /><i className="br" /><i className="bl" />
-                <span>Align the page inside the corners</span>
+                <span>Fit ALL 4 page corners inside this frame</span>
               </div>
               {!cameraReady ? <div className="mz-scanner-camera-loading" role="status"><span /> Preparing camera…</div> : null}
               <div className="mz-scanner-camera-dock">
                 <button type="button" className="mz-scanner-camera-side-action" onClick={() => input.current?.click()} aria-label="Choose image from files"><Upload /><span>Files</span></button>
                 <button onClick={capture} disabled={!cameraReady || busy} aria-label="Capture document" className="mz-scanner-shutter"><Camera /></button>
-                <div className="mz-scanner-camera-quality"><span>ORIGINAL</span><small>Filter later</small></div>
+                <div className="mz-scanner-camera-quality"><span>FULL RES</span><small>Auto-crop next</small></div>
               </div>
             </div>
           )}

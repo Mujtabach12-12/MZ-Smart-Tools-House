@@ -56,4 +56,12 @@ assert.ok(extras.includes("seo.directAnswer"), "Tool direct answers must be visi
 const startup = fs.readFileSync("src/components/pwa/StartupWelcome.jsx", "utf8");
 assert.ok(startup.includes("STARTUP_SESSION_KEY"), "5-7 second startup should be limited to the first open in a session");
 
+const searchBar = fs.readFileSync("src/components/ui/SearchBar.jsx", "utf8");
+assert.ok(searchBar.includes('filter((tool) => tool.status === "active")'), "Search autocomplete must not promote under-construction tools");
+
+const scanner = fs.readFileSync("src/tools/scanner/SmartDocumentScanner.jsx", "utf8");
+assert.ok(scanner.includes("Fit ALL 4 page corners inside this frame"), "Scanner camera guidance must clearly explain whole-page framing");
+assert.ok(scanner.includes('classList.add("mz-scanner-camera-open")'), "Scanner camera must lock background scrolling while open");
+assert.ok(scanner.includes('aria-modal="true"'), "Scanner full-screen camera should expose dialog semantics");
+
 console.log(`AdSense readiness source audit passed: ${focused.length} curated tool pages + ${guides.length} editorial guides.`);

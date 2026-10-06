@@ -27,11 +27,13 @@ html.mz-startup-skip #mz-native-startup{display:none!important}
 
 /* Full-screen scanner camera. Modern browsers support :has(); older browsers still
    get the fixed camera stage even if page-scroll locking is unavailable. */
-html:has(.mz-scanner-camera-stage),body:has(.mz-scanner-camera-stage){
+html:has(.mz-scanner-camera-stage),body:has(.mz-scanner-camera-stage),
+html.mz-scanner-camera-open,html.mz-scanner-camera-open body{
   overflow:hidden!important;
   overscroll-behavior:none!important;
 }
-body:has(.mz-scanner-camera-stage) .mz-ai-floating-assistant{display:none!important}
+body:has(.mz-scanner-camera-stage) .mz-ai-floating-assistant,
+html.mz-scanner-camera-open .mz-ai-floating-assistant{display:none!important}
 
 .mz-scanner-camera-stage{
   position:fixed!important;
