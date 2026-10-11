@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Command, Search, Moon, Sun, Home, FolderOpen, Star } from "lucide-react";
+import { Search, Moon, Sun, Home, FolderOpen } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { searchTools, getPopularTools } from "../../data/tools";
 import { categories } from "../../data/categories";
@@ -57,7 +57,7 @@ export default function CommandPalette() {
     if (e.key === "ArrowUp") { e.preventDefault(); setActive(i => items.length ? (i-1+items.length)%items.length : 0); }
     if (e.key === "Enter" && items[active]) { e.preventDefault(); choose(items[active]); }
   }
-  if (!open) return <button type="button" onClick={()=>setOpen(true)} className="fixed bottom-5 right-5 z-40 hidden items-center gap-2 rounded-full border border-navy-200 bg-white/90 px-4 py-2 text-xs font-semibold text-navy-600 shadow-xl backdrop-blur md:flex dark:border-navy-700 dark:bg-navy-900/90 dark:text-navy-300" aria-label="Open command palette"><Command className="h-3.5 w-3.5"/> Ctrl K</button>;
+  if (!open) return null;
   return <div className="fixed inset-0 z-[100] flex items-start justify-center bg-navy-950/45 p-4 pt-[10vh] backdrop-blur-sm" role="dialog" aria-modal="true" aria-label="Command palette" onMouseDown={e=>e.currentTarget===e.target&&setOpen(false)}>
     <div className="w-full max-w-2xl overflow-hidden rounded-2xl border border-navy-200 bg-white shadow-2xl dark:border-navy-700 dark:bg-navy-900">
       <div className="flex items-center gap-3 border-b border-navy-100 px-4 dark:border-navy-800">
