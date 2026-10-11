@@ -49,8 +49,8 @@ export default function Hero() {
               {quickActions.map(([label,id,suffix=""]) => { const tool=getToolById(id); return tool ? <Link key={`${label}-${id}`} to={`${tool.route}${suffix}`} className="mz-example-pill shrink-0">{label}</Link> : null; })}
             </div>
             <div className="mt-7 flex flex-wrap gap-3">
-              <Link to="/tools/" className="mz-btn-primary mz-liquid-btn">Explore Tools <ArrowRight className="h-4 w-4" /></Link>
-              <Link to="/categories/" className="mz-btn-secondary mz-liquid-btn">Browse Categories</Link>
+              <Link to="/tools" className="mz-btn-primary mz-liquid-btn">Explore Tools <ArrowRight className="h-4 w-4" /></Link>
+              <Link to="/categories" className="mz-btn-secondary mz-liquid-btn">Browse Categories</Link>
             </div>
             <div className="mt-7 flex flex-wrap gap-x-5 gap-y-2.5 text-xs font-semibold text-navy-500 dark:text-navy-400">
               <span className="inline-flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-brand-600" /> {toolCount} active tools</span>
