@@ -49,8 +49,8 @@ export default function Hero() {
               {quickActions.map(([label,id,suffix=""]) => { const tool=getToolById(id); return tool ? <Link key={`${label}-${id}`} to={`${tool.route}${suffix}`} className="mz-example-pill shrink-0">{label}</Link> : null; })}
             </div>
             <div className="mt-7 flex flex-wrap gap-3">
-              <Link to="/tools" className="mz-btn-primary mz-liquid-btn">Explore Tools <ArrowRight className="h-4 w-4" /></Link>
-              <Link to="/categories" className="mz-btn-secondary mz-liquid-btn">Browse Categories</Link>
+              <Link to="/tools/" className="mz-btn-primary mz-liquid-btn">Explore Tools <ArrowRight className="h-4 w-4" /></Link>
+              <Link to="/categories/" className="mz-btn-secondary mz-liquid-btn">Browse Categories</Link>
             </div>
             <div className="mt-7 flex flex-wrap gap-x-5 gap-y-2.5 text-xs font-semibold text-navy-500 dark:text-navy-400">
               <span className="inline-flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-brand-600" /> {toolCount} active tools</span>
@@ -63,7 +63,7 @@ export default function Hero() {
           <div className="mz-hero-visual" aria-label="Modern smart office workspace with two professional colleagues working on laptops">
             <div className="mz-hero-scene-glow" aria-hidden="true" />
             <div className="mz-hero-scene">
-              <img src="/assets/mz-smart-office-hero.webp" alt="Two professional colleagues working with laptops in a modern smart office" className="mz-hero-image" width="1536" height="1024" loading="eager" />
+              <img src="/assets/mz-smart-office-hero.webp" alt="Two professional colleagues working with laptops in a modern smart office" className="mz-hero-image" width="1536" height="1024" loading="eager" fetchPriority="high" decoding="async" />
               <div className="mz-hero-scene-shine" aria-hidden="true" />
               {floatingTools.map(({ label, icon: Icon, position }) => <div key={label} className={`mz-floating-tool mz-floating-tool-premium ${position}`} aria-hidden="true"><Icon className="h-4 w-4 text-brand-600" /><span>{label}</span></div>)}
             </div>
