@@ -1,119 +1,159 @@
 import { Bot, Sparkles } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useMemo, useRef, useState } from "react";
 
-const FALLBACK_TASKS = ["Ready to help", "Keeping tools responsive", "Watching workspace quality"];
+const FALLBACK_TASKS = [
+  "Tap to search tools",
+  "Ready when you are",
+  "Find your next tool",
+];
+const GAZE_RANGE_X = 3.1;
+const GAZE_RANGE_Y = 2.4;
+const IDLE_EXPRESSIONS = [
+  "happy", "smile", "cheerful", "friendly", "curious", "calm", "playful", "delighted", "bright", "joyful",
+  "optimistic", "attentive", "relaxed", "encouraging", "proud", "excited", "gentle", "thoughtful", "wink", "focused",
+  "happy", "friendly", "bright", "smile",
+];
+const SUPPORTED_MOODS = new Set([...IDLE_EXPRESSIONS, "concerned", "sad"]);
+const BASE_EXPRESSION = {
+  happy: "happy", smile: "smile", cheerful: "happy", friendly: "smile", curious: "curious", calm: "smile",
+  playful: "happy", delighted: "happy", bright: "smile", joyful: "happy", optimistic: "smile", attentive: "curious",
+  relaxed: "smile", encouraging: "happy", proud: "happy", excited: "happy", gentle: "smile", thoughtful: "focused",
+  wink: "happy", focused: "focused", concerned: "concerned", sad: "sad",
+};
 
 function cleanLabel(value = "") {
-  return String(value).replace(/\s+/g, " ").trim().replace(/[.…]+$/g, "").slice(0, 54);
+  return String(value).replace(/\s+/g, " ").trim().replace(/[.…]+$/g, "").slice(0, 64);
 }
 
-function readPageName() {
-  const heading = document.querySelector("main h1, [data-tool-title], .mz-page-title");
-  const headingText = cleanLabel(heading?.textContent || "");
-  if (headingText) return headingText;
-  const titleText = cleanLabel((document.title || "").split(/[|—]/)[0]);
-  return titleText || "MZ Smart Tools House";
-}
-
-function describeInteraction(target) {
-  if (!(target instanceof Element)) return "";
-  const control = target.closest("button, a, summary, input, textarea, select, [role='button']");
-  if (!control) return "";
-
-  const tag = control.tagName.toLowerCase();
-  const type = (control.getAttribute("type") || "").toLowerCase();
-  if (tag === "input" && ["password", "email", "tel"].includes(type)) return "Editing input";
-
-  const explicit = cleanLabel(
-    control.getAttribute("aria-label") ||
-    control.getAttribute("title") ||
-    control.getAttribute("placeholder") ||
-    control.textContent ||
-    ""
+function readWeakConnection() {
+  const info = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  if (!navigator.onLine || !info) return false;
+  const effective = String(info.effectiveType || "").toLowerCase();
+  return Boolean(
+    info.saveData ||
+    ["slow-2g", "2g"].includes(effective) ||
+    (Number.isFinite(info.downlink) && info.downlink > 0 && info.downlink < 0.9) ||
+    (Number.isFinite(info.rtt) && info.rtt > 450)
   );
-  if (!explicit) return "";
-
-  if (tag === "button" || control.getAttribute("role") === "button") return `Using ${explicit}`;
-  if (tag === "a") return `Opening ${explicit}`;
-  if (tag === "summary") return `Viewing ${explicit}`;
-  if (tag === "select") return `Choosing ${explicit}`;
-  return `Editing ${explicit}`;
 }
 
-export default function MzAiRobot({ compact = false, loading = false, label }) {
-  const { pathname } = useLocation();
-  const [pageName, setPageName] = useState("");
-  const [liveAction, setLiveAction] = useState("");
+export default function MzAiRobot({ compact = false, loading = false, label, className = "", followCursor = true, mood = "" }) {
+  const rootRef = useRef(null);
+  const supportsFinePointer = useRef(
+    typeof window !== "undefined" && window.matchMedia?.("(pointer:fine)")?.matches,
+  ).current;
+  const [online, setOnline] = useState(() => navigator.onLine !== false);
+  const [weakConnection, setWeakConnection] = useState(() => readWeakConnection());
+  const [idleIndex, setIdleIndex] = useState(0);
   const [fallbackIndex, setFallbackIndex] = useState(0);
-  const [processingAction, setProcessingAction] = useState("");
 
   useEffect(() => {
-    const refresh = () => setPageName(readPageName());
-    refresh();
-    const observer = new MutationObserver(refresh);
-    observer.observe(document.head, { subtree: true, childList: true, characterData: true });
-    const timer = window.setTimeout(refresh, 50);
-    return () => { observer.disconnect(); window.clearTimeout(timer); };
-  }, [pathname]);
-
-  useEffect(() => {
-    let clearTimer;
-    const announce = (event) => {
-      const next = describeInteraction(event.target);
-      if (!next) return;
-      setLiveAction(next);
-      window.clearTimeout(clearTimer);
-      clearTimer = window.setTimeout(() => setLiveAction(""), 3600);
+    const updateNetwork = () => {
+      setOnline(navigator.onLine !== false);
+      setWeakConnection(readWeakConnection());
     };
-    document.addEventListener("pointerdown", announce, true);
-    document.addEventListener("focusin", announce, true);
-    document.addEventListener("change", announce, true);
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    window.addEventListener("online", updateNetwork);
+    window.addEventListener("offline", updateNetwork);
+    connection?.addEventListener?.("change", updateNetwork);
     return () => {
-      document.removeEventListener("pointerdown", announce, true);
-      document.removeEventListener("focusin", announce, true);
-      document.removeEventListener("change", announce, true);
-      window.clearTimeout(clearTimer);
+      window.removeEventListener("online", updateNetwork);
+      window.removeEventListener("offline", updateNetwork);
+      connection?.removeEventListener?.("change", updateNetwork);
     };
   }, []);
 
-
   useEffect(() => {
-    const readProcessing = () => {
-      const candidates = [...document.querySelectorAll('[role="status"], [aria-busy="true"], .mz-tool-loading, .mz-pdf-page-loading')];
-      const visible = candidates.find((node) => {
-        const style = window.getComputedStyle(node);
-        return style.display !== "none" && style.visibility !== "hidden" && node.getClientRects().length;
-      });
-      setProcessingAction(cleanLabel(visible?.textContent || ""));
+    if (label || loading || mood) return undefined;
+    const moodTimer = window.setInterval(() => setIdleIndex((value) => (value + 1) % IDLE_EXPRESSIONS.length), 4700);
+    const copyTimer = window.setInterval(() => setFallbackIndex((value) => (value + 1) % FALLBACK_TASKS.length), 7600);
+    return () => {
+      window.clearInterval(moodTimer);
+      window.clearInterval(copyTimer);
     };
-    readProcessing();
-    const observer = new MutationObserver(readProcessing);
-    observer.observe(document.body, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ["aria-busy", "class"] });
-    return () => observer.disconnect();
-  }, [pathname]);
+  }, [label, loading, mood]);
+
   useEffect(() => {
-    const timer = window.setInterval(() => setFallbackIndex((value) => (value + 1) % FALLBACK_TASKS.length), 4200);
-    return () => window.clearInterval(timer);
-  }, []);
+    if (!followCursor || !supportsFinePointer) return undefined;
+    let frame = 0;
+    let pointerX = window.innerWidth / 2;
+    let pointerY = window.innerHeight / 2;
 
-  const task = useMemo(() => {
-    if (label) return cleanLabel(label);
-    if (processingAction) return processingAction;
-    if (liveAction) return liveAction;
-    if (loading) return pageName ? `Processing ${pageName}` : "Processing current task";
-    if (pageName && pageName !== "MZ Smart Tools House") return `Working on ${pageName}`;
-    return FALLBACK_TASKS[fallbackIndex];
-  }, [fallbackIndex, label, liveAction, loading, pageName, processingAction]);
+    const commit = () => {
+      frame = 0;
+      const centerX = window.innerWidth / 2 || 1;
+      const centerY = window.innerHeight / 2 || 1;
+      const rawX = (pointerX - centerX) / centerX;
+      const rawY = (pointerY - centerY) / centerY;
+      const normalizedX = Math.abs(rawX) < 0.018 ? 0 : rawX;
+      const normalizedY = Math.abs(rawY) < 0.018 ? 0 : rawY;
+      const x = Math.max(-GAZE_RANGE_X, Math.min(GAZE_RANGE_X, normalizedX * GAZE_RANGE_X));
+      const y = Math.max(-GAZE_RANGE_Y, Math.min(GAZE_RANGE_Y, normalizedY * GAZE_RANGE_Y));
+      rootRef.current?.style.setProperty("--mz-eye-x", `${x.toFixed(2)}px`);
+      rootRef.current?.style.setProperty("--mz-eye-y", `${y.toFixed(2)}px`);
+    };
 
-  return <div className={`mz-ai-robot ${compact ? "is-compact" : ""} ${loading ? "is-loading" : ""}`} aria-label={`MZ AI: ${task}`}>
-    <div className="mz-ai-robot-orbit"><i/><i/><i/></div>
-    <div className="mz-ai-robot-head">
-      <span className="mz-ai-antenna"><i /></span>
-      <div className="mz-ai-face"><span className="mz-ai-eye"/><span className="mz-ai-eye"/><span className="mz-ai-mouth"/></div>
-      <span className="mz-ai-ear left"/><span className="mz-ai-ear right"/>
+    const onMove = (event) => {
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+      if (!frame) frame = window.requestAnimationFrame(commit);
+    };
+    const reset = () => {
+      pointerX = window.innerWidth / 2;
+      pointerY = window.innerHeight / 2;
+      if (!frame) frame = window.requestAnimationFrame(commit);
+    };
+
+    window.addEventListener("pointermove", onMove, { passive: true });
+    window.addEventListener("blur", reset, { passive: true });
+    document.addEventListener("pointerleave", reset, { passive: true });
+    return () => {
+      if (frame) window.cancelAnimationFrame(frame);
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("blur", reset);
+      document.removeEventListener("pointerleave", reset);
+    };
+  }, [followCursor, supportsFinePointer]);
+
+  const expression = useMemo(() => {
+    if (!online) return "sad";
+    if (weakConnection) return "concerned";
+    if (loading) return "focused";
+    if (SUPPORTED_MOODS.has(mood)) return mood;
+    return IDLE_EXPRESSIONS[idleIndex] || "happy";
+  }, [idleIndex, loading, mood, online, weakConnection]);
+
+  const baseExpression = BASE_EXPRESSION[expression] || "smile";
+  const task = !online
+    ? "Reconnect to continue"
+    : weakConnection
+      ? "Connection is a little slow"
+      : cleanLabel(label) || (loading ? "Preparing your tool" : FALLBACK_TASKS[fallbackIndex]);
+
+  return (
+    <div
+      ref={rootRef}
+      className={`mz-ai-robot ${compact ? "is-compact" : ""} ${loading ? "is-loading" : ""} is-${baseExpression} is-${expression} ${className}`.trim()}
+      aria-label={`MZ AI: ${task}`}
+      data-expression={expression}
+    >
+      <div className="mz-ai-robot-orbit" aria-hidden="true"><i /><i /><i /></div>
+      <div className="mz-ai-robot-head" aria-hidden="true">
+        <span className="mz-ai-antenna"><i /></span>
+        <div className="mz-ai-face">
+          <span className="mz-ai-brow left" />
+          <span className="mz-ai-brow right" />
+          <span className="mz-ai-eye"><i /></span>
+          <span className="mz-ai-eye"><i /></span>
+          <span className="mz-ai-cheek left" />
+          <span className="mz-ai-cheek right" />
+          <span className="mz-ai-mouth" />
+        </div>
+        <span className="mz-ai-ear left" />
+        <span className="mz-ai-ear right" />
+      </div>
+      <div className="mz-ai-body"><Bot className="h-4 w-4" /><strong>MZ AI</strong><Sparkles className="h-3 w-3" /></div>
+      {!compact ? <div className="mz-ai-task" title={task}><span className="mz-ai-dot" />{task}</div> : null}
     </div>
-    <div className="mz-ai-body"><Bot className="h-4 w-4"/><strong>MZ AI</strong><Sparkles className="h-3 w-3"/></div>
-    {!compact ? <div className="mz-ai-task" title={task}><span className="mz-ai-dot"/>{task}</div> : null}
-  </div>;
+  );
 }

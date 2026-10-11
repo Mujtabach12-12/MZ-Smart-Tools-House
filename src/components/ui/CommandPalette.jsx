@@ -31,7 +31,20 @@ export default function CommandPalette() {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") { e.preventDefault(); setOpen(true); }
       if (e.key === "Escape") setOpen(false);
     };
-    window.addEventListener("keydown", down); return () => window.removeEventListener("keydown", down);
+    const openFromRobot = (event) => {
+      const detail = event?.detail || {};
+      setOpen(true);
+      if (typeof detail.query === "string") {
+        setQuery(detail.query);
+        setActive(0);
+      }
+    };
+    window.addEventListener("keydown", down);
+    window.addEventListener("mz:open-command-palette", openFromRobot);
+    return () => {
+      window.removeEventListener("keydown", down);
+      window.removeEventListener("mz:open-command-palette", openFromRobot);
+    };
   }, []);
   useEffect(() => { if (open) { setQuery(""); setActive(0); setTimeout(()=>inputRef.current?.focus(),0); } }, [open]);
 

@@ -1,48 +1,7 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import Seo from "../components/layout/Seo";
-import Hero from "../components/home/Hero";
-import MobileHome from "../components/home/MobileHome";
-import CategoryRail from "../components/home/CategoryRail";
-import DashboardQuickStart from "../components/home/DashboardQuickStart";
-import PersonalTools from "../components/home/PersonalTools";
-import RecentFiles from "../components/home/RecentFiles";
-import PopularTools from "../components/home/PopularTools";
-import IntentSections from "../components/home/IntentSections";
-import HowItWorks from "../components/home/HowItWorks";
-import WhyMZSolutions from "../components/home/WhyMZSolutions";
-import FAQ from "../components/home/FAQ";
-
-function useMobileLayout() {
-  const [mobile, setMobile] = useState(() => typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches);
-  useEffect(() => {
-    const media = window.matchMedia("(max-width: 767px)");
-    const update = () => setMobile(media.matches);
-    update();
-    media.addEventListener?.("change", update);
-    return () => media.removeEventListener?.("change", update);
-  }, []);
-  return mobile;
-}
-
-export default function Home() {
-  const mobile = useMobileLayout();
-  return (
-    <>
-      <Seo path="/" title="Free Online Tools for Work & Study" description="Use free online tools for PDF, documents, images, study, coding, calculators and everyday work in one browser-based MZ Smart Tools House workspace." />
-      {mobile ? <MobileHome /> : (
-        <>
-          <Hero />
-          <DashboardQuickStart />
-          <CategoryRail />
-          <PersonalTools />
-          <RecentFiles />
-          <PopularTools />
-          <IntentSections />
-          <HowItWorks />
-          <WhyMZSolutions />
-          <FAQ />
-        </>
-      )}
-    </>
-  );
-}
+const MobileHome = lazy(() => import("../components/home/MobileHome"));
+const DesktopHome = lazy(() => import("../components/home/DesktopHome"));
+function useMobileLayout(){const [mobile,setMobile]=useState(()=>typeof window!=="undefined"&&window.matchMedia("(max-width: 767px)").matches);useEffect(()=>{const media=window.matchMedia("(max-width: 767px)");const update=()=>setMobile(media.matches);update();media.addEventListener?.("change",update);return()=>media.removeEventListener?.("change",update)},[]);return mobile}
+function HomeFallback(){return <div className="mz-section py-6" role="status" aria-live="polite"><div className="h-32 animate-pulse rounded-3xl bg-brand-50/70 dark:bg-navy-900" /></div>}
+export default function Home(){const mobile=useMobileLayout();return <><Seo path="/" title="Free Online Tools for Work & Study" description="Use free online tools for PDF, documents, images, study, coding, calculators and everyday work in one browser-based MZ Smart Tools House workspace."/><Suspense fallback={<HomeFallback />}>{mobile?<MobileHome/>:<DesktopHome/>}</Suspense></>}

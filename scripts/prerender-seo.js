@@ -54,7 +54,7 @@ function buildFullTitle(title) {
 }
 
 function add(path, title, description, robots = INDEX_ROBOTS, extra = {}) {
-  const normalized = path === "/" ? "/" : `/${String(path).replace(/^\/+|\/+$/g, "")}`;
+  const normalized = path === "/" ? "/" : `/${String(path).replace(/^\/+|\/+$/g, "")}/`;
   const fullTitle = buildFullTitle(title);
   records.set(normalized, { path: normalized, title: fullTitle, description, robots, ...extra });
 }

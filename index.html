@@ -4,7 +4,8 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content"/>
 <meta name="theme-color" content="#2563eb"/>
-<style>html.mz-startup-skip #mz-native-startup{display:none!important}</style>
+<style>html.mz-startup-skip #mz-native-startup{display:none!important}html.js [data-prerender-content]{display:none!important}html.js #root:empty{min-height:100vh}</style>
+<script>(function(){document.documentElement.classList.add("js");try{var standalone=window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true;var nativeProtocol=location.protocol==="capacitor:"||location.protocol==="ionic:";var nativeWebView=/;\s*wv\)/i.test(navigator.userAgent||"");if(!standalone&&!nativeProtocol&&!nativeWebView)document.documentElement.classList.add("mz-startup-skip")}catch(e){document.documentElement.classList.add("mz-startup-skip")}})();</script>
 <meta name="application-name" content="MZ Smart Tools House"/>
 <meta name="author" content="Muhammad Mujtaba"/>
 <meta name="referrer" content="strict-origin-when-cross-origin"/>

@@ -66,7 +66,7 @@ function normalizeCanonicalPath(path) {
   const withoutQuery = String(path || "/").split("?")[0].split("#")[0] || "/";
   const leading = withoutQuery.startsWith("/") ? withoutQuery : `/${withoutQuery}`;
   if (leading === "/") return "/";
-  return leading.replace(/\/{2,}/g, "/").replace(/\/+$/, "");
+  return `${leading.replace(/\/{2,}/g, "/").replace(/\/+$/, "")}/`;
 }
 
 export default function Seo({

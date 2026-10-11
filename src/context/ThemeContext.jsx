@@ -16,6 +16,12 @@ export const THEMES = [
   { id: "forest", name: "Forest Night", dark: true, swatch: ["#34d399", "#071a15"] },
   { id: "sunset", name: "Sunset", dark: false, swatch: ["#f97316", "#fff7ed"] },
   { id: "mono", name: "Mono Focus", dark: false, swatch: ["#111827", "#f9fafb"] },
+  { id: "aurora", name: "Aurora Night", dark: true, swatch: ["#2dd4bf", "#312e81"] },
+  { id: "ice", name: "Arctic Ice", dark: false, swatch: ["#0ea5e9", "#f0f9ff"] },
+  { id: "lavender", name: "Lavender Mist", dark: false, swatch: ["#8b5cf6", "#f5f3ff"] },
+  { id: "mint", name: "Mint Breeze", dark: false, swatch: ["#14b8a6", "#f0fdfa"] },
+  { id: "royal", name: "Royal Indigo", dark: true, swatch: ["#818cf8", "#111827"] },
+  { id: "carbon", name: "Carbon Tech", dark: true, swatch: ["#38bdf8", "#111827"] },
 ];
 
 function getInitialTheme() {
@@ -28,29 +34,8 @@ function getInitialTheme() {
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(getInitialTheme);
   const current = THEMES.find((item) => item.id === theme) || THEMES[0];
-
-  useEffect(() => {
-    const root = document.documentElement;
-    root.dataset.theme = current.id;
-    root.classList.toggle("dark", current.dark);
-    root.style.colorScheme = current.dark ? "dark" : "light";
-    window.localStorage.setItem(STORAGE_KEY, current.id);
-  }, [current.id, current.dark]);
-
-  const value = useMemo(() => ({
-    theme: current.id,
-    themeMeta: current,
-    themes: THEMES,
-    isDark: current.dark,
-    toggleTheme: () => setTheme((id) => (id === "dark" ? "light" : "dark")),
-    setTheme,
-  }), [current]);
-
+  useEffect(() => { const root=document.documentElement; root.dataset.theme=current.id; root.classList.toggle("dark",current.dark); root.style.colorScheme=current.dark?"dark":"light"; window.localStorage.setItem(STORAGE_KEY,current.id); },[current.id,current.dark]);
+  const value=useMemo(()=>({theme:current.id,themeMeta:current,themes:THEMES,isDark:current.dark,toggleTheme:()=>setTheme((id)=>(id==="dark"?"light":"dark")),setTheme}),[current]);
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
-
-export function useTheme() {
-  const ctx = useContext(ThemeContext);
-  if (!ctx) throw new Error("useTheme must be used within a ThemeProvider");
-  return ctx;
-}
+export function useTheme(){const ctx=useContext(ThemeContext);if(!ctx)throw new Error("useTheme must be used within a ThemeProvider");return ctx}

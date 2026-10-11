@@ -134,12 +134,13 @@ const featured = {
     related: ["percentage-calculator", "ratio-calculator", "marks-calculator", "statistics-calculator"],
   },
   "ratio-calculator": {
-    title: "Ratio Calculator – Simplify Ratios & Solve Proportions",
-    description: "Simplify positive two-part ratios or solve one missing value in A:B = C:D using real cross-multiplication.",
+    title: "Free Ratio Calculator – Simplify & Solve Proportions",
+    description: "Simplify ratios instantly or solve one missing value in A:B = C:D with a free ratio calculator using cross-multiplication.",
+    directAnswer: "Enter a ratio such as 8:12 to simplify it, or enter a proportion such as 2:3 = 8:X to solve the missing value.",
     intro: "Reduce a two-part ratio to lowest terms or solve a proportion with exactly one missing value.",
     formula: "For A:B = C:D, cross multiplication gives A × D = B × C.",
     example: "8:12 simplifies to 2:3. For 2:3 = 8:X, X = 12.",
-    faq: [["Does the ratio simplifier support decimals?", "Yes, practical decimal ratios are scaled to integers before reduction."], ["Why are zero and negative values rejected?", "This calculator intentionally models positive ratios and positive proportions to avoid undefined denominator cases."]],
+    faq: [["Does the ratio simplifier support decimals?", "Yes, practical decimal ratios are scaled to integers before reduction."], ["Can I solve a missing number in a proportion?", "Yes. Enter exactly one missing value in A:B = C:D and the calculator solves it with cross-multiplication."], ["Why are zero and negative values rejected?", "This calculator intentionally models positive ratios and positive proportions to avoid undefined denominator cases."]],
     related: ["percentage-calculator", "average-calculator", "proportion-calculator", "fraction-calculator"],
   },
   "time-calculator": {
