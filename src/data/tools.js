@@ -282,11 +282,6 @@ const converterMetaByToolId = new Map(converterToolRecords.map((tool) => [tool.i
 const formulaMetaByToolId = new Map(formulaToolRecords.map((tool) => [tool.id, tool]));
 const allTools = [...tools, ...converterToolRecords.filter((tool) => !existingToolIds.has(tool.id)), ...formulaToolRecords.filter((tool) => !existingToolIds.has(tool.id))];
 
-function canonicalRoute(path) {
-  const value = String(path || "/").split("?")[0].split("#")[0] || "/";
-  return value === "/" ? "/" : `${value.replace(/\/+$/, "")}/`;
-}
-
 const registry = allTools.map((originalTool) => {
   const converterMeta = converterMetaByToolId.get(originalTool.id);
   const formulaMeta = formulaMetaByToolId.get(originalTool.id);
@@ -301,7 +296,7 @@ const registry = allTools.map((originalTool) => {
   return {
     ...tool,
     slug: tool.slug || tool.id,
-    route: canonicalRoute(tool.route || `/tools/${tool.slug || tool.id}`),
+    route: tool.route || `/tools/${tool.slug || tool.id}`,
     categoryRoute: getCategoryRoute(tool.category),
     tags: Array.isArray(tool.tags) ? tool.tags : [],
     commonPhrases: Array.isArray(tool.commonPhrases) ? tool.commonPhrases : [],
