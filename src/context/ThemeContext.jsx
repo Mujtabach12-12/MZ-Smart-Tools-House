@@ -9,8 +9,8 @@ export const THEMES = [
   { id: "ocean", name: "Ocean Glass", dark: false, swatch: ["#0284c7", "#ecfeff"] },
   { id: "emerald", name: "Emerald", dark: false, swatch: ["#059669", "#f0fdf4"] },
   { id: "violet", name: "Violet", dark: false, swatch: ["#7c3aed", "#faf5ff"] },
-  { id: "rose", name: "Rose", dark: false, swatch: ["#e11d48", "#fff1f2"] },
-  { id: "amber", name: "Amber", dark: false, swatch: ["#d97706", "#fffbeb"] },
+  { id: "rose", name: "Rose Quartz", dark: false, swatch: ["#c026d3", "#fff1f8"] },
+  { id: "amber", name: "Amber Glow", dark: false, swatch: ["#d97706", "#fffbeb"] },
   { id: "slate", name: "Slate Pro", dark: false, swatch: ["#475569", "#f8fafc"] },
   { id: "cyber", name: "Cyber Blue", dark: true, swatch: ["#22d3ee", "#07131f"] },
   { id: "forest", name: "Forest Night", dark: true, swatch: ["#34d399", "#071a15"] },
@@ -22,6 +22,14 @@ export const THEMES = [
   { id: "mint", name: "Mint Breeze", dark: false, swatch: ["#14b8a6", "#f0fdfa"] },
   { id: "royal", name: "Royal Indigo", dark: true, swatch: ["#818cf8", "#111827"] },
   { id: "carbon", name: "Carbon Tech", dark: true, swatch: ["#38bdf8", "#111827"] },
+  { id: "holographic", name: "Holographic Glass", dark: false, swatch: ["#06b6d4", "#f0abfc"] },
+  { id: "sand", name: "Warm Sand", dark: false, swatch: ["#b7791f", "#fef3c7"] },
+  { id: "galaxy", name: "Galaxy Pulse", dark: true, swatch: ["#8b5cf6", "#020617"] },
+  { id: "peach", name: "Peach Bloom", dark: false, swatch: ["#fb7185", "#fff7ed"] },
+  { id: "skyline", name: "Skyline Blue", dark: false, swatch: ["#3b82f6", "#e0f2fe"] },
+  { id: "mocha", name: "Mocha Night", dark: true, swatch: ["#d6a77a", "#1c1411"] },
+  { id: "solar", name: "Solar Glow", dark: false, swatch: ["#f59e0b", "#fff7ed"] },
+  { id: "matrix", name: "Matrix Green", dark: true, swatch: ["#22c55e", "#020b07"] },
 ];
 
 function getInitialTheme() {
@@ -34,8 +42,29 @@ function getInitialTheme() {
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(getInitialTheme);
   const current = THEMES.find((item) => item.id === theme) || THEMES[0];
-  useEffect(() => { const root=document.documentElement; root.dataset.theme=current.id; root.classList.toggle("dark",current.dark); root.style.colorScheme=current.dark?"dark":"light"; window.localStorage.setItem(STORAGE_KEY,current.id); },[current.id,current.dark]);
-  const value=useMemo(()=>({theme:current.id,themeMeta:current,themes:THEMES,isDark:current.dark,toggleTheme:()=>setTheme((id)=>(id==="dark"?"light":"dark")),setTheme}),[current]);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    root.dataset.theme = current.id;
+    root.classList.toggle("dark", current.dark);
+    root.style.colorScheme = current.dark ? "dark" : "light";
+    window.localStorage.setItem(STORAGE_KEY, current.id);
+  }, [current.id, current.dark]);
+
+  const value = useMemo(() => ({
+    theme: current.id,
+    themeMeta: current,
+    themes: THEMES,
+    isDark: current.dark,
+    toggleTheme: () => setTheme((id) => (id === "dark" ? "light" : "dark")),
+    setTheme,
+  }), [current]);
+
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
-export function useTheme(){const ctx=useContext(ThemeContext);if(!ctx)throw new Error("useTheme must be used within a ThemeProvider");return ctx}
+
+export function useTheme() {
+  const ctx = useContext(ThemeContext);
+  if (!ctx) throw new Error("useTheme must be used within a ThemeProvider");
+  return ctx;
+}
