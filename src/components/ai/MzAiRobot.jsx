@@ -1,24 +1,21 @@
 import { Bot, Sparkles } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-const FALLBACK_TASKS = [
-  "Tap to search tools",
-  "Ready when you are",
-  "Find your next tool",
-];
+const FALLBACK_TASKS = ["Tap to search tools", "Ready when you are", "Find your next tool"];
 const GAZE_RANGE_X = 3.1;
 const GAZE_RANGE_Y = 2.4;
 const IDLE_EXPRESSIONS = [
   "happy", "smile", "cheerful", "friendly", "curious", "calm", "playful", "delighted", "bright", "joyful",
   "optimistic", "attentive", "relaxed", "encouraging", "proud", "excited", "gentle", "thoughtful", "wink", "focused",
-  "happy", "friendly", "bright", "smile",
+  "surprised", "listening", "searching", "celebrating", "thinking", "alert",
 ];
 const SUPPORTED_MOODS = new Set([...IDLE_EXPRESSIONS, "concerned", "sad"]);
 const BASE_EXPRESSION = {
-  happy: "happy", smile: "smile", cheerful: "happy", friendly: "smile", curious: "curious", calm: "smile",
-  playful: "happy", delighted: "happy", bright: "smile", joyful: "happy", optimistic: "smile", attentive: "curious",
-  relaxed: "smile", encouraging: "happy", proud: "happy", excited: "happy", gentle: "smile", thoughtful: "focused",
-  wink: "happy", focused: "focused", concerned: "concerned", sad: "sad",
+  happy:"happy", smile:"smile", cheerful:"happy", friendly:"smile", curious:"curious", calm:"smile",
+  playful:"happy", delighted:"happy", bright:"smile", joyful:"happy", optimistic:"smile", attentive:"curious",
+  relaxed:"smile", encouraging:"happy", proud:"happy", excited:"happy", gentle:"smile", thoughtful:"focused",
+  wink:"happy", focused:"focused", surprised:"curious", listening:"curious", searching:"focused",
+  celebrating:"happy", thinking:"focused", alert:"curious", concerned:"concerned", sad:"sad",
 };
 
 function cleanLabel(value = "") {
@@ -37,7 +34,7 @@ function readWeakConnection() {
   );
 }
 
-export default function MzAiRobot({ compact = false, loading = false, label, className = "", followCursor = true, mood = "" }) {
+export default function MzAiRobot({ compact=false, loading=false, label, className="", followCursor=true, mood="" }) {
   const rootRef = useRef(null);
   const supportsFinePointer = useRef(
     typeof window !== "undefined" && window.matchMedia?.("(pointer:fine)")?.matches,
@@ -65,8 +62,8 @@ export default function MzAiRobot({ compact = false, loading = false, label, cla
 
   useEffect(() => {
     if (label || loading || mood) return undefined;
-    const moodTimer = window.setInterval(() => setIdleIndex((value) => (value + 1) % IDLE_EXPRESSIONS.length), 4700);
-    const copyTimer = window.setInterval(() => setFallbackIndex((value) => (value + 1) % FALLBACK_TASKS.length), 7600);
+    const moodTimer = window.setInterval(() => setIdleIndex((value) => (value + 1) % IDLE_EXPRESSIONS.length), 5200);
+    const copyTimer = window.setInterval(() => setFallbackIndex((value) => (value + 1) % FALLBACK_TASKS.length), 7800);
     return () => {
       window.clearInterval(moodTimer);
       window.clearInterval(copyTimer);
@@ -85,10 +82,10 @@ export default function MzAiRobot({ compact = false, loading = false, label, cla
       const centerY = window.innerHeight / 2 || 1;
       const rawX = (pointerX - centerX) / centerX;
       const rawY = (pointerY - centerY) / centerY;
-      const normalizedX = Math.abs(rawX) < 0.018 ? 0 : rawX;
-      const normalizedY = Math.abs(rawY) < 0.018 ? 0 : rawY;
-      const x = Math.max(-GAZE_RANGE_X, Math.min(GAZE_RANGE_X, normalizedX * GAZE_RANGE_X));
-      const y = Math.max(-GAZE_RANGE_Y, Math.min(GAZE_RANGE_Y, normalizedY * GAZE_RANGE_Y));
+      const nx = Math.abs(rawX) < 0.018 ? 0 : rawX;
+      const ny = Math.abs(rawY) < 0.018 ? 0 : rawY;
+      const x = Math.max(-GAZE_RANGE_X, Math.min(GAZE_RANGE_X, nx * GAZE_RANGE_X));
+      const y = Math.max(-GAZE_RANGE_Y, Math.min(GAZE_RANGE_Y, ny * GAZE_RANGE_Y));
       rootRef.current?.style.setProperty("--mz-eye-x", `${x.toFixed(2)}px`);
       rootRef.current?.style.setProperty("--mz-eye-y", `${y.toFixed(2)}px`);
     };
@@ -137,23 +134,19 @@ export default function MzAiRobot({ compact = false, loading = false, label, cla
       aria-label={`MZ AI: ${task}`}
       data-expression={expression}
     >
-      <div className="mz-ai-robot-orbit" aria-hidden="true"><i /><i /><i /></div>
+      <div className="mz-ai-robot-orbit" aria-hidden="true"><i/><i/><i/></div>
       <div className="mz-ai-robot-head" aria-hidden="true">
-        <span className="mz-ai-antenna"><i /></span>
+        <span className="mz-ai-antenna"><i/></span>
         <div className="mz-ai-face">
-          <span className="mz-ai-brow left" />
-          <span className="mz-ai-brow right" />
-          <span className="mz-ai-eye"><i /></span>
-          <span className="mz-ai-eye"><i /></span>
-          <span className="mz-ai-cheek left" />
-          <span className="mz-ai-cheek right" />
-          <span className="mz-ai-mouth" />
+          <span className="mz-ai-brow left"/><span className="mz-ai-brow right"/>
+          <span className="mz-ai-eye"><i/></span><span className="mz-ai-eye"><i/></span>
+          <span className="mz-ai-cheek left"/><span className="mz-ai-cheek right"/>
+          <span className="mz-ai-mouth"/>
         </div>
-        <span className="mz-ai-ear left" />
-        <span className="mz-ai-ear right" />
+        <span className="mz-ai-ear left"/><span className="mz-ai-ear right"/>
       </div>
-      <div className="mz-ai-body"><Bot className="h-4 w-4" /><strong>MZ AI</strong><Sparkles className="h-3 w-3" /></div>
-      {!compact ? <div className="mz-ai-task" title={task}><span className="mz-ai-dot" />{task}</div> : null}
+      <div className="mz-ai-body"><Bot className="h-4 w-4"/><strong>MZ AI</strong><Sparkles className="h-3 w-3"/></div>
+      {!compact ? <div className="mz-ai-task" title={task}><span className="mz-ai-dot"/>{task}</div> : null}
     </div>
   );
 }
