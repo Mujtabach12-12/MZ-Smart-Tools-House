@@ -61,8 +61,8 @@ export default function MobileHome() {
   const categoryCount = categories.length;
   const featured = useMemo(() => getPopularTools().filter((tool) => tool.status === "active").slice(0, 5), []);
   const homeCategories = useMemo(() => categorySlugs.map((slug) => categories.find((item) => item.slug === slug)).filter(Boolean), []);
-  const recentTools = recent.map(getToolById).filter(Boolean).slice(0, 4);
-  const favoriteTools = favorites.map(getToolById).filter(Boolean).slice(0, 4);
+  const recentTools = recent.map(getToolById).filter((tool) => tool && tool.status === "active").slice(0, 4);
+  const favoriteTools = favorites.map(getToolById).filter((tool) => tool && tool.status === "active").slice(0, 4);
 
   useEffect(() => {
     const sync = () => {

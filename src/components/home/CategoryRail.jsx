@@ -8,7 +8,7 @@ export default function CategoryRail() {
     <section className="mz-section -mt-7 relative z-20" aria-label="Browse categories">
       <div className="mz-category-rail">
         <Link to="/tools" className="mz-rail-tab mz-rail-tab-active">All tools</Link>
-        {categories.map((cat) => (
+        {categories.filter((cat) => getActiveToolsByCategory(cat.slug).length > 0).map((cat) => (
           <Link key={cat.slug} to={cat.route || `/categories/${cat.slug}`} className="mz-rail-tab">
             <ToolIcon name={cat.icon} className="h-4 w-4" /> {cat.name}
             <span>{getActiveToolsByCategory(cat.slug).length}</span>

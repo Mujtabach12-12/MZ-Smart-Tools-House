@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { CheckCircle2, ChevronDown, Download, Home, Menu, MessageCircle, X } from "lucide-react";
 import { categories } from "../../data/categories";
+import { getActiveToolsByCategory } from "../../data/tools";
 import SearchBar from "../ui/SearchBar";
 import ThemeToggle from "../ui/ThemeToggle";
 import ToolIcon from "../ui/ToolIcon";
@@ -15,7 +16,6 @@ const PRIMARY = [
   { to: "/office", label: "MZ Office" },
   { to: "/programming-tools", label: "Programming" },
   { to: "/student-hub", label: "Student" },
-  { to: "/ai-tools", label: "AI" },
 ];
 const PRIMARY_CATEGORY_SLUGS = new Set(["office-tools", "programming-tools", "student-tools", "ai-tools"]);
 
@@ -60,7 +60,7 @@ export default function Header() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [mobileOpen]);
 
-  const secondary = categories.filter((category) => !PRIMARY_CATEGORY_SLUGS.has(category.slug));
+  const secondary = categories.filter((category) => !PRIMARY_CATEGORY_SLUGS.has(category.slug) && getActiveToolsByCategory(category.slug).length > 0);
   const installLabel = pwa.installed ? "Installed" : "Install App";
   const InstallIcon = pwa.installed ? CheckCircle2 : Download;
   const install = () => window.dispatchEvent(new Event("mz-pwa-install-request"));
