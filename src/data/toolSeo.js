@@ -3,6 +3,7 @@ import developerToolSeo from './developerToolSeo.js';
 import studentDocumentSeo from './studentDocumentSeo.js';
 import priorityToolSeo from './seoGrowth.js';
 import editorialToolSeo from './editorialToolSeo.js';
+import { qualityToolSeo } from './qualityToolSeo.js';
 const featured = {
   "bmi-calculator": {
     title: "BMI Calculator – Free Online BMI Calculator",
@@ -236,6 +237,7 @@ export function getToolSeo(tool) {
     ...(featured[tool.id] || {}),
     ...(priorityToolSeo[tool.id] || {}),
     ...(editorialToolSeo[tool.id] || {}),
+    ...(qualityToolSeo[tool.id] || {}),
   };
   const registryTitle = tool.seoTitle && tool.seoTitle !== tool.name ? tool.seoTitle : null;
   const registryDescription = tool.seoDescription && tool.seoDescription !== tool.description ? tool.seoDescription : null;
