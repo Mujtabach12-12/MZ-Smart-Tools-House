@@ -143,6 +143,9 @@ function renderShell(template, record) {
   const categoryTools = record.kind==="category" && record.category
     ? focusedTools.filter((item)=>item.category===record.category.slug).slice(0,12)
     : [];
+  const guideLinks = record.kind === "tool" && record.tool
+    ? guides.filter(g => g.relatedTools.includes(record.tool.id)).slice(0,3).map(g => `<li><a href="/blog/${escapeAttr(g.slug)}/">${escapeHtml(g.title)}</a></li>`).join("") : "";
+  const relatedGuideLinks = guideLinks ? `<section><h2>Practical guides</h2><ul>${guideLinks}</ul></section>` : "";
   const relatedLinks = relatedTools.length
     ? `<section><h2>Related tools</h2><ul>${relatedTools.map((item)=>`<li><a href="${escapeAttr(item.route||`/tools/${item.id}`)}">${escapeHtml(item.name)}</a></li>`).join("")}</ul></section>`
     : "";
@@ -152,7 +155,7 @@ function renderShell(template, record) {
   const discoveryLinks = categories.filter((item)=>item.seoIndexable!==false).slice(0,12)
     .map((item)=>`<a href="${escapeAttr(item.route||`/categories/${item.slug}`)}">${escapeHtml(item.name)}</a>`)
     .join(" · ");
-  const crawlSummary = `<main data-prerender-content style="max-width:980px;margin:48px auto;padding:0 20px;font:16px/1.65 system-ui;color:#172033"><nav aria-label="Breadcrumb"><a href="/">Home</a> › <a href="/tools">Tools</a></nav><h1 style="font-size:32px;line-height:1.2;margin:12px 0">${escapeHtml(record.title.replace(/\\s*\\|\\s*MZ Smart Tools House$/i, ""))}</h1><p>${escapeHtml(record.description)}</p>${detail}${guideDetail}${relatedLinks}${categoryToolLinks}<section><h2>Explore tool categories</h2><p>${discoveryLinks}</p></section></main>`;
+  const crawlSummary = `<main data-prerender-content style="max-width:980px;margin:48px auto;padding:0 20px;font:16px/1.65 system-ui;color:#172033"><nav aria-label="Breadcrumb"><a href="/">Home</a> › <a href="/tools">Tools</a></nav><h1 style="font-size:32px;line-height:1.2;margin:12px 0">${escapeHtml(record.title.replace(/\\s*\\|\\s*MZ Smart Tools House$/i, ""))}</h1><p>${escapeHtml(record.description)}</p>${detail}${guideDetail}${relatedLinks}${relatedGuideLinks}${categoryToolLinks}<section><h2>Explore tool categories</h2><p>${discoveryLinks}</p></section></main>`;
   html = html.replace('<div id="root"></div>', `<div id="root">${crawlSummary}</div>`);
   return html;
 }

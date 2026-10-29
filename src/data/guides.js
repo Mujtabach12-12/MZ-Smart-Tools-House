@@ -253,7 +253,114 @@ export const guides = [
         ]
       }
     ]
-  }
+  },
+{
+  "slug": "understanding-scholarship-marks-percentage",
+  "title": "Scholarship Percentage: Calculate Marks Correctly Before Checking Eligibility",
+  "description": "Calculate an accurate marks percentage from obtained and maximum marks, and understand why scholarship eligibility requires official institution rules.",
+  "updated": "2026-10-29",
+  "readingTime": "6 min read",
+  "relatedTools": [
+    "scholarship-percentage-calculator",
+    "percentage-calculator",
+    "gpa-calculator",
+    "cgpa-calculator"
+  ],
+  "intro": "Scholarship forms often ask for your percentage, grade or CGPA, but these are not interchangeable numbers. A marks-percentage calculator can accurately handle obtained and maximum marks. It cannot decide whether a scholarship provider will accept your qualification, or invent a CGPA conversion policy. This guide separates the arithmetic from the official scholarship requirements so you can submit more reliable information.",
+  "sections": [
+    {
+      "heading": "Start with obtained marks and total possible marks",
+      "paragraphs": [
+        "The standard marks percentage formula is obtained marks divided by the total maximum possible marks, multiplied by one hundred. Both numbers must represent the same set of exams or subjects. If you add the obtained marks for five subjects, you must also add the maximum marks for those same five subjects.",
+        "For example, 420 out of 500 gives 420 ÷ 500 × 100 = 84%. If different subjects have different maximum marks, add the raw obtained and maximum totals rather than taking an unweighted average of individual percentages. A high-scoring 50-mark paper should not count the same as a 200-mark paper unless your institution specifically defines that policy."
+      ]
+    },
+    {
+      "heading": "What the calculator checks and what it cannot know",
+      "paragraphs": [
+        "A valid maximum marks total must be positive, and obtained marks should fall between zero and that maximum. Entering 560 out of 500 indicates either a data entry mistake or inconsistent totals. Incomplete fields should not silently turn into a zero percent result.",
+        "The result only describes the marks you supplied. It does not know whether an applicant meets residency requirements, financial-need rules, a subject-specific minimum, institution affiliation, seat allocation or an application deadline. These conditions belong to the scholarship provider's published notice."
+      ]
+    },
+    {
+      "heading": "Why CGPA is not a universal percentage",
+      "paragraphs": [
+        "A CGPA is calculated using an institution's grading scale and course-credit rules. Different universities can map the same numeric CGPA to different marks percentages. A generic multiplication rule can therefore produce a misleading application value.",
+        "If a scholarship asks for CGPA, use the official CGPA field when provided. If it specifically asks for a percentage conversion, read your university's published conversion policy or request an official equivalence certificate where appropriate. Do not assume one conversion formula works for every Pakistani or international university."
+      ]
+    },
+    {
+      "heading": "Practical checklist before applying",
+      "bullets": [
+        "Use the exact marks and maximum marks shown on an official transcript or result card.",
+        "Check whether the application requests annual percentage, final-degree percentage or a semester-specific number.",
+        "If it requests an aggregate across subjects, ensure obtained and maximum totals cover the same assessment set.",
+        "Read the official scholarship eligibility notice, not a copied social-media cutoff.",
+        "Keep a copy of the calculation and verify it against any official institutional equivalence or merit formula."
+      ]
+    },
+    {
+      "heading": "Avoid these common mistakes",
+      "paragraphs": [
+        "A percentage is not an acceptance probability, and a result of 84% does not mean an 84% chance of winning a scholarship. Universities may use additional components, tests, category rules or a selection process. Likewise, a minimum requirement is not necessarily a guaranteed award.",
+        "When a scholarship changes its rules or application year, use its latest official announcement. The MZ calculator is useful for arithmetic verification; authority over selection remains entirely with the provider."
+      ]
+    }
+  ]
+},
+{
+  "slug": "parallel-resistors-explained",
+  "title": "Parallel Resistance Explained: Formula, Worked Example and Common Errors",
+  "description": "Understand two-resistor parallel circuits using 100Ω and 200Ω, reciprocal formulas, and the difference between series and parallel connections.",
+  "updated": "2026-10-29",
+  "readingTime": "5 min read",
+  "relatedTools": [
+    "parallel-resistance-calculator",
+    "series-resistance-calculator",
+    "ohms-law-calculator"
+  ],
+  "intro": "Equivalent resistance is a convenient way to replace a network of resistors with one value that produces the same relationship between terminal voltage and total current. For two ideal resistors in parallel, current can flow through both branches. This guide explains the calculation implemented by the MZ Parallel Resistance Calculator and shows why the result must be smaller than either positive branch resistance.",
+  "sections": [
+    {
+      "heading": "What parallel connection means",
+      "paragraphs": [
+        "Two elements are in parallel when each is connected between the same pair of nodes, so each experiences the same voltage between those nodes. The currents through their branches add at the junction. This differs from a series connection, where the same current passes through each element consecutively.",
+        "For resistors with positive values, adding an extra parallel current path lowers the overall equivalent resistance. This intuitive check is useful before you reach for any formula: if you calculate 300 Ω for 100 Ω and 200 Ω in parallel, you probably used the series formula by mistake."
+      ]
+    },
+    {
+      "heading": "The reciprocal formula and its two-resistor shortcut",
+      "paragraphs": [
+        "The relationship is 1/Rtotal = 1/R1 + 1/R2. Multiplying through by R1 × R2 gives the two-resistor shortcut Rtotal = (R1 × R2) / (R1 + R2). These formulas are equivalent when both resistances are positive and finite.",
+        "Enter both resistance values in ohms. If the source lists a value in kilo-ohms, convert it first: 1 kΩ equals 1,000 Ω. Mixing kilo-ohms and ohms without converting is a common source of errors larger than any rounding difference."
+      ]
+    },
+    {
+      "heading": "Worked example: 100 Ω and 200 Ω",
+      "paragraphs": [
+        "Multiply the resistances: 100 × 200 = 20,000. Add them: 100 + 200 = 300. Divide 20,000 by 300 to obtain approximately 66.67 Ω. This is below 100 Ω, which makes sense because there are two available paths.",
+        "You can cross-check using reciprocals: 1/100 + 1/200 = 0.01 + 0.005 = 0.015; the reciprocal of 0.015 is approximately 66.67. Both methods give the same result."
+      ]
+    },
+    {
+      "heading": "When the simple calculator is insufficient",
+      "paragraphs": [
+        "A large resistor network may contain series and parallel stages, bridges or other components that cannot be replaced using a single two-resistor shortcut. Physical resistors also have tolerances and temperature-dependent properties. A quick mathematical estimate is useful, but it does not certify an electronics design.",
+        "A zero-ohm short circuit is a special case and the MZ tool intentionally validates that resistance inputs are positive. Check datasheets and safety requirements for real electrical installations, particularly where high current or mains power may be involved."
+      ]
+    },
+    {
+      "heading": "Quick checks for homework and experiments",
+      "bullets": [
+        "Confirm that both resistors connect to the same two circuit nodes.",
+        "Convert both values to the same ohm unit before calculating.",
+        "Use the reciprocal formula or the two-resistor shortcut, not simple addition.",
+        "Check that the result is lower than the smaller of two positive resistances.",
+        "For a larger network, reduce only valid series or parallel subgroups, then re-evaluate."
+      ]
+    }
+  ]
+}
 ];
 
 export function getGuideBySlug(slug) {

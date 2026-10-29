@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { guides } from "../../data/guides";
 import { ChevronDown, Lock } from "lucide-react";
 import { getToolById, getToolsByCategory } from "../../data/tools";
 import ToolCard from "../ui/ToolCard";
@@ -15,6 +17,7 @@ export default function ToolExtras({ toolId, category, howTo = [], faq = [], sho
   const categoryRelated = getToolsByCategory(category).filter((t) => t.id !== toolId && t.status === "active");
   const curated = (seo.related || []).map(getToolById).filter((t) => t && t.id !== toolId && t.status === "active");
   const related = (curated.length ? curated : categoryRelated).slice(0, 4);
+  const relevantGuides = guides.filter(guide => guide.relatedTools.includes(toolId)).slice(0, 3);
 
   return (
     <div className="mt-10 grid gap-8 lg:grid-cols-3">
@@ -81,6 +84,7 @@ export default function ToolExtras({ toolId, category, howTo = [], faq = [], sho
       </div>
 
       <aside className="space-y-6">
+        {relevantGuides.length > 0 && <section aria-label="Practical guides"><h3 className="text-sm font-semibold text-navy-900 dark:text-navy-50">Practical guides</h3><ul className="mt-3 space-y-2">{relevantGuides.map(guide => <li key={guide.slug}><Link to={`/blog/${guide.slug}`} className="block rounded-xl border border-brand-100 p-3 text-sm font-semibold text-brand-700 hover:bg-brand-50 dark:border-brand-900 dark:text-brand-300 dark:hover:bg-brand-950/30">{guide.title}</Link></li>)}</ul></section>}
         {showPrivacyNote && (
           <div className="mz-card p-5">
             <div className="flex items-center gap-2 text-navy-800 dark:text-navy-100">
