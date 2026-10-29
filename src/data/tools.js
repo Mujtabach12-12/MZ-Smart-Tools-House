@@ -132,7 +132,7 @@ const tools = [
   { id: "merit-calculator", name: "Merit Calculator", category: "university-tools", description: "Estimate your merit position for university admission.", icon: "trophy", keywords: ["merit calculator"], status: "active" },
   { id: "semester-calculator", name: "Semester Calculator", category: "university-tools", description: "Calculate your GPA for a single semester.", icon: "calculator", keywords: ["semester gpa"], status: "active" },
   { id: "credit-hour-calculator", name: "Credit Hour Calculator", category: "university-tools", description: "Calculate weighted grade points based on credit hours.", icon: "calculator", keywords: ["credit hours"], status: "active" },
-  { id: "scholarship-percentage-calculator", name: "Scholarship Percentage Calculator", category: "university-tools", description: "Estimate scholarship eligibility from your percentage or CGPA.", icon: "percent", keywords: ["scholarship calculator"], status: "active" },
+  { id: "scholarship-percentage-calculator", name: "Scholarship Percentage Calculator", category: "university-tools", description: "Calculate academic marks percentage from actual obtained and maximum marks; check official scholarship rules separately.", icon: "percent", keywords: ["scholarship calculator"], status: "active" },
 
   // ---------------------------------------------------------------- Productivity Tools
   { id: "pomodoro-timer", name: "Pomodoro Timer", category: "productivity-tools", description: "Study in focused Pomodoro sessions with short breaks.", icon: "timer", keywords: ["pomodoro", "focus timer"], status: "active", popular: true, isNew: true },
